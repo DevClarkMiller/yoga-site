@@ -1,0 +1,58 @@
+.generalPanel{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+    padding: 5%;
+    box-sizing: border-box;
+}
+
+/*Default Panel*/
+.panel0{
+    
+}
+
+.panel0 .imgContainer{
+    margin-top: 15px;
+    order: 0
+}
+
+.panel0 p{
+    order: -1;
+}
+
+
+.panel1{
+}
+
+.imgContainer{
+    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.25),
+    -5px -5px 10px 0 rgba(234, 234, 234, 0.397);
+    background-color: white;
+    display: flex;
+    align-content: center;
+    height: fit-content;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+.imgContainer img{
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+p{
+    padding: 10%;
+    box-sizing: border-box;
+}
+
+/*Desktop View*/
+@media screen and (min-width: 768px){
+    .generalPanel{
+        grid-template-columns: 50% 50%;
+        grid-template-rows: auto;
+    }
+}
