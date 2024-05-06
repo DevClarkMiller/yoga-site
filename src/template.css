@@ -1,0 +1,23 @@
+.dates{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .templateContainer{
+    position: relative;
+    width: 50%;
+    height: 100vh;
+    border: 1px solid black;
+    height: fit-content;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('Images/yogaTemplate.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+
+
+ 
