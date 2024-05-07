@@ -15,7 +15,7 @@ code {
 }
 
 .App{
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif; /*Test*/
   display: flex;
   flex-direction: column;
   align-items: center;
