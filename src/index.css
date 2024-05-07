@@ -23,7 +23,7 @@ code {
   padding: 0;
   min-height: inherit;
   width: inherit;
-  background-color: turquoise;
+  background-color: rgb(126, 228, 218);
 }
 
 header{
@@ -55,7 +55,7 @@ nav ul{
 nav ul li{
   margin: 0;
   padding: 0;
-  font-size: 25px;
+  font-size: 5vw;
   color: black;
   text-decoration: none;
 }
@@ -88,4 +88,10 @@ footer{
   display: flex;
   justify-content: center;
   margin-top: 15px;
+}
+
+@media screen and (min-width: 600px){
+  nav ul li{
+    font-size: 25px;
+  }
 }
