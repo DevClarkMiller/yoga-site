@@ -21,10 +21,15 @@ const Content = () =>{
                 bgColour={"#fff"}
             />
             <Dates 
+                title={'RESTORATIVE YOGA'}
+                subtitle={'Rest and Relax'}
+                description={'Guided breath awareness, meditation and Restorative poses with the support of props.'}
                 day={'Thursday'}
                 month={'May'}
                 times={"7-8pm"}
                 daysAvailable={'2, 9, 16, 23, 30'}
+                orgName={'Simply Massage and Associates'}
+                location={'168 Curtis St Entrance is on Catharine St. (Teal Door)'}
                 fee={10}
             />
 

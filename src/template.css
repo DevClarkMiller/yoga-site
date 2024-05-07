@@ -1,23 +1,90 @@
 .dates{
     display: flex;
     justify-content: center;
+    /*background-color: #F1D4CE;*/
+    width: 100%;
   }
   
   .templateContainer{
     position: relative;
-    width: 50%;
+    width: 100%;
     height: 100vh;
-    border: 1px solid black;
     height: fit-content;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('Images/yogaTemplate.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+    height: fit-content;
   }
 
+  .templateContainer img{
+    width: 100%;
+  }
 
+  .templateText{
+    position: absolute;
+  }
 
- 
+  .textContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    padding-top: 5%;
+    gap: 2%;
+  }
+
+  .textContainer p{
+    font-size: 2.4vw;
+  }
+
+  .description{
+    margin: 0;
+    padding: 0;
+    padding-bottom: 1.5%;
+    border-bottom: 1px solid black;
+    width: 56%;
+  }
+
+  .textContainer h2{
+    font-size: 4.5vw;
+  }
+
+  .textContainer h3{
+    font-size: 3.5vw;
+  }
+
+  .middle{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+  }
+
+  .times{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding-left: 2%;
+    border-left: 1px solid black;
+  }
+
+  .dateInfo{
+    padding: 0 2%;
+  }
+
+  .bottom{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .bottom p{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+  }
