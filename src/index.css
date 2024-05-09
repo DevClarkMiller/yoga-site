@@ -27,6 +27,7 @@ code {
 }
 
 header{
+  position: fixed;
   padding: 0;
   margin: 0;
   height: 50px;

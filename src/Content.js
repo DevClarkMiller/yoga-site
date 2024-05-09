@@ -2,11 +2,16 @@ import Panel from "./Panel";
 import Dates from "./Dates";
 import lady from './Images/lady.jpg'
 import instructor from './Images/instructor.png'
+import { useContext, useRef } from "react";
+import { RefContext } from "./App";
 
 const Content = () =>{
+    const context = useContext(RefContext);
+    const {aboutRef} = context;
     return(
         <main>
             <Panel 
+                ref={null}
                 layout={0}
                 image={lady}
                 altText={"Lady meditating in the glowing sun"}
@@ -14,6 +19,7 @@ const Content = () =>{
                 bgColour={""}
             />
             <Panel
+                itemRef={aboutRef}
                 layout={1}
                 image={instructor}
                 altText={"asds"}
@@ -21,20 +27,22 @@ const Content = () =>{
                 bgColour={"#fff"}
             />
             <Dates 
-                title={'RESTORATIVE YOGA'}
-                subtitle={'Rest and Relax'}
-                description={'Guided breath awareness, meditation and Restorative poses with the support of props.'}
-                day={'Thursday'}
-                month={'May'}
-                times={"7-8pm"}
-                daysAvailable={'2, 9, 16, 23, 30'}
-                orgName={'Simply Massage and Associates'}
-                location={'168 Curtis St Entrance is on Catharine St. (Teal Door)'}
-                fee={10}
+                pageDetails = {{
+                    title: 'RESTORATIVE YOGA',
+                    subtitle: 'Rest and Relax',
+                    description: 'Guided breath awareness, meditation and Restorative poses with the support of props.',
+                    day: 'Thursday',
+                    month: 'May',
+                    times: "7-8pm",
+                    daysAvailable: '2, 9, 16, 23, 30',
+                    orgName: 'Simply Massage and Associates',
+                    location: '168 Curtis St Entrance is on Catharine St. (Teal Door)',
+                    fee: 10
+                }}
             />
 
         </main>
-    )
+    );
 }
 
 export default Content;
