@@ -37,6 +37,7 @@ header{
   align-items: center;
   width: 100%;
   border-bottom: 1px solid black;
+  z-index: 2;
 }
 
 nav{
@@ -83,12 +84,68 @@ main{
 }
 
 footer{
+  padding: 5% 0;
   background-color: #fff;
-  height: 50px;
+  height: fit-content;
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 15px;
+}
+
+.contactForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.inputPairArea{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputPair{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 60%;
+  grid-template-rows: auto;
+  gap: 5%;
+  align-items: center;
+}
+
+.inputPair label{
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.inputPair textarea, .inputPair input{
+  text-align: left;
+}
+
+.inputPair textarea{
+  height: 88%;
+}
+
+.sendButton{
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  transition: all 250ms ease-in-out;
+  height: fit-content;
+  width: fit-content;
+}
+
+.sendButton svg{
+  font-size: 25px;
+}
+
+.sendButton:hover{
+  color: blue;
 }
 
 @media screen and (min-width: 600px){
