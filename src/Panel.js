@@ -1,7 +1,7 @@
 import './Panel.css'
 
 const Panel = ({
-    imageClass, layout, image, altText, text, bgColour, itemRef, bgImg
+    imageClass, layout, image, altText, text, bgColour, itemRef, bgImg, title
 }) =>{
     //Sets background color css to be the prop
     let css = {backgroundColor: bgColour};
@@ -33,7 +33,11 @@ const Panel = ({
                     <img src={image} alt={altText} />
                 }
             </div>
-            <p>{text}</p>
+            <div>
+                {title && <h2>{title}</h2>}
+                <p>{text}</p>
+            </div>
+            
         </div>
     )
 }

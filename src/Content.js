@@ -23,19 +23,18 @@ const Content = () =>{
                 layout={0}
                 image={lady}
                 altText={"Lady meditating in the glowing sun"}
-                text={"Invigorate your mind, body, and spirit with our diverse yoga classes! Whether you're a seasoned yogi seeking a challenge or a complete beginner curious to explore, we offer a variety of practices tailored to all levels. Find inner peace, increase flexibility and strength, and discover the joy of mindful movement. Join us on the mat and embark on your yoga journey today!"}
+                text={"With the 200-hour yoga teacher training and the 300-hour advanded training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my adhd mind and giving my nervous system the oppertunity to heal from the years of stress."}
                 bgColour={"#fff"}
+                title={'Qualifications and focus'}
             />
             <Panel
-                imageClass={'squarePic'}
                 itemRef={aboutRef}
                 layout={1}
                 image={mugshot}
                 altText={"asds"}
-                text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."}
+                text={"After the birth of my first son, I began attending yoga classes to enhance my physical health and flexibility. Nonetheless, it took me several years to realize that yoga was more than just practicing physical asana postures. It was during my 200-hour teacher training that I learned about the 8 limbs of yoga. My training introduced me to the practices of meditation, breath awareness, and the concepts of Yamas and Niyamas. This is where I started to awaken to my true state of being through this inward focus. I began to bring yoga off the mat and into my daily life. I soon discovered the benefits of Restorative Yoga, which helped quiet my hyperactive ADHD body and brain and began to heal my nervous system from years of stress. Through my Restorative Yoga practice, I learned how to consciously rest and turn my attention inward without judgment. After completing my 200-hour yoga teacher training, I was inspired to continue my journey and dedicated myself to completing the 300-hour advanced training. I am proud to say that I have now achieved the 500- hour yoga instructor certification. Yoga does not just change the way we see things; it transforms the person who sees it. B.K.S Iyengar"}
                 bgColour={""}
                 bgImg={clouds2}
-                
             />
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>

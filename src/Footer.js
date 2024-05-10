@@ -59,15 +59,15 @@ const Footer = () =>{
                 </span>
                 <div className="inputPairArea">
                     <InputPair labelText={"First Name"}  placeHolder = {"Your first name..."} id={"first"} control={firstName}
-                    setControl={setFirstName}/>
+                    setControl={setFirstName} aria={'first name input field'}/>
 
-                    <InputPair labelText={"Last Name"} placeHolder={"Your last name..."} id={"last"} control={lastName} setControl={setLastName}/>  
+                    <InputPair labelText={"Last Name"} placeHolder={"Your last name..."} id={"last"} control={lastName} setControl={setLastName} aria={'last name input field'}/>  
 
-                    <InputPair labelText={"Email"} placeHolder={"Email..."} id={"email"} control={email} setControl={setEmail} inputType={'email'}/> 
+                    <InputPair labelText={"Email"} placeHolder={"Email..."} id={"email"} control={email} setControl={setEmail} inputType={'email'} aria={'email input field'}/> 
 
                     <span className="inputPair">
                         <label htmlFor="subject">Subject</label>
-                        <textarea value={subject} onChange={(e) => setSubject(e.target.value)}required placeholder="Write something..." name="subject" id="subject"></textarea>
+                        <textarea value={subject} onChange={(e) => setSubject(e.target.value)}required placeholder="Write something..." name="subject" id="subject" aria-label="subject input field, aka: message body for an email"></textarea>
                     </span>
                 </div>
             </form>

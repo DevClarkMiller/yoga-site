@@ -23,7 +23,7 @@ code {
   padding: 0;
   min-height: inherit;
   width: inherit;
-  background-color: rgb(126, 228, 218);
+  background-color: rgb(138, 236, 227);
 }
 
 header{
@@ -65,8 +65,7 @@ nav ul li{
 
 nav ul li:hover{
   cursor: pointer;
-  color: rgb(151, 151, 149);
-  text-decoration: underline;
+  color: rgb(121, 121, 120);
 }
 
 nav ul a{
