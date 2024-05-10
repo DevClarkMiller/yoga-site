@@ -91,6 +91,7 @@ nav, footer{
 }
 
 footer{
+  border-top: 2px solid black;
   padding: 5% 0;
   background-color: #fff;
   height: fit-content;

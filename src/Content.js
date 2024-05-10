@@ -6,6 +6,8 @@ import instructor from './Images/instructor.png'
 import mugshot from './Images/andreaPic.jpg'
 import empty from './Images/Empty.png'
 import template from './Images/yogaTemplateBW.png'
+import clouds1 from './Images/clouds.webp';
+import clouds2 from './Images/clouds2.png';
 import { useContext, useRef } from "react";
 import { RefContext } from "./App";
 import DateConfig from './ConfigFiles/DatesConfig.json'
@@ -32,6 +34,8 @@ const Content = () =>{
                 altText={"asds"}
                 text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."}
                 bgColour={""}
+                bgImg={clouds2}
+                
             />
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>

@@ -1,10 +1,10 @@
 import './Panel.css'
 
 const Panel = ({
-    imageClass, layout, image, altText, text, bgColour, itemRef
+    imageClass, layout, image, altText, text, bgColour, itemRef, bgImg
 }) =>{
     //Sets background color css to be the prop
-    const css = {backgroundColor: bgColour};
+    let css = {backgroundColor: bgColour};
     //Adjusts the className of the panel based off the layout prop
     let panelType;
     switch(layout){
@@ -17,10 +17,15 @@ const Panel = ({
         default:
     }
 
+    if(bgImg){
+        const bgCss = {background: `url(${bgImg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'contain', backgroundPosition: 'bottom center'};
+        css = {...css, ...bgCss};
+    }
+
     return(
         //Added some default values for each panel type with
         //generalPanel
-        <div ref={itemRef} className={'generalPanel'} style={css}>
+        <div ref={itemRef} className={`generalPanel ${panelType}`} style={css}>
             <div className={'imgContainer'}>
                 {(imageClass) ? 
                     <img className={imageClass} src={image} alt={altText} />
