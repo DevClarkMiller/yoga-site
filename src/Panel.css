@@ -7,6 +7,18 @@
     box-sizing: border-box;
 }
 
+.motivationPanel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 5%;
+}
+
+.motivationPanel .imgContainer{
+    width: 65%;
+}
+
 /*Default Panel*/
 .panel0{
     

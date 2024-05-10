@@ -133,6 +133,7 @@ footer{
 
 .sendButton{
   padding: 0;
+  padding-left: 8px;
   border: none;
   background-color: transparent;
   transition: all 250ms ease-in-out;

@@ -45,7 +45,7 @@ const Footer = () =>{
     return(
         <footer ref={contactRef}>
             <form className="contactForm" onSubmit={(e) => submit(e)}>
-                <span style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: "5%"}}>
+                <span style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
                     <h2>Contact Me</h2>
                     <button ref={buttonRef} className="sendButton" type="submit"><BiMailSend/></button>
                 </span>
