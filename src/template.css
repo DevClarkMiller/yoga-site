@@ -3,6 +3,7 @@
     justify-content: center;
     /*background-color: #F1D4CE;*/
     width: 100%;
+    border-top: 2px solid black;
   }
   
   .templateContainer{
@@ -17,7 +18,7 @@
     height: fit-content;
   }
 
-  .templateContainer img{
+  .templateContainer img, .templateContainerEmpty{
     width: 100%;
   }
 

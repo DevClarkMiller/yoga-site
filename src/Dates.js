@@ -1,22 +1,14 @@
-import template from './Images/yogaTemplateBW.png'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './template.css'
-import DateConfig from './ConfigFiles/DatesConfig.json'
 import { useContext } from 'react'
-import { RefContext } from './App'
 
 import { Container } from 'react-bootstrap'
-const Dates = () =>{
-
-    console.log(DateConfig);
-    const context = useContext(RefContext);
-
-    const {datesRef} = context;
+const Dates = ({DateConfig, template}) =>{
     return(
-        <div className='dates' ref={datesRef}>
+        <div className='dates'>
             <div className='templateContainer'>
                 <img src={template} alt="template image for the dates available" />
-                <div className='textContainer templateText'>
+                <div className={`textContainer templateText`}>
                     <h2>{DateConfig.title}</h2>
                     <h3>{DateConfig.subtitle}</h3>
                     <p className='description'>{DateConfig.description}</p>

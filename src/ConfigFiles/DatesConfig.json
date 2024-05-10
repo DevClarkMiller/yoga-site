@@ -1,5 +1,5 @@
-{
-    "title": "RESTORATIVE YOGA",
+[
+    {"title": "RESTORATIVE YOGA",
     "subtitle": "Rest and Relax",
     "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
     "day": "Thursday",
@@ -8,5 +8,15 @@
     "times": "7-8pm",
     "orgName": "Simply Massage and Associates",
     "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-    "fee": 10
-}
+    "fee": 10},
+    {"title": "RESTORATIVE YOGA",
+    "subtitle": "Rest and Relax",
+    "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
+    "day": "Friday",
+    "month": "April",
+    "daysAvailable": "26",
+    "times": "7-8pm",
+    "orgName": "Simply Massage and Associates",
+    "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
+    "fee": 10}
+]

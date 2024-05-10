@@ -8,6 +8,8 @@ import { useContext, useState, useRef } from "react";
 import { RefContext } from "./App";
 import InputPair from "./InputPair";
 import { BiMailSend } from "react-icons/bi";
+import { ShakeLittle } from 'reshake'
+
 //Mailgun seems to be having a lot of issues with their api :(
 //import { MailgunModule } from "nestjs-mailgun";
 
@@ -19,7 +21,7 @@ const Footer = () =>{
     const context = useContext(RefContext);
     const {contactRef, topRef, scrollTo} = context;
 
-    const buttonRef = useRef();
+    const buttonRef = useRef(); //Refs the send mail button
 
     const [firstName, setFirstName] = useState(''); 
     const [lastName, setLastName] = useState(''); 
@@ -27,27 +29,33 @@ const Footer = () =>{
     const [subject, setSubject] = useState(''); 
 
     const submit = (event) =>{
+        const btn = buttonRef.current;
         event.preventDefault();
-        scrollTo(topRef);
-
-        console.log(`First Name: ${firstName}`);
-        console.log(`Last Name: ${lastName}`);
-        console.log(`Email: ${email}`);
-        console.log(`Subject: ${subject}`);
-
+        
         //Cleans out form fields
         setFirstName('');
         setLastName('');
         setEmail('');
         setSubject('');
+
+        btn.classList.add('sent');
+        //Swipes mail icon off screen for a second
+        setTimeout(() =>{
+            btn.classList.remove('sent');
+            console.log('hello world');
+            scrollTo(topRef);
+        }, 1000);
     }
     
     return(
         <footer ref={contactRef}>
             <form className="contactForm" onSubmit={(e) => submit(e)}>
                 <span style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
-                    <h2>Contact Me</h2>
-                    <button ref={buttonRef} className="sendButton" type="submit"><BiMailSend/></button>
+                    <h2 style={{margin: "0", userSelect: "none"}}>Contact Me</h2>
+                    <ShakeLittle>
+                    <button  ref={buttonRef} className="sendButton" type="submit"><BiMailSend/></button>
+                    </ShakeLittle>
+                    
                 </span>
                 <div className="inputPairArea">
                     <InputPair labelText={"First Name"}  placeHolder = {"Your first name..."} id={"first"} control={firstName}
@@ -55,7 +63,7 @@ const Footer = () =>{
 
                     <InputPair labelText={"Last Name"} placeHolder={"Your last name..."} id={"last"} control={lastName} setControl={setLastName}/>  
 
-                    <InputPair labelText={"Email"} placeHolder={"Email..."} id={"email"} control={email} setControl={setEmail}/> 
+                    <InputPair labelText={"Email"} placeHolder={"Email..."} id={"email"} control={email} setControl={setEmail} inputType={'email'}/> 
 
                     <span className="inputPair">
                         <label htmlFor="subject">Subject</label>

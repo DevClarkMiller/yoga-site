@@ -60,10 +60,13 @@ nav ul li{
   font-size: 5vw;
   color: black;
   text-decoration: none;
+  transition: all 250ms ease-in-out;
 }
 
 nav ul li:hover{
   cursor: pointer;
+  color: rgb(151, 151, 149);
+  text-decoration: underline;
 }
 
 nav ul a{
@@ -81,6 +84,10 @@ main{
   overflow: hidden;
   box-sizing: border-box;
   gap: 15px;
+}
+
+nav, footer{
+  font-family: "Rubik", sans-serif;
 }
 
 footer{
@@ -111,7 +118,7 @@ footer{
 .inputPair{
   width: 100%;
   display: grid;
-  grid-template-columns: 30% 60%;
+  grid-template-columns: 25% 60%;
   grid-template-rows: auto;
   gap: 5%;
   align-items: center;
@@ -121,6 +128,7 @@ footer{
   text-align: right;
   padding: 0;
   margin: 0;
+  user-select: none;
 }
 
 .inputPair textarea, .inputPair input{
@@ -139,6 +147,7 @@ footer{
   transition: all 250ms ease-in-out;
   height: fit-content;
   width: fit-content;
+  transition: transform 750ms ease-in-out;
 }
 
 .sendButton svg{
@@ -147,6 +156,35 @@ footer{
 
 .sendButton:hover{
   color: blue;
+}
+
+.sent{
+  color: green;
+  transform: translateX(100vw);
+}
+
+.shake {
+  animation: shake infinite cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  65% {
+    transform: translate3d(-3px, 0, 0);
+  }
 }
 
 @media screen and (min-width: 600px){
