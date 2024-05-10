@@ -1,7 +1,7 @@
 import './Panel.css'
 
 const Panel = ({
-    layout, image, altText, text, bgColour, itemRef
+    imageClass, layout, image, altText, text, bgColour, itemRef
 }) =>{
     //Sets background color css to be the prop
     const css = {backgroundColor: bgColour};
@@ -20,9 +20,13 @@ const Panel = ({
     return(
         //Added some default values for each panel type with
         //generalPanel
-        <div ref={itemRef} className={"generalPanel" + " " + panelType} style={css}>
-            <div className='imgContainer'>
-                <img src={image} alt={altText} />
+        <div ref={itemRef} className={'generalPanel'} style={css}>
+            <div className={'imgContainer'}>
+                {(imageClass) ? 
+                    <img className={imageClass} src={image} alt={altText} />
+                :
+                    <img src={image} alt={altText} />
+                }
             </div>
             <p>{text}</p>
         </div>
