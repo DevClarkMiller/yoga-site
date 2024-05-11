@@ -33,7 +33,7 @@ const Panel = ({
                     <img src={image} alt={altText} />
                 }
             </div>
-            <div>
+            <div className='p'>
                 {title && <h2>{title}</h2>}
                 <p>{text}</p>
             </div>
