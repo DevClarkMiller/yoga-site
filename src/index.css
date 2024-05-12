@@ -38,20 +38,37 @@ header{
   width: 100%;
   border-bottom: 1px solid black;
   z-index: 2;
+  overflow: hidden;
+}
+
+.burgerMenu{
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  width: fit-content;
 }
 
 nav{
-  width: fit-content;
+  position: absolute;
+  left: 95%;
+  width: 100%;
   margin: 0;
   padding: 0;
+  transition: all 350ms ease-in-out;
+}
+
+.navActive{
+  left: 0%;
 }
 
 nav ul{
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: row;
   gap: 35px;
   list-style: none;
+  width: fit-content;
 }
 
 nav ul li{
@@ -61,6 +78,7 @@ nav ul li{
   color: black;
   text-decoration: none;
   transition: all 250ms ease-in-out;
+  width: fit-content;
 }
 
 nav ul li:hover{
