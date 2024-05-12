@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useContext, useEffect } from 'react'
 import { RefContext } from './App'
+import { GiHamburgerMenu } from "react-icons/gi";
 
 /*
 *   Component: Header
@@ -13,8 +14,6 @@ const Header = () =>{
     const navigate = useNavigate();
     const context = useContext(RefContext);
 
-    
-
     const {topRef, aboutRef, contactRef, datesRef, scrollTo} = context;
     return(
         <header>
@@ -26,6 +25,9 @@ const Header = () =>{
                     <li><a onClick={() => scrollTo(datesRef)}>Dates</a></li>
                 </ul>
             </nav>
+
+            {/*NOTES  - HAVE BURGER MENU BUTTON SLIDE NAV OPTIONS OUT*/}
+            <GiHamburgerMenu />
         </header>
     );
 }
