@@ -53,6 +53,11 @@ footer{
   margin-top: 15px;
 }
 
+footer h2{
+  font-family: "Poetsen One", sans-serif;
+}
+
+
 .contactForm{
   display: flex;
   flex-direction: column;
