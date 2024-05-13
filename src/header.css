@@ -1,0 +1,92 @@
+header{
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+    height: 8%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+    overflow: hidden;
+  }
+  
+  .burgerMenu{
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+  }
+  
+  .elementHide{
+    /*display: none;*/
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+  }
+  
+  .elementShow{
+    /*display: inline-block;*/
+    opacity: 100%;
+  }
+
+  .navTitle{
+    margin: 0;
+    padding: 0;
+    opacity: 100%;
+    transition: all 500ms ease-in-out;
+  }
+
+  .elementNoDisplay{
+    opacity: 0%;
+    display: none;
+  }
+  
+  nav{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    transition: all 500ms ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+  
+  nav ul{
+    /*position: absolute;
+    left: 90%;*/
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+    list-style: none;
+    width: fit-content;
+    transition: left 500ms ease-in-out;
+    height: fit-content;
+  }
+  
+  .navActive{
+    /*position: relative;
+    left: 0%;*/
+  }
+
+  nav ul li{
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+    color: black;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+    width: fit-content;
+    transition: color 10ms ease;
+  }
+  
+  nav ul li:hover{
+    cursor: pointer;
+    color: rgb(173, 173, 169);
+  }
+  

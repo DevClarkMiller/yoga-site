@@ -26,6 +26,7 @@ const Content = () =>{
                 /*
                     text={"With the 200-hour yoga teacher training and the 300-hour advanded training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my adhd mind and giving my nervous system the oppertunity to heal from the years of stress."}
                 */
+                text={"Restorative yoga, in St.Thomas Ontario 'inhale love, exhale gratitude"}
                 bgColour={""}
                 /*
                 title={'Qualifications and focus'}

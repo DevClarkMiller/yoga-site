@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useContext, useEffect, useState } from 'react'
 import { RefContext } from './App'
 import { GiHamburgerMenu } from "react-icons/gi";
+import './header.css'
 
 /*
 *   Component: Header
@@ -21,28 +22,58 @@ const Header = () =>{
     const liContactRef = useRef();
     const liDatesRef = useRef();
 
+    const ulRef = useRef();
+    const navTitle = useRef();
 
     const [isMenuActive, setIsMenuActive] = useState(false);
 
     const {topRef, aboutRef, contactRef, datesRef, scrollTo} = context;
 
+
+    //INSTEAD
+    /*
+    Enable each of the elements in the header with menu is set to active,
+    then change opacity to 100% with transition so they all still fade in properly
+    remove absolute pos from ul
+    isMenuActive: set nav justify-content to flex-start, set  display of h2 to none,
+    */
+   /*BETTER SOLUTION: REMOVE SLIDE ALL TOGETHER AND HAVE BURGER ICON FLIP HEADER INTO THE NAV/TITLE*/
+
+
     useEffect(() =>{
         if(isMenuActive){
-            navRef.current.classList.add('navActive');
-            liTopRef.current.classList.add('elementShow');
-            liAboutRef.current.classList.add('elementShow');
-            liContactRef.current.classList.add('elementShow');
-            liDatesRef.current.classList.add('elementShow');
+            navTitle.current.classList.add('elementNoDisplay');
+            setTimeout(() =>{
+                ulRef.current.classList.add('navActive');
+                liTopRef.current.classList.add('elementShow');
+                liAboutRef.current.classList.add('elementShow');
+                liContactRef.current.classList.add('elementShow');
+                liDatesRef.current.classList.add('elementShow');
+                liTopRef.current.classList.remove('elementNoDisplay');
+                liAboutRef.current.classList.remove('elementNoDisplay');
+                liContactRef.current.classList.remove('elementNoDisplay');
+                liDatesRef.current.classList.remove('elementNoDisplay');
+            }, 0)
         }else{
-            navRef.current.classList.remove('navActive');
+            //sets opacity of list items to 0
+            ulRef.current.classList.remove('navActive');
             liTopRef.current.classList.remove('elementShow');
             liAboutRef.current.classList.remove('elementShow');
             liContactRef.current.classList.remove('elementShow');
             liDatesRef.current.classList.remove('elementShow');
+            setTimeout(() =>{
+                //Then actually removes their display
+                ulRef.current.classList.remove('navActive');
+                liTopRef.current.classList.add('elementNoDisplay');
+                liAboutRef.current.classList.add('elementNoDisplay');
+                liContactRef.current.classList.add('elementNoDisplay');
+                liDatesRef.current.classList.add('elementNoDisplay');
+                navTitle.current.classList.remove('elementNoDisplay');
+            }, 100);     
         }
     }, [isMenuActive])
 
-    const burgerClick = () =>{
+    const burgerToggle = () =>{
         setIsMenuActive(!isMenuActive);
     }
 
@@ -50,13 +81,15 @@ const Header = () =>{
         <header>
             {/*NOTES - MAKE THE BURGER ICON THE ONLY PART OF NAV VISIBLE*/}
             <nav ref={navRef}>
-                <ul>
-                    <li><GiHamburgerMenu className="burgerMenu" onClick={burgerClick}/></li>
+                <h2 ref={navTitle} className="navTitle">Yoga with Andrea</h2>
+                <ul ref={ulRef}>
                     <li className="elementHide" ref={liTopRef} onClick={() => scrollTo(topRef)}>Top</li>
                     <li className="elementHide" ref={liAboutRef} onClick={() => scrollTo(aboutRef)}>About</li>
                     <li className="elementHide" ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact Me</li>
                     <li className="elementHide" ref={liDatesRef} onClick={() => scrollTo(datesRef)}>Dates</li>
                 </ul>
+
+                <GiHamburgerMenu className="burgerMenu" onClick={burgerToggle}/>
             </nav>
         </header>
     );
