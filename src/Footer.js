@@ -23,7 +23,6 @@ const Footer = () =>{
     const [lastName, setLastName] = useState(''); 
     const [email, setEmail] = useState(''); 
     const [subject, setSubject] = useState(''); 
-
     const submit = (event) =>{
         const btn = buttonRef.current;
         event.preventDefault();
@@ -53,7 +52,7 @@ const Footer = () =>{
                 <span style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center"}}>
                     <h2 style={{margin: "0", userSelect: "none"}}>Contact Me</h2>
                     <ShakeLittle>
-                    <button  ref={buttonRef} className="sendButton" type="submit"><BiMailSend/></button>
+                        <button  ref={buttonRef} className="sendButton" type="submit"><BiMailSend/></button>
                     </ShakeLittle>
                     
                 </span>

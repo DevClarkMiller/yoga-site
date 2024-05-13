@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useRef, useContext, useEffect, useState } from 'react'
 import { RefContext } from './App'
-import { GiHamburgerMenu } from "react-icons/gi";
+import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import './header.css'
+
+
 
 /*
 *   Component: Header
@@ -41,6 +43,7 @@ const Header = () =>{
 
 
     useEffect(() =>{
+        /*
         if(isMenuActive){
             navTitle.current.classList.add('elementNoDisplay');
             setTimeout(() =>{
@@ -53,7 +56,7 @@ const Header = () =>{
                 liAboutRef.current.classList.remove('elementNoDisplay');
                 liContactRef.current.classList.remove('elementNoDisplay');
                 liDatesRef.current.classList.remove('elementNoDisplay');
-            }, 0)
+            }, 100)
         }else{
             //sets opacity of list items to 0
             ulRef.current.classList.remove('navActive');
@@ -70,7 +73,7 @@ const Header = () =>{
                 liDatesRef.current.classList.add('elementNoDisplay');
                 navTitle.current.classList.remove('elementNoDisplay');
             }, 100);     
-        }
+        }*/
     }, [isMenuActive])
 
     const burgerToggle = () =>{
@@ -79,17 +82,17 @@ const Header = () =>{
 
     return(
         <header>
+            <button className="burgerMenu selfCenter" onClick={burgerToggle}>{!isMenuActive ? <RxHamburgerMenu /> : <RxCross2 />}</button>
             {/*NOTES - MAKE THE BURGER ICON THE ONLY PART OF NAV VISIBLE*/}
             <nav ref={navRef}>
-                <h2 ref={navTitle} className="navTitle">Yoga with Andrea</h2>
-                <ul ref={ulRef}>
-                    <li className="elementHide" ref={liTopRef} onClick={() => scrollTo(topRef)}>Top</li>
-                    <li className="elementHide" ref={liAboutRef} onClick={() => scrollTo(aboutRef)}>About</li>
-                    <li className="elementHide" ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact Me</li>
-                    <li className="elementHide" ref={liDatesRef} onClick={() => scrollTo(datesRef)}>Dates</li>
-                </ul>
-
-                <GiHamburgerMenu className="burgerMenu" onClick={burgerToggle}/>
+                {!isMenuActive && <h2 ref={navTitle} className="navTitle">Yoga with Andrea</h2>}
+                {isMenuActive && <ul className="selfCenter" ref={ulRef}>
+                    <li ref={liTopRef} onClick={() => scrollTo(topRef)}>Top</li>
+                    <li ref={liAboutRef} onClick={() => scrollTo(aboutRef)}>About</li>
+                    <li ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact Me</li>
+                    <li ref={liDatesRef} onClick={() => scrollTo(datesRef)}>Dates</li>
+                </ul>}
+                
             </nav>
         </header>
     );
