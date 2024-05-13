@@ -1,13 +1,13 @@
 import './Panel.css'
 
 const Panel = ({
-    imageClass, layout, image, altText, text, bgColour, itemRef, bgImg, title
+    config, imageClass, layout, image, altText, text, bgColour, itemRef, bgImg, title
 }) =>{
     //Sets background color css to be the prop
     let css = {backgroundColor: bgColour};
     //Adjusts the className of the panel based off the layout prop
     let panelType;
-    switch(layout){
+    switch(config.layout){
         case 0:
             panelType = "panel0"
             break;
@@ -34,8 +34,8 @@ const Panel = ({
                 }
             </div>
             <div className='p'>
-                {title && <h2>{title}</h2>}
-                <p>{text}</p>
+                {config.title && <h2>{config.title}</h2>}
+                <p>{config.text}</p>
             </div>
             
         </div>

@@ -8,20 +8,16 @@ import { useContext, useState, useRef } from "react";
 import { RefContext } from "./App";
 import InputPair from "./InputPair";
 import { BiMailSend } from "react-icons/bi";
-import { ShakeLittle } from 'reshake'
-
-//Mailgun seems to be having a lot of issues with their api :(
-//import { MailgunModule } from "nestjs-mailgun";
-
-
-const domain = 'sandbox0d032f4a3b2544e3a516cdb184fe33e3.mailgun.org';
-const apiKey = '35387d67a7a1a836dad6ac9d9c380fd6-ed54d65c-667628ce';
+import { ShakeLittle } from 'reshake';
+import {useForm, ValidationError} from '@formspree/react';
 
 const Footer = () =>{
     const context = useContext(RefContext);
     const {contactRef, topRef, scrollTo} = context;
 
     const buttonRef = useRef(); //Refs the send mail button
+
+    const [state, handleSubmit] = useForm("mnqerzza");
 
     const [firstName, setFirstName] = useState(''); 
     const [lastName, setLastName] = useState(''); 
@@ -31,6 +27,7 @@ const Footer = () =>{
     const submit = (event) =>{
         const btn = buttonRef.current;
         event.preventDefault();
+        handleSubmit(event);
         
         //Cleans out form fields
         setFirstName('');
@@ -44,6 +41,9 @@ const Footer = () =>{
             btn.classList.remove('sent');
             console.log('hello world');
             scrollTo(topRef);
+            if(state.succeeded){
+                alert('Message Sent!');
+            }
         }, 1000);
     }
     
