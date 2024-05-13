@@ -36,7 +36,6 @@ header{
   justify-content: center;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid black;
   z-index: 2;
   overflow: hidden;
 }
@@ -49,12 +48,14 @@ header{
 }
 
 .elementHide{
-  display: none;
-  transition: all 350ms ease-in-out;
+  /*display: none;*/
+  opacity: 0;
+  transition: all 500ms ease-in-out;
 }
 
 .elementShow{
-  display: inline-block;
+  /*display: inline-block;*/
+  opacity: 100%;
 }
 
 nav{
@@ -63,7 +64,7 @@ nav{
   width: 100%;
   margin: 0;
   padding: 0;
-  transition: all 350ms ease-in-out;
+  transition: all 500ms ease-in-out;
 }
 
 .navActive{
@@ -88,16 +89,12 @@ nav ul li{
   text-decoration: none;
   transition: all 250ms ease-in-out;
   width: fit-content;
+  transition: color 10ms ease;
 }
 
 nav ul li:hover{
   cursor: pointer;
-  color: rgb(121, 121, 120);
-}
-
-nav ul a{
-  color: black;
-  text-decoration: none;
+  color: rgb(173, 173, 169);
 }
 
 main{

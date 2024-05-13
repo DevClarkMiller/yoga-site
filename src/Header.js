@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef, useContext, useEffect, useState } from 'react'
 import { RefContext } from './App'
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -52,10 +52,10 @@ const Header = () =>{
             <nav ref={navRef}>
                 <ul>
                     <li><GiHamburgerMenu className="burgerMenu" onClick={burgerClick}/></li>
-                    <li className="elementHide" ref={liTopRef}><a onClick={() => scrollTo(topRef)}>Top</a></li>
-                    <li className="elementHide" ref={liAboutRef}><a onClick={() => scrollTo(aboutRef)}>About</a></li>
-                    <li className="elementHide" ref={liContactRef}><a onClick={() => scrollTo(contactRef)}>Contact Me</a></li>
-                    <li className="elementHide" ref={liDatesRef}><a onClick={() => scrollTo(datesRef)}>Dates</a></li>
+                    <li className="elementHide" ref={liTopRef} onClick={() => scrollTo(topRef)}>Top</li>
+                    <li className="elementHide" ref={liAboutRef} onClick={() => scrollTo(aboutRef)}>About</li>
+                    <li className="elementHide" ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact Me</li>
+                    <li className="elementHide" ref={liDatesRef} onClick={() => scrollTo(datesRef)}>Dates</li>
                 </ul>
             </nav>
         </header>
