@@ -23,9 +23,14 @@ const Content = () =>{
                 layout={0}
                 image={lady}
                 altText={"Lady meditating in the glowing sun"}
-                text={"With the 200-hour yoga teacher training and the 300-hour advanded training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my adhd mind and giving my nervous system the oppertunity to heal from the years of stress."}
-                bgColour={"#fff"}
+                /*
+                    text={"With the 200-hour yoga teacher training and the 300-hour advanded training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my adhd mind and giving my nervous system the oppertunity to heal from the years of stress."}
+                */
+                bgColour={""}
+                /*
                 title={'Qualifications and focus'}
+                */
+                title={'Yoga with Andrea'}
             />
             <Panel
                 itemRef={aboutRef}

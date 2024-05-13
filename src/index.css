@@ -31,6 +31,7 @@ header{
   padding: 0;
   margin: 0;
   height: 50px;
+  height: 6%;
   background-color: #fff;
   display: flex;
   justify-content: center;
@@ -60,7 +61,7 @@ header{
 
 nav{
   position: absolute;
-  left: 94%;
+  left: 92%;
   width: 100%;
   margin: 0;
   padding: 0;
