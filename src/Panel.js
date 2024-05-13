@@ -1,7 +1,8 @@
 import './Panel.css'
+import { useState } from 'react';
 
 const Panel = ({
-    config, imageClass, layout, image, altText, text, bgColour, itemRef, bgImg, title
+    config, imageClass, image, altText, bgColour, itemRef, bgImg
 }) =>{
     //Sets background color css to be the prop
     let css = {backgroundColor: bgColour};
@@ -22,23 +23,26 @@ const Panel = ({
         css = {...css, ...bgCss};
     }
 
+    const divClass = (image) ? 'generalPanelGrid' : 'generalPanelFlex';
+
     return(
         //Added some default values for each panel type with
         //generalPanel
-        <div ref={itemRef} className={`generalPanel ${panelType}`} style={css}>
-            <div className={'imgContainer'}>
-                {(imageClass) ? 
-                    <img className={imageClass} src={image} alt={altText} />
-                :
-                    <img src={image} alt={altText} />
-                }
-            </div>
+        <div ref={itemRef} className={`${divClass} ${panelType}`} style={css}>
+            {/*Only renders the image container if there's an image provided*/image &&
+                <div className={`imgContainer ${config.imgSize}`}>
+                    {(imageClass) ? 
+                        <img className={imageClass} src={image} alt={altText} />
+                    :
+                        <img src={image} alt={altText} />
+                    }
+            </div>}
             <div className='headerAndP'>
                 {config.title && <h2>{config.title}</h2>}
                 <p>{config.text}</p>
             </div>
-            
         </div>
+
     )
 }
 
