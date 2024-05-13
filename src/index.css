@@ -48,9 +48,18 @@ header{
   width: fit-content;
 }
 
+.elementHide{
+  display: none;
+  transition: all 350ms ease-in-out;
+}
+
+.elementShow{
+  display: inline-block;
+}
+
 nav{
   position: absolute;
-  left: 95%;
+  left: 94%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -58,7 +67,7 @@ nav{
 }
 
 .navActive{
-  left: 0%;
+  left: 2%;
 }
 
 nav ul{

@@ -15,12 +15,31 @@ const Header = () =>{
     const context = useContext(RefContext);
     const navRef = useRef();
 
+    //Refs for elements in the nav to hide easy
+    const liTopRef = useRef();
+    const liAboutRef = useRef();
+    const liContactRef = useRef();
+    const liDatesRef = useRef();
+
+
     const [isMenuActive, setIsMenuActive] = useState(false);
 
     const {topRef, aboutRef, contactRef, datesRef, scrollTo} = context;
 
     useEffect(() =>{
-        (isMenuActive) ? navRef.current.classList.add('navActive') : navRef.current.classList.remove('navActive');
+        if(isMenuActive){
+            navRef.current.classList.add('navActive');
+            liTopRef.current.classList.add('elementShow');
+            liAboutRef.current.classList.add('elementShow');
+            liContactRef.current.classList.add('elementShow');
+            liDatesRef.current.classList.add('elementShow');
+        }else{
+            navRef.current.classList.remove('navActive');
+            liTopRef.current.classList.remove('elementShow');
+            liAboutRef.current.classList.remove('elementShow');
+            liContactRef.current.classList.remove('elementShow');
+            liDatesRef.current.classList.remove('elementShow');
+        }
     }, [isMenuActive])
 
     const burgerClick = () =>{
@@ -33,10 +52,10 @@ const Header = () =>{
             <nav ref={navRef}>
                 <ul>
                     <li><GiHamburgerMenu className="burgerMenu" onClick={burgerClick}/></li>
-                    <li><a onClick={() => scrollTo(topRef)}>Top</a></li>
-                    <li><a onClick={() => scrollTo(aboutRef)}>About</a></li>
-                    <li><a onClick={() => scrollTo(contactRef)}>Contact Me</a></li>
-                    <li><a onClick={() => scrollTo(datesRef)}>Dates</a></li>
+                    <li className="elementHide" ref={liTopRef}><a onClick={() => scrollTo(topRef)}>Top</a></li>
+                    <li className="elementHide" ref={liAboutRef}><a onClick={() => scrollTo(aboutRef)}>About</a></li>
+                    <li className="elementHide" ref={liContactRef}><a onClick={() => scrollTo(contactRef)}>Contact Me</a></li>
+                    <li className="elementHide" ref={liDatesRef}><a onClick={() => scrollTo(datesRef)}>Dates</a></li>
                 </ul>
             </nav>
         </header>
