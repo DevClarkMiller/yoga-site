@@ -10,7 +10,6 @@ header{
     align-items: center;
     width: 100%;
     z-index: 2;
-    overflow: hidden;
   }
   
   .burgerMenu{
@@ -59,12 +58,14 @@ header{
   }
   
   nav{
+    position: relative;
     width: 100%;
     margin: 0;
     transition: all 500ms ease-in-out;
     display: flex;
     justify-content: center;
     align-content: center;
+    overflow: visible;
 }
   
   nav ul{
@@ -96,14 +97,15 @@ header{
     width: fit-content;
     transition: color 10ms ease-in-out;
   }
+
+  .anchorPoint{
+    overflow: visible;
+    position: relative;
+  }
   
   nav ul li:hover{
     cursor: pointer;
     color: rgb(173, 173, 169);
-  }
-
-  .shake{
-    width: inherit;
   }
   
   @media screen and (min-width: 600px){
