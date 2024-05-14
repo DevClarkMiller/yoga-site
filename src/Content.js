@@ -1,14 +1,9 @@
 import Panel from "./Panel";
 import Dates from "./Dates";
 import MotivationPanel from "./MotivationPanel";
-import lady from './Images/lady.jpg';
-import instructor from './Images/instructor.png';
 import conventionPic from './Images/conventionPic.jpg';
 import mugshot from './Images/andreaPic.jpg';
-import empty from './Images/Empty.png';
 import template from './Images/yogaTemplateBW.png';
-import clouds1 from './Images/clouds.webp';
-import clouds2 from './Images/clouds2.png';
 import { useContext } from "react";
 import { RefContext } from "./App";
 import DateConfig from './ConfigFiles/DatesConfig.json';

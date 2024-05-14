@@ -1,10 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { useRef, useContext, useEffect, useState } from 'react'
+import { useRef, useContext, useState } from 'react'
 import { RefContext } from './App'
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import './header.css'
-
-
 
 /*
 *   Component: Header
@@ -14,7 +11,6 @@ import './header.css'
 
 const Header = () =>{
     //Still dunno why I do this, just makes it work
-    const navigate = useNavigate();
     const context = useContext(RefContext);
     const navRef = useRef();
 
@@ -44,7 +40,7 @@ const Header = () =>{
                 {isMenuActive && <ul className="selfCenter" ref={ulRef}>
                     <li ref={liTopRef} onClick={() => scrollTo(topRef)}>Top</li>
                     <li ref={liAboutRef} onClick={() => scrollTo(aboutRef)}>About</li>
-                    <li ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact Me</li>
+                    <li ref={liContactRef} onClick={() => scrollTo(contactRef)}>Contact</li>
                     <li ref={liDatesRef} onClick={() => scrollTo(datesRef)}>Dates</li>
                 </ul>}
                 

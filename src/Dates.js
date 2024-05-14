@@ -5,7 +5,7 @@ const Dates = ({DateConfig, template}) =>{
         (DateConfig.header) ?
         <div className='dates'>
             <div className='templateContainer'>
-                <img src={template} alt="template image for the dates available" />
+                <img src={template} alt="template for the dates available" />
                 <div className={`textContainer templateText fullHeightWidth`}>
                     <h2>{DateConfig.title}</h2>
                     <h3>{DateConfig.subtitle}</h3>

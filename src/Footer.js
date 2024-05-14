@@ -9,7 +9,7 @@ import { RefContext } from "./App";
 import InputPair from "./InputPair";
 import { BiMailSend } from "react-icons/bi";
 import { ShakeLittle } from 'reshake';
-import {useForm, ValidationError} from '@formspree/react';
+import {useForm} from '@formspree/react';
 
 const Footer = () =>{
     const context = useContext(RefContext);

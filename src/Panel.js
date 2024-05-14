@@ -1,5 +1,4 @@
 import './Panel.css'
-import { useState } from 'react';
 
 const Panel = ({
     config, imageClass, image, altText, bgColour, itemRef, bgImg

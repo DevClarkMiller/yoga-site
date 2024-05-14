@@ -98,6 +98,7 @@ footer h2{
 }
 
 .sendButton{
+  color: black;
   padding: 0;
   padding-left: 8px;
   border: none;
@@ -145,8 +146,3 @@ footer h2{
   }
 }
 
-@media screen and (min-width: 600px){
-  nav ul li{
-    font-size: 25px;
-  }
-}
