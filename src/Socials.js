@@ -1,10 +1,10 @@
-const Socials = ({iconColour, icon, url, bgColour}) =>{
+const Socials = ({iconColour, icon, url, bgColour, bgImage, fontSize, useTarget}) =>{
 
-    const containerCss = {backgroundColor: bgColour};
-    const anchorCss = {color: iconColour}
+    const containerCss = {backgroundColor: bgColour, backgroundImage: bgImage};
+    const anchorCss = {color: iconColour, fontSize: fontSize}
     return(
         <div style={containerCss} className="socials">
-            <a style={anchorCss} href={url} target="_blank">{icon}</a>
+            {useTarget === true ? <a style={anchorCss} href={url} target="_blank">{icon}</a> : <a style={anchorCss} href={url}>{icon}</a>}
         </div>
     );
 }
