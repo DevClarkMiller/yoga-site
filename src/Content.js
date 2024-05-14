@@ -39,7 +39,7 @@ const Content = () =>{
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>
             <Dates DateConfig={DateConfig[0]} template={template}/>
-            <Dates DateConfig={DateConfig[1]} template={empty}/>
+            <Dates DateConfig={DateConfig[1]} template={null}/>
         </main>
     );
 }

@@ -5,7 +5,7 @@ const Panel = ({
     config, imageClass, image, altText, bgColour, itemRef, bgImg
 }) =>{
     //Sets background color css to be the prop
-    let css = {backgroundColor: bgColour};
+    let css = {backgroundColor: config.bgColour};
     //Adjusts the className of the panel based off the layout prop
     let panelType;
     switch(config.layout){
@@ -25,17 +25,19 @@ const Panel = ({
 
     const divClass = (image) ? 'generalPanelGrid' : 'generalPanelFlex';
 
-    return(
+    return(     
         //Added some default values for each panel type with
         //generalPanel
         <div ref={itemRef} className={`${divClass} ${panelType}`} style={css}>
             {/*Only renders the image container if there's an image provided*/image &&
+            <div className='imageHalf'>
                 <div className={`imgContainer ${config.imgSize}`}>
                     {(imageClass) ? 
                         <img className={imageClass} src={image} alt={altText} />
                     :
                         <img src={image} alt={altText} />
                     }
+                </div>
             </div>}
             <div className='headerAndP'>
                 {config.title && <h2>{config.title}</h2>}
@@ -43,7 +45,7 @@ const Panel = ({
             </div>
         </div>
 
-    )
+    );
 }
 
 export default Panel;

@@ -31,7 +31,6 @@
     align-items: center;
     width: 100%;
     padding: 5%;
-    border-top: 2px solid black;
 }
 
 .squarePic{
@@ -42,18 +41,23 @@
     width: 65%;
 }
 
+.imageHalf{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /*Default Panel*/
 
-.panel0 .imgContainer{
+.panel0 .imageHalf{
     margin-top: 15px;
     order: 1;
 }
 
-
-.panel1 .imgContainer{
+.panel1 .imageHalf{
     order: -1;
 }
-
 
 .imgContainer{
     box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.25),
@@ -98,3 +102,4 @@
         grid-template-rows: auto;
     }
 }
+
