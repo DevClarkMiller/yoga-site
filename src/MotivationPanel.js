@@ -17,8 +17,7 @@ const MotivationPanel = () =>{
         <div className='motivationPanel'>
             <div className='imgContainer'>
                 <img src={imgSrc} alt='motivationalImage'></img>
-            </div>
-            
+            </div> 
         </div>
     );
 }

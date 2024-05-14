@@ -1,21 +1,21 @@
 [
     {
         "layout": 0,
-        "bgColour": "rgb(138, 236, 227)",
+        "bgColour": "",
         "title": "The Experience",
         "text": "Yoga with Andrea is an enlightining experience. In my 500-hour journey of getting my yoga-teacher certification, I've realized the power of restorative yoga. Yoga does not just change the way we see things; it transforms the person who sees it.",
         "imgSize": "imgMedium"
     },
     {
         "layout": 1,
-        "bgColour": "#e6ae77",
+        "bgColour": "",
         "title": "About Me",
         "text": "After becoming a mom, I sought physical well-being through yoga. Years later, my 200-hour teacher training opened my eyes to yoga's deeper aspects – meditation, breathwork, and self-awareness. This inward focus sparked a transformation, bringing yoga off the mat and into my daily life. Restorative yoga became a haven, quieting my mind and body, and teaching me deep relaxation.",
         "imgSize": "imgMedium"
     },
     {
         "layout": 1,
-        "bgColour": "",
+        "bgColour": "#fff",
         "title": "Qualifications and Focus",
         "text": "With the 200-hour yoga teacher training and the 300-hour advanced training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my ADHD mind and giving my nervous system the opportunity to heal from the years of stress."
         

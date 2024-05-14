@@ -1,9 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './template.css'
 const Dates = ({DateConfig, template}) =>{
+    const css = {backgroundColor: DateConfig.colour};
+
     return(
         (DateConfig.header) ?
-        <div className='dates'>
+        <div style={css} className='dates'>
             <div className='templateContainer'>
                 <img src={template} alt="template for the dates available" />
                 <div className={`textContainer templateText fullHeightWidth`}>
@@ -23,9 +25,9 @@ const Dates = ({DateConfig, template}) =>{
         </div> : 
 
         (DateConfig.body) ? 
-        <div></div>
+        <div style={css}></div>
         :  
-        <div className='datesFooter borderTopDash'>
+        <div style={css} className='datesFooter borderTopDash'>
            <div className='templateContainer'>
                 <div className={`textContainerFooter fullWidth fitHeight`}>
                     <span className='middle'>
