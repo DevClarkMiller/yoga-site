@@ -32,7 +32,6 @@ function App() {
       <RefContext.Provider value={{topRef, aboutRef, contactRef, datesRef, scrollTo}}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         <Header />
-        
         <Routes>
           <Route path='/' element={<Content />}/>
           <Route path='*' element={<NotFound />}/>

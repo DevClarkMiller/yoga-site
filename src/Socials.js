@@ -1,9 +1,10 @@
-const Socials = () =>{
+const Socials = ({iconColour, icon, url, bgColour}) =>{
+
+    const containerCss = {backgroundColor: bgColour};
+    const anchorCss = {color: iconColour}
     return(
-        <div className="anchorPoint">
-            <div className="socials">
-                
-            </div>
+        <div style={containerCss} className="socials">
+            <a style={anchorCss} href={url} target="_blank">{icon}</a>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { useRef, useContext, useState } from 'react'
 import { RefContext } from './App'
-import Socials from './Socials';
+import SocialsList from './SocialsList';
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import './header.css'
 
@@ -25,7 +25,6 @@ const Header = () =>{
     const navTitle = useRef();
 
     const [isMenuActive, setIsMenuActive] = useState(false);
-    const [isPulldownActive, setIsPulldownActive] = useState(false);
 
     const {topRef, aboutRef, contactRef, datesRef, scrollTo} = context;
 
@@ -37,8 +36,7 @@ const Header = () =>{
 
     return(
         <header>
-            {/*Whole purpose of this div is to anchor the socials tag to it*/}
-            <Socials />
+            {isMenuActive && <SocialsList />}
             <button className="burgerMenu selfCenter" onClick={burgerToggle}>{!isMenuActive ? <RxHamburgerMenu /> : <RxCross2 />}</button>
             {/*NOTES - MAKE THE BURGER ICON THE ONLY PART OF NAV VISIBLE*/}
             <nav ref={navRef}>

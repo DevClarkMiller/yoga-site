@@ -128,16 +128,38 @@ footer h2{
   perspective: 1000px;
 }
 
+.positionsList{
+  position: relative;
+}
 
-
-.socials{
-  order: 3;
+.socialsList ul{
+  top: 85px;
   position: absolute;
-  top: 55px;
-  left: -1vw;
-  width: 50px;
-  height: 50px;
-  background-color: blue;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.socials{  
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.socials a{
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
 }
 
 @keyframes shake {
