@@ -1,5 +1,4 @@
 const Socials = ({iconColour, icon, url, bgColour, bgImage, fontSize, useTarget}) =>{
-
     const containerCss = {backgroundColor: bgColour, backgroundImage: bgImage};
     const anchorCss = {color: iconColour, fontSize: fontSize}
     return(
