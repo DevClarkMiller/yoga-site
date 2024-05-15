@@ -55,9 +55,9 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
         console.log('clicked submit');
         e.preventDefault();
         setSubmit(true);
-        const data = await fetch('http://134.122.41.43:3000/test');
-        //const data1 = await fetch('https://catfact.ninja/fact');
-        
+        const data = await fetch('http://134.122.41.43:3000/test', {
+            mode: 'no-cors'
+        });        
         console.log(data);
         setSubmit(false);
         /*
