@@ -4,7 +4,7 @@ header{
     margin: 0;
     height: 50px;
     height: 8%;
-    background-color: #f1f0cd;
+    background-color: #ffd8e7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +22,15 @@ header{
     cursor: pointer;
     transition: color 150ms ease-in-out;
     outline: none;
+    border: none;
     aspect-ratio: 1/1;
+    background-color: #D4A1FE;
+    box-shadow: 2px 2px 3px black;
+  }
+
+  .burgerMenu:focus{
+    outline: none;
+    border: none;
   }
 
   .burgerMenu:hover{

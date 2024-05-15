@@ -13,7 +13,7 @@
         "orgName": "Simply Massage and Associates",
         "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
         "fee": 10,
-        "colour": ""
+        "colour": "#ffd8e7"
     },
     {
         "header" : false,
@@ -29,6 +29,6 @@
         "orgName": "Simply Massage and Associates",
         "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
         "fee": 10,
-        "colour": "#fff"
+        "colour": "#ffd8e7"
     }
 ]

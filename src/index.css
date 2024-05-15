@@ -105,10 +105,7 @@ footer h2{
   height: fit-content;
   width: fit-content;
   transition: transform 750ms ease-in-out;
-}
-
-.sendButton svg{
-  font-size: 25px;
+  font-size: 30px;
 }
 
 .sendButton:hover{
@@ -145,11 +142,11 @@ footer h2{
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  border: 1px solid black;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 2px 2px 3px black;
 }
 
 .socials a{
@@ -161,11 +158,66 @@ footer h2{
 }
 
 input[type="text"],
-input[type="email"], textarea {
+input[type="email"], input[type="password"], input[type="number"], input[type="color"], textarea {
   padding: 6px;
   border: none;
   border-radius: 12px;
   box-shadow: var(--inset-container-shadow)
+}
+
+.notFound{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fullHeight{
+  height: 100vh;
+}
+
+.adminPage{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.adminForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.adminForm table{
+  width: 100%;
+}
+
+.adminForm table input, .adminForm table textarea{
+  width: 100%;
+}
+
+.rowLine{
+  border-bottom: 2px solid black;
+}
+
+.hide{
+  display: none;
+}
+
+.headerFooterTable{
+  border-top: 2px solid black;
+}
+
+.adminBtn{
+  font-size: 25px;
+  border: none;
+  background-color: transparent;
 }
 
 @keyframes shake {

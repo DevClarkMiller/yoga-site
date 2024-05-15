@@ -6,12 +6,22 @@ import mugshot from './Images/andreaPic.jpg';
 import template from './Images/yogaTemplateBW.png';
 import { useContext } from "react";
 import { RefContext } from "./App";
-import DateConfig from './ConfigFiles/DatesConfig.json';
 import ContentConfig from './ConfigFiles/ContentConfig.json';
 
 const Content = () =>{
     const context = useContext(RefContext);
-    const {aboutRef, datesRef} = context;
+    const {aboutRef, datesRef, appRef, datesHeader, datesFooter} = context;
+
+    //Pulls data from the api to get info for the dates
+    const data = fetch('http://134.122.41.43/datesConfig/put/footer')
+    .then(res => res.json())
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    if(appRef.current){
+        appRef.current.classList.remove('fullHeight');
+    }
 
     return(
         <main>
@@ -33,8 +43,8 @@ const Content = () =>{
             
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>
-            <Dates DateConfig={DateConfig[0]} template={template}/>
-            <Dates DateConfig={DateConfig[1]} template={null}/>
+            <Dates DateConfig={datesHeader} template={template}/>
+            <Dates DateConfig={datesFooter} template={null}/>
         </main>
     );
 }
