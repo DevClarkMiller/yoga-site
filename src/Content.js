@@ -12,13 +12,6 @@ const Content = () =>{
     const context = useContext(RefContext);
     const {aboutRef, datesRef, appRef, datesHeader, datesFooter} = context;
 
-    //Pulls data from the api to get info for the dates
-    const data = fetch('http://134.122.41.43/datesConfig/put/footer')
-    .then(res => res.json())
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
     }

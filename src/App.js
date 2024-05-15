@@ -1,4 +1,4 @@
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, HashRouter} from 'react-router-dom';
 import { createContext, useRef, React, useState, useEffect } from 'react';
 import Header from './Header'
 import Footer from './Footer';
@@ -17,9 +17,8 @@ function App() {
   const appRef = useRef();
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [datesHeader, setDatesHeader] = useState([]);
-  const [datesFooter, setDatesFooter] = useState([]);
-
+  const [datesHeader, setDatesHeader] = useState('');
+  const [datesFooter, setDatesFooter] = useState('');
 
   useEffect(()=>{
     setDatesHeader(DateConfig[0]);

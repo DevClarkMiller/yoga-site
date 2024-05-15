@@ -190,12 +190,15 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 30px;
   width: 100%;
 }
 
 .adminForm table{
+  border: 1px solid black;
+  background-color:rgb(178, 247, 224);
   width: 100%;
+  box-shadow: 5px 3px 3px black;
 }
 
 .adminForm table input, .adminForm table textarea{
@@ -211,7 +214,6 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .headerFooterTable{
-  border-top: 2px solid black;
 }
 
 .adminBtn{
