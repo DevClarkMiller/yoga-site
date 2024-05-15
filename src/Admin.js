@@ -61,6 +61,7 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
         console.log(data);
         setSubmit(false);
         /*
+        //asdasd
         //Sends info to back-end to change the JSON there
         const data = fetch('http://134.122.41.43:3000/test', {
         method: 'PUT',
