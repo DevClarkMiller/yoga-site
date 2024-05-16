@@ -55,9 +55,7 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
         console.log('clicked submit');
         e.preventDefault();
         setSubmit(true);
-        const data = await fetch('http://134.122.41.43:3000/test', {
-            mode: 'no-cors'
-        });        
+        const data = await fetch('http://134.122.41.43/api/test');        
         console.log(data);
         setSubmit(false);
         /*
