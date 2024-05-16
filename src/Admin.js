@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { BsArrowDownSquare, BsArrowDownSquareFill } from "react-icons/bs";
+import api from './ConfigFiles/api'
 
 const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFooter}) =>{
     const [submit, setSubmit] = useState(false);
@@ -55,65 +57,71 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
         console.log('clicked submit');
         e.preventDefault();
         setSubmit(true);
-        const data = await fetch('http://134.122.41.43/api/test');        
-        console.log(data);
-        setSubmit(false);
-        /*
-        //asdasd
-        //Sends info to back-end to change the JSON there
-        const data = fetch('http://134.122.41.43:3000/test', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+
+        const updatedData = {
             loginData: {
-                username: "andrea",
-                password: "password",
+                username: username,
+                password: password,
             },
             headerData: {
                 header : true,
                 body: false,
                 footer: false,
-                title: "RESTORATIVE YOGA",
-                subtitle: "Rest and Relax",
-                description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
-                day: "Thursday",
-                month: "May",
-                daysAvailable: "2, 9, 16, 23, 30",
-                times: "7-8pm",
-                orgName: "Simply Massage and Associates",
-                location: "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-                fee: 10,
-                colour: "#ffd8e7"
+                title: editTitle,
+                subtitle: editSubtitle,
+                description: editDescription,
+                day: editHeaderDay,
+                month: editHeaderMonth,
+                daysAvailable: editHeaderDaysAvailable,
+                times: editHeaderTimes,
+                orgName: editOrgName,
+                location: editLocation,
+                fee: editFee,
+                colour: editHeaderColour
             },
 
             footerData: {
                 header: false,
                 body: false,
                 footer: true,
-                title: "RESTORATIVE YOGA",
-                subtitle: "Rest and Relax",
-                description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
-                day: "Friday",
-                month: "April",
-                daysAvailable: "26",
-                times: "7-8pm",
-                orgName: "Simply Massage and Associates",
-                location: "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-                fee: 10,
-                colour: "#ffd8e7"
+                title: editTitle,
+                subtitle: editSubtitle,
+                description: editDescription,
+                day: editFooterDay,
+                month: editFooterMonth,
+                daysAvailable: editFooterDaysAvailable,
+                times: editFooterTimes,
+                orgName: editOrgName,
+                location: editLocation,
+                fee: editFee,
+                colour: editFooterColour
             }
-        })
-        })
-        .then(res => res.json())
-        .catch(error => {
-        console.error('Error:', error);
-        // Handle the error appropriately (e.g., display error message to user)
-        });*/
+        }
+
+        try{
+            console.log(updatedData);
+            const response = api.put('/put', updatedData);   
+            console.log(response);   
+            setDatesHeader(response.data[0]);
+            setDatesFooter(response.data[1]);
+            console.log('Dates data recieved');
+        }catch(err){
+            if(err.response){
+              console.log(err.response.data);
+              console.log(err.response.status);
+              console.log(err.response.headers);
+            }else{
+              console.log(`Error: ${err.message}`);
+            }
+            //console.log(err);
+            alert("connection to the back-end server couldn't be secured, please try-again");
+        }
     }
 
     return(
         <div className="adminPage">
             <h1>Admin Panel</h1>
+            <Link to={'/'}>Take me home</Link>
             <form className="adminForm" onSubmit={onSubmit}>
                 <table>
                     <tbody>

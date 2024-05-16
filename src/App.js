@@ -6,6 +6,7 @@ import Content from './Content'
 import NotFound from './NotFound';
 import Admin from './Admin';
 import DateConfig from './ConfigFiles/DatesConfig.json';
+import api from './ConfigFiles/api'
 export const RefContext = createContext();
 
 function App() {
@@ -13,16 +14,34 @@ function App() {
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
+
   const datesRef = useRef();
   const appRef = useRef();
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [datesHeader, setDatesHeader] = useState('');
-  const [datesFooter, setDatesFooter] = useState('');
+  const [datesHeader, setDatesHeader] = useState(DateConfig[0]);
+  const [datesFooter, setDatesFooter] = useState(DateConfig[1]);
 
-  useEffect(()=>{
-    setDatesHeader(DateConfig[0]);
-    setDatesFooter(DateConfig[1]);
+  useEffect( ()=>{
+    const fetchDatesConfig = async () =>{
+      try{
+        const response = await api.get('/get/all');        
+        setDatesHeader(response.data[0]);
+        setDatesFooter(response.data[1]);
+        console.log('Dates data recieved');
+      }catch(err){
+        if(err.response){
+          console.log(err.response.data);
+          console.log(err.response.status);
+          console.log(err.response.headers);
+        }else{
+          console.log(`Error: ${err.message}`);
+        }
+        //console.log(err);
+        alert("connection to the back-end server couldn't be secured, please try-again");
+      }
+    }
+    fetchDatesConfig();
   }, []);
 
   //Scrolls you to a given element, make sure to give 'ref.current'
