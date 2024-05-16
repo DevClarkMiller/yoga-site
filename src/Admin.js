@@ -54,6 +54,7 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
     }, [datesHeader, datesFooter]);
 
     const onSubmit = async (e) =>{
+        console.log('VERSION: 1.15');
         console.log('clicked submit');
         e.preventDefault();
         setSubmit(true);
@@ -100,7 +101,11 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
 
         try{
             console.log(updatedData);
-            const response = api.put('/put', updatedData);   
+            //If there's no data, throw error
+            if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
+            const response = await api.put('/put', updatedData, {headers: {
+                'Content-Type': 'application/json'
+              }});   
             console.log(response);   
             setDatesHeader(response.data[0]);
             setDatesFooter(response.data[1]);

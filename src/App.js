@@ -10,7 +10,6 @@ import api from './ConfigFiles/api'
 export const RefContext = createContext();
 
 function App() {
- 
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
