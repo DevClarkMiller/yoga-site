@@ -4,17 +4,22 @@ import MotivationPanel from "./MotivationPanel";
 import conventionPic from './Images/conventionPic.jpg';
 import mugshot from './Images/andreaPic.jpg';
 import template from './Images/yogaTemplateBW.png';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RefContext } from "./App";
 import ContentConfig from './ConfigFiles/ContentConfig.json';
 
-const Content = () =>{
+const Content = ({setIsAdmin}) =>{
     const context = useContext(RefContext);
     const {aboutRef, datesRef, appRef, datesHeader, datesFooter} = context;
 
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
+        appRef.current.classList.remove('centerContent');
     }
+
+    useEffect(() =>{
+        setIsAdmin(false);
+    }, []);
 
     return(
         <main>

@@ -1,10 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BsArrowDownSquare, BsArrowDownSquareFill } from "react-icons/bs";
 import api from './ConfigFiles/api'
+import {Oval } from 'react-loading-icons'
+import { RefContext } from './App'
+
 
 const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFooter}) =>{
+    const context = useContext(RefContext);
+    const {appRef} = context;
+
+
+
     const [submit, setSubmit] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -51,13 +60,16 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
             setEditFooterTimes(datesFooter.times);
             setEditFooterColour(datesFooter.colour);
         }
+
+        if(appRef.current){
+            appRef.current.classList.add('centerContent');
+        }
     }, [datesHeader, datesFooter]);
 
     const onSubmit = async (e) =>{
-        console.log('VERSION: 1.15');
-        console.log('clicked submit');
+        setLoading(true);
+        console.log('VERSION: 1.16');
         e.preventDefault();
-        setSubmit(true);
 
         const updatedData = {
             loginData: {
@@ -110,6 +122,13 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
             setDatesHeader(response.data[0]);
             setDatesFooter(response.data[1]);
             console.log('Dates data recieved');
+            setLoading(false);
+            setSubmit(true);
+            //Delays un-filling the downloading button
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+            
         }catch(err){
             if(err.response){
               console.log(err.response.data);
@@ -127,6 +146,7 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
         <div className="adminPage">
             <h1>Admin Panel</h1>
             <Link to={'/'}>Take me home</Link>
+
             <form className="adminForm" onSubmit={onSubmit}>
                 <table>
                     <tbody>
@@ -202,7 +222,9 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
                     </tbody>
                 </table>
 
-                <button className="adminBtn" type="submit">{(submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}</button>
+                <button className="adminBtn" type="submit">{
+                    (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
+                </button>
             </form>
         </div>
     );

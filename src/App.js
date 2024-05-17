@@ -64,7 +64,7 @@ function App() {
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>
-          <Route path='/' element={<Content />}/>
+          <Route path='/' element={<Content setIsAdmin={setIsAdmin} />}/>
           <Route path='/admin' element={<Admin setIsAdmin={setIsAdmin} datesHeader={datesHeader} setDatesHeader={setDatesHeader} datesFooter={datesFooter} setDatesFooter={setDatesFooter}/>}/> 
           <Route path='*' element={<NotFound />}/>
         </Routes>
