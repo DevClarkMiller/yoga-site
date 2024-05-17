@@ -18,15 +18,22 @@ function App() {
   const appRef = useRef();
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [datesHeader, setDatesHeader] = useState(DateConfig[0]);
-  const [datesFooter, setDatesFooter] = useState(DateConfig[1]);
+  const [datesConfigAll, setDatesConfigAll] = useState({
+    general: DateConfig.general,
+    header: DateConfig.header,
+    footer: DateConfig.footer
+  });
 
   useEffect( ()=>{
     const fetchDatesConfig = async () =>{
       try{
-        const response = await api.get('/get/all');        
-        setDatesHeader(response.data[0]);
-        setDatesFooter(response.data[1]);
+        const response = await api.get('/get/all');       
+        const data = response.data; 
+        setDatesConfigAll({
+          general: data.general,
+          header: data.header,
+          footer: data.footer
+        });
         console.log('Dates data recieved');
       }catch(err){
         if(err.response){
@@ -36,8 +43,6 @@ function App() {
         }else{
           console.log(`Error: ${err.message}`);
         }
-        //console.log(err);
-        alert("connection to the back-end server couldn't be secured, please try-again");
       }
     }
     fetchDatesConfig();
@@ -60,12 +65,12 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, datesHeader, datesFooter}}> 
+      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll}}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>
-          <Route path='/' element={<Content setIsAdmin={setIsAdmin} />}/>
-          <Route path='/admin' element={<Admin setIsAdmin={setIsAdmin} datesHeader={datesHeader} setDatesHeader={setDatesHeader} datesFooter={datesFooter} setDatesFooter={setDatesFooter}/>}/> 
+          <Route path='//' element={<Content setIsAdmin={setIsAdmin} />}/>
+          <Route path='/admin' element={<Admin/>}/> 
           <Route path='*' element={<NotFound />}/>
         </Routes>
         {!isAdmin && <Footer />}

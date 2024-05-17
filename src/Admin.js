@@ -6,11 +6,9 @@ import {Oval } from 'react-loading-icons'
 import { RefContext } from './App'
 
 
-const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFooter}) =>{
+const Admin = () =>{
     const context = useContext(RefContext);
-    const {appRef} = context;
-
-
+    const {appRef, setIsAdmin, setDatesConfigAll, datesConfigAll } = context;
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -40,31 +38,33 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
     //Will only do this if the datesHeader and datesFooter objects are loaded
     useEffect(()=>{
         setIsAdmin(true);        
-        if(datesHeader && datesFooter){
+        if(datesConfigAll){
+            console.log('hit vals');
             //Sets all the initial values for the input fields
-            setEditTitle(datesHeader.title);
-            setEditSubtitle(datesHeader.subtitle);
-            setEditDescription(datesHeader.description);
-            setEditHeaderDay(datesHeader.day);
-            setEditHeaderMonth(datesHeader.month);
-            setEditHeaderDaysAvailable(datesHeader.daysAvailable);
-            setEditHeaderTimes(datesHeader.times);
-            setEditOrgName(datesHeader.orgName);
-            setEditLocation(datesHeader.location);
-            setEditFee(datesHeader.fee);
-            setEditHeaderColour(datesHeader.colour)
+            setEditTitle(datesConfigAll.general.title);
+            setEditSubtitle(datesConfigAll.general.subtitle);
+            setEditDescription(datesConfigAll.general.description);
+            setEditOrgName(datesConfigAll.general.orgName);
+            setEditLocation(datesConfigAll.general.location);
+            setEditFee(datesConfigAll.general.fee);
 
-            setEditFooterDay(datesFooter.day);
-            setEditFooterMonth(datesFooter.month);
-            setEditFooterDaysAvailable(datesFooter.daysAvailable);
-            setEditFooterTimes(datesFooter.times);
-            setEditFooterColour(datesFooter.colour);
+            setEditHeaderDay(datesConfigAll.header.day);
+            setEditHeaderMonth(datesConfigAll.header.month);
+            setEditHeaderDaysAvailable(datesConfigAll.header.daysAvailable);
+            setEditHeaderTimes(datesConfigAll.header.times);
+            setEditHeaderColour(datesConfigAll.header.colour)
+
+            setEditFooterDay(datesConfigAll.footer.day);
+            setEditFooterMonth(datesConfigAll.footer.month);
+            setEditFooterDaysAvailable(datesConfigAll.footer.daysAvailable);
+            setEditFooterTimes(datesConfigAll.footer.times);
+            setEditFooterColour(datesConfigAll.footer.colour);
         }
 
         if(appRef.current){
             appRef.current.classList.add('centerContent');
         }
-    }, [datesHeader, datesFooter]);
+    }, [datesConfigAll]);
 
     const onSubmit = async (e) =>{
         setLoading(true);
@@ -76,37 +76,27 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
                 username: username,
                 password: password,
             },
-            headerData: {
-                header : true,
-                body: false,
-                footer: false,
+            general: {
                 title: editTitle,
                 subtitle: editSubtitle,
                 description: editDescription,
+                orgName: editOrgName,
+                location: editLocation,
+                fee: editFee
+            },
+            header: {
                 day: editHeaderDay,
                 month: editHeaderMonth,
                 daysAvailable: editHeaderDaysAvailable,
                 times: editHeaderTimes,
-                orgName: editOrgName,
-                location: editLocation,
-                fee: editFee,
                 colour: editHeaderColour
             },
 
-            footerData: {
-                header: false,
-                body: false,
-                footer: true,
-                title: editTitle,
-                subtitle: editSubtitle,
-                description: editDescription,
+            footer: {
                 day: editFooterDay,
                 month: editFooterMonth,
                 daysAvailable: editFooterDaysAvailable,
                 times: editFooterTimes,
-                orgName: editOrgName,
-                location: editLocation,
-                fee: editFee,
                 colour: editFooterColour
             }
         }
@@ -115,12 +105,17 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
             console.log(updatedData);
             //If there's no data, throw error
             if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
-            const response = await api.put('/put', updatedData, {headers: {
+            const response = await api.put('/put.all', updatedData, {headers: {
                 'Content-Type': 'application/json'
-              }});   
+            }});   
+            const data = response.data;
+
             console.log(response);   
-            setDatesHeader(response.data[0]);
-            setDatesFooter(response.data[1]);
+            setDatesConfigAll({
+                general: data.general,
+                header: data.header,
+                footer: data.footer
+            });
             console.log('Dates data recieved');
             setLoading(false);
             setSubmit(true);
@@ -145,7 +140,7 @@ const Admin = ({setIsAdmin, datesHeader, setDatesHeader, datesFooter, setDatesFo
     return(
         <div className="adminPage">
             <h1>Admin Panel</h1>
-            <Link to={'/'}>Take me home</Link>
+            <Link to={'//'}>Take me home</Link>
 
             <form className="adminForm" onSubmit={onSubmit}>
                 <table>

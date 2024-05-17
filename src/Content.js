@@ -10,7 +10,7 @@ import ContentConfig from './ConfigFiles/ContentConfig.json';
 
 const Content = ({setIsAdmin}) =>{
     const context = useContext(RefContext);
-    const {aboutRef, datesRef, appRef, datesHeader, datesFooter} = context;
+    const {aboutRef, datesRef, appRef, datesConfigAll} = context;
 
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
@@ -41,8 +41,8 @@ const Content = ({setIsAdmin}) =>{
             
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>
-            <Dates DateConfig={datesHeader} template={template}/>
-            <Dates DateConfig={datesFooter} template={null}/>
+            <Dates DateConfig={datesConfigAll} template={template} isHeader={true}/>
+            <Dates DateConfig={datesConfigAll} template={null} isFooter={true}/>
         </main>
     );
 }

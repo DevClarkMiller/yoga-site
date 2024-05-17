@@ -1,34 +1,24 @@
-[
-    {
-        "header" : true,
-        "body": false,
-        "footer": false,
-        "title": "RESTORATIVE YOGA",
-        "subtitle": "Rest and Relax",
-        "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
-        "day": "Thursday",
-        "month": "May",
-        "daysAvailable": "2, 9, 16, 23, 30",
-        "times": "7-8pm",
-        "orgName": "Simply Massage and Associates",
-        "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-        "fee": 10,
-        "colour": "#ffd8e7"
+{
+    "general": {
+      "title": "RESTORATIVE YOGA",
+      "subtitle": "Rest and Relax",
+      "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
+      "orgName": "Simply Massage and Associates",
+      "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
+      "fee": 10
     },
-    {
-        "header" : false,
-        "body": false,
-        "footer": true,
-        "title": "RESTORATIVE YOGA",
-        "subtitle": "Rest and Relax",
-        "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
-        "day": "Friday",
-        "month": "April",
-        "daysAvailable": "26",
-        "times": "7-8pm",
-        "orgName": "Simply Massage and Associates",
-        "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-        "fee": 10,
-        "colour": "#ffd8e7"
+    "header": {
+      "day": "Thursday",
+      "month": "May",
+      "daysAvailable": "2, 9, 16, 23, 30",
+      "times": "7-8pm",
+      "colour": "#FFFFFF"
+    },
+    "footer": {
+      "day": "Friday",
+      "month": "May",
+      "daysAvailable": "3, 10, 17, 23, 31",
+      "times": "7-8pm",
+      "colour": "#FFFFFF"
     }
-]
+  }
