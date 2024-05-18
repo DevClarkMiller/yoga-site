@@ -24,6 +24,9 @@ function App() {
     footer: DateConfig.footer
   });
 
+  //Default values for the contentConfig are here just in case that
+  const [contentConfig, setContentConfig] = useState(DateConfig.content);
+
   useEffect( ()=>{
     const fetchDatesConfig = async () =>{
       try{
@@ -32,19 +35,28 @@ function App() {
           headers: {
             'Accept': 'application/json'
           }
-        });      
+        });  
         
-        if(response.status != 200){
-          throw new Error('Failed to fetch data, status code: ' + response.status)
+        const contentResponse = await api.get('/get/content', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if(response.status != 200 || contentResponse.status != 200){
+          throw new Error('Failed to fetch data');
         }
         
         const data = response.data; 
+        const contentData = contentResponse.data;
         console.log(data);
         setDatesConfigAll({
           general: data.general,
           header: data.header,
           footer: data.footer
         });
+
+        setContentConfig(contentData);
         console.log('Dates data recieved');
       }catch(err){
         if(err.response){
@@ -76,7 +88,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll}}> 
+      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig}}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>

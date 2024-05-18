@@ -6,11 +6,10 @@ import mugshot from './Images/andreaPic.jpg';
 import template from './Images/yogaTemplateBW.png';
 import { useContext, useEffect } from "react";
 import { RefContext } from "./App";
-import ContentConfig from './ConfigFiles/ContentConfig.json';
 
 const Content = ({setIsAdmin}) =>{
     const context = useContext(RefContext);
-    const {aboutRef, datesRef, appRef, datesConfigAll} = context;
+    const {aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = context;
 
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
@@ -24,15 +23,15 @@ const Content = ({setIsAdmin}) =>{
     return(
         <main>
             <Panel 
-                config={ContentConfig[0]}
+                config={contentConfig.firstPanel}
                 image={conventionPic}
                 altText={"Lady meditating in the glowing sun"}
-                text={"Restorative yoga, in St.Thomas Ontario 'inhale love, exhale gratitude"}
-                title={'Yoga with Andrea'}
             />
-            <Panel config={ContentConfig[2]}/>
+            <Panel 
+                config={contentConfig.secondPanel}
+            />
             <Panel
-                config={ContentConfig[1]}
+                config={contentConfig.thirdPanel}
                 itemRef={aboutRef}
                 image={mugshot}
                 altText={"asds"}

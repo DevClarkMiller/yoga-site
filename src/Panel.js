@@ -1,10 +1,10 @@
 import './Panel.css'
 
 const Panel = ({
-    config, imageClass, image, altText, bgColour, itemRef, bgImg
+    config, imageClass, image, altText, itemRef, bgImg
 }) =>{
     //Sets background color css to be the prop
-    let css = {backgroundColor: config.bgColour};
+    let css = {backgroundColor: config.colour};
     //Adjusts the className of the panel based off the layout prop
     let panelType;
     switch(config.layout){
@@ -39,7 +39,7 @@ const Panel = ({
                 </div>
             </div>}
             <div className='headerAndP'>
-                {config.title && <h2>{config.title}</h2>}
+                {config.header && <h2>{config.header}</h2>}
                 <p>{config.text}</p>
             </div>
         </div>
