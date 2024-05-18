@@ -20,7 +20,7 @@ const Admin = () =>{
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+ 
     const [editTitle, setEditTitle] = useState('');
     const [editSubtitle, setEditSubtitle] = useState('');
     const [editDescription, setEditDescription] = useState('');
@@ -31,13 +31,13 @@ const Admin = () =>{
     const [editOrgName, setEditOrgName] = useState('');
     const [editLocation, setEditLocation] = useState('');
     const [editFee, setEditFee] = useState('');
-    const [editHeaderColour, setEditHeaderColour] = useState('');
+    const [editHeaderColour, setEditHeaderColour] = useState('#ffffff');
 
     const [editFooterDay, setEditFooterDay] = useState('');
     const [editFooterMonth, setEditFooterMonth] = useState('');
     const [editFooterDaysAvailable, setEditFooterDaysAvailable] = useState('');
     const [editFooterTimes, setEditFooterTimes] = useState('');
-    const [editFooterColour, setEditFooterColour] = useState('');
+    const [editFooterColour, setEditFooterColour] = useState('#ffffff');
 
     const [editContent, setEditContent] = useState();
     const [editContentP1, setEditContentP1] = useState(contentConfig.firstPanel);
@@ -147,6 +147,47 @@ const Admin = () =>{
         }
     }
 
+    const onContentSubmit = async (e) =>{
+        setLoading(true);
+        e.preventDefault();
+
+        const updatedData = {
+            firstPanel: editContentP1,
+            secondPanel: editContentP2,
+            thirdPanel: editContentP3
+        }
+
+        try{
+            //If there's no data, throw error
+            if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
+            const response = await api.put('/put/content', updatedData, {headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }});   
+            const data = response.data;
+
+            //console.log(response);   
+            setContentConfig(data);
+            console.log('Dates data recieved');
+            setLoading(false);
+            setSubmit(true);
+            //Delays un-filling the downloading button
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+            
+        }catch(err){
+            if(err.response){
+              console.log(err.response.data);
+              console.log(err.response.status);
+              console.log(err.response.headers);
+              alert(`Error: ${err.response.data.error}`);
+            }else{
+              console.log(`Error: ${err.message}`);
+            }  
+        }
+    }
+
     return(
         <div className="adminPage">
             <h1>Admin Panel</h1>
@@ -212,6 +253,20 @@ const Admin = () =>{
 
                 <Route path="/content" element={ 
                      <form className="adminForm"> 
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <td><label className="hide" htmlFor="username2">Username</label><input id="username2" type="text"  value={username} onChange={(e) => setUsername(e.target.value)}></input></td>
+                            </tr>
+                            <tr>
+                                <th>Password</th>
+                                <td><label className="hide" htmlFor="password2">Password</label><input id="password2" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input></td>
+                            </tr> 
+                        </tbody>
+                    </table>
+
                      <table className="headerFooterTable">
                             <thead>
                                 <tr>
