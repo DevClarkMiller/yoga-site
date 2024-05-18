@@ -13,7 +13,7 @@ const Admin = () =>{
     const navigate = useNavigate();
 
     const context = useContext(RefContext);
-    const {appRef, setIsAdmin, setDatesConfigAll, datesConfigAll } = context;
+    const {appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = context;
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
