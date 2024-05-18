@@ -1,12 +1,17 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import { BsArrowDownSquare, BsArrowDownSquareFill } from "react-icons/bs";
 import api from './ConfigFiles/api'
 import {Oval } from 'react-loading-icons'
 import { RefContext } from './App'
-
+import TableFormData from "./TableFormData";
+import TableFormDataTArea from "./TableFormDataTArea";
+import AdminTable from "./AdminTable";
+import NotFound from "./NotFound";
 
 const Admin = () =>{
+    const navigate = useNavigate();
+
     const context = useContext(RefContext);
     const {appRef, setIsAdmin, setDatesConfigAll, datesConfigAll } = context;
 
@@ -34,12 +39,13 @@ const Admin = () =>{
     const [editFooterTimes, setEditFooterTimes] = useState('');
     const [editFooterColour, setEditFooterColour] = useState('');
 
+    const [editContent, setEditContent] = useState();
+
 
     //Will only do this if the datesHeader and datesFooter objects are loaded
     useEffect(()=>{
         setIsAdmin(true);        
         if(datesConfigAll){
-            console.log('hit vals');
             //Sets all the initial values for the input fields
             setEditTitle(datesConfigAll.general.title);
             setEditSubtitle(datesConfigAll.general.subtitle);
@@ -63,8 +69,9 @@ const Admin = () =>{
 
         if(appRef.current){
             appRef.current.classList.add('centerContent');
+            appRef.current.classList.add('fullHeight');
         }
-    }, [datesConfigAll]);
+    }, []);
 
     const onSubmit = async (e) =>{
         setLoading(true);
@@ -105,12 +112,13 @@ const Admin = () =>{
             console.log(updatedData);
             //If there's no data, throw error
             if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
-            const response = await api.put('/put.all', updatedData, {headers: {
-                'Content-Type': 'application/json'
+            const response = await api.put('/put/all', updatedData, {headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }});   
             const data = response.data;
 
-            console.log(response);   
+            //console.log(response);   
             setDatesConfigAll({
                 general: data.general,
                 header: data.header,
@@ -129,99 +137,103 @@ const Admin = () =>{
               console.log(err.response.data);
               console.log(err.response.status);
               console.log(err.response.headers);
+              alert(`Error: ${err.response.data.error}`);
             }else{
               console.log(`Error: ${err.message}`);
-            }
-            //console.log(err);
-            alert("connection to the back-end server couldn't be secured, please try-again");
+            }  
         }
     }
 
     return(
         <div className="adminPage">
             <h1>Admin Panel</h1>
-            <Link to={'//'}>Take me home</Link>
+            <Link to={'/'}>Take me home</Link>
+            
+            <Routes>
+                <Route path="/" element={<div></div>} />
+                <Route path="/dates" element={
+                    <form className="adminForm" onSubmit={onSubmit} >
+                        <AdminTable tableRows=
+                        {[
+                            {isTArea: false, th: "Username", _type: "text", id: "username", val:username, change: setUsername, labelTxt: "Username"},
+                            {isTArea: false, th: "Password", _type: "password", id: "password", val:password, change: setPassword, labelTxt: "Password"},
+                            {isTArea: false, th:"Title", _type: "text", id: "title", val:editTitle, change: setEditTitle, labelTxt: "Title"},
+                            {isTArea: false, th: "subtitle", _type: "text", id: "subtitle", val:editSubtitle, change: setEditSubtitle, labelTxt:"Subtitle"},
+                            {isTArea: true, th: "Description", _type: "text", id: "description", val:editDescription, change: setEditDescription, labelTxt:"Description"},
+                            {isTArea: false, th: "Org Name", _type: "text", id: "orgName", val:editOrgName, change: setEditOrgName, labelTxt: "Org"},
+                            {isTArea: false, th: "Location", _type: "text", id: "location", val:editLocation, change: setEditLocation, labelTxt: "Location"},
+                            {isTArea: false, th: "Fee", _type: "text", id: "fee", val:editFee, change: setEditFee, labelTxt: "Fee"},
+                        ]} />
 
-            <form className="adminForm" onSubmit={onSubmit}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Username</th>
-                            <td><label className="hide" htmlFor="username">Username</label><input value={username} onChange={(e) => setUsername(e.target.value)} id="username" type="text"></input></td>
-                        </tr>
-                        <tr className="rowLine">
-                            <th>Password</th>
-                            <td><label className="hide" htmlFor="password">Password</label><input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Title</th>
-                            <td><label className="hide" htmlFor="title">Title</label><input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} id="title" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Subtitle</th>
-                            <td><label className="hide" htmlFor="subtitle">Subtitle</label><input value={editSubtitle} onChange={(e) => setEditSubtitle(e.target.value)} id="subtitle" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Description</th>
-                            <td><label className="hide" htmlFor="description">Description</label><textarea value={editDescription} onChange={(e) => setEditDescription(e.target.value)} id="description" type="text"></textarea></td>
-                        </tr>
-                        <tr>
-                            <th>Org Name</th>
-                            <td><label className="hide" htmlFor="orgName">Org Name</label><input value={editOrgName} onChange={(e) => setEditOrgName(e.target.value)} id="orgName" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Location</th>
-                            <td><label className="hide" htmlFor="location">Location</label><input value={editLocation} onChange={(e) => setEditLocation(e.target.value)} id="location" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Fee</th>
-                            <td><label className="hide" htmlFor="fee">Fee</label><input value={editFee} onChange={(e) => setEditFee(e.target.value)} id="fee" type="number"></input></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <table className="headerFooterTable">
+                            <thead>
+                                <tr>
+                                    <th>Settings</th>
+                                    <th>Header</th>
+                                    <th>Footer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Day</th>
+                                    <td><label className="hide" htmlFor="headerDay">Header Day</label>< input value={editHeaderDay} onChange={(e) => setEditHeaderDay(e.target.value)} id="headerDay" type="text"></input></td>
+                                    <td><label className="hide" htmlFor="footerDay">Footer Day</label><input value={editFooterDay} onChange={(e) => setEditFooterDay(e.target.value)} id="footerDay" type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <th>Month</th>
+                                    <td><label className="hide" htmlFor="headerMonth">Header Month</label><input value={editHeaderMonth} onChange={(e) => setEditHeaderMonth(e.target.value)} id="headerMonth" type="text"></input></td>
+                                    <td><label className="hide" htmlFor="footerMonth">Footer Month</label><input value={editFooterMonth} onChange={(e) => setEditFooterMonth(e.target.value)} id="footerMonth" type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <th>Availability</th>
+                                    <td><label className="hide" htmlFor="headerDaysAvailable">Header Days Available</label><input value={editHeaderDaysAvailable} onChange={(e) => setEditHeaderDaysAvailable(e.target.value)} id="headerDaysAvailable" type="text"></input></td>
+                                    <td><label className="hide" htmlFor="footerDaysAvailable">Footer Days Available</label><input value={editFooterDaysAvailable} onChange={(e) => setEditFooterDaysAvailable(e.target.value)} id="footerDaysAvailable" type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <th>Times</th>
+                                    <td><label className="hide" htmlFor="headerTimes">Header Times</label><input value={editHeaderTimes} onChange={(e) => setEditHeaderTimes(e.target.value)} id="headerTimes" type="text"></input></td>
+                                    <td><label className="hide" htmlFor="footerTimes">Footer Times</label><input value={editFooterTimes} onChange={(e) => setEditFooterTimes(e.target.value)} id="footerTimes" type="text"></input></td>
+                                </tr>
+                                <tr>
+                                    <th>Colour</th>
+                                    <td><label className="hide" htmlFor="headerColour">Header Colour</label><input value={editHeaderColour} onChange={(e) => setEditHeaderColour(e.target.value)} id="headerColour" type="color"></input></td>
+                                    <td><label className="hide" htmlFor="footerTimes">Footer Colour</label><input value={editFooterColour} onChange={(e) => setEditFooterColour(e.target.value)} id="footerColour" type="color"></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button className="adminBtn" type="submit">{
+                            (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
+                        </button>                
+                    </form>
+                }/>
 
-                <table className="headerFooterTable">
-                    <thead>
-                        <tr>
-                            <th>Settings</th>
-                            <th>Header</th>
-                            <th>Footer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Day</th>
-                            <td><label className="hide" htmlFor="headerDay">Header Day</label>< input value={editHeaderDay} onChange={(e) => setEditHeaderDay(e.target.value)} id="headerDay" type="text"></input></td>
-                            <td><label className="hide" htmlFor="footerDay">Footer Day</label><input value={editFooterDay} onChange={(e) => setEditFooterDay(e.target.value)} id="footerDay" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Month</th>
-                            <td><label className="hide" htmlFor="headerMonth">Header Month</label><input value={editHeaderMonth} onChange={(e) => setEditHeaderMonth(e.target.value)} id="headerMonth" type="text"></input></td>
-                            <td><label className="hide" htmlFor="footerMonth">Footer Month</label><input value={editFooterMonth} onChange={(e) => setEditFooterMonth(e.target.value)} id="footerMonth" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Availability</th>
-                            <td><label className="hide" htmlFor="headerDaysAvailable">Header Days Available</label><input value={editHeaderDaysAvailable} onChange={(e) => setEditHeaderDaysAvailable(e.target.value)} id="headerDaysAvailable" type="text"></input></td>
-                            <td><label className="hide" htmlFor="footerDaysAvailable">Footer Days Available</label><input value={editFooterDaysAvailable} onChange={(e) => setEditFooterDaysAvailable(e.target.value)} id="footerDaysAvailable" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Times</th>
-                            <td><label className="hide" htmlFor="headerTimes">Header Times</label><input value={editHeaderTimes} onChange={(e) => setEditHeaderTimes(e.target.value)} id="headerTimes" type="text"></input></td>
-                            <td><label className="hide" htmlFor="footerTimes">Footer Times</label><input value={editFooterTimes} onChange={(e) => setEditFooterTimes(e.target.value)} id="footerTimes" type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <th>Colour</th>
-                            <td><label className="hide" htmlFor="headerColour">Header Colour</label><input value={editHeaderColour} onChange={(e) => setEditHeaderColour(e.target.value)} id="headerColour" type="color"></input></td>
-                            <td><label className="hide" htmlFor="footerTimes">Footer Colour</label><input value={editFooterColour} onChange={(e) => setEditFooterColour(e.target.value)} id="footerColour" type="color"></input></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <Route path="/content" element={ 
+                     <form className="adminForm"> 
+                        <AdminTable tableRows=
+                            {[
+                                {isTArea: false, th: "Username", _type: "text", id: "username", val:username, change: setUsername, labelTxt: "Username"},
+                                {isTArea: false, th: "Password", _type: "password", id: "password", val:password, change: setPassword, labelTxt: "Password"},
+                                {isTArea: false, th:"Title", _type: "text", id: "title", val:editTitle, change: setEditTitle, labelTxt: "Title"},
+                                {isTArea: false, th: "subtitle", _type: "text", id: "subtitle", val:editSubtitle, change: setEditSubtitle, labelTxt:"Subtitle"},
+                                {isTArea: true, th: "Description", _type: "text", id: "description", val:editDescription, change: setEditDescription, labelTxt:"Description"},
+                                {isTArea: false, th: "Org Name", _type: "text", id: "orgName", val:editOrgName, change: setEditOrgName, labelTxt: "Org"},
+                                {isTArea: false, th: "Location", _type: "text", id: "location", val:editLocation, change: setEditLocation, labelTxt: "Location"},
+                                {isTArea: false, th: "Fee", _type: "text", id: "fee", val:editFee, change: setEditFee, labelTxt: "Fee"},
+                            ]} />
+                        <button className="adminBtn" type="submit">{
+                        (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
+                        </button> 
+                    </form>} />
 
-                <button className="adminBtn" type="submit">{
-                    (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
-                </button>
-            </form>
+                <Route path='*' element={<NotFound />}/>
+
+            </Routes>
+            <div className="buttonsNav">
+                <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button>
+                <button onClick={() => navigate('/admin/content')} className="sendButton">2</button>
+            </div>
         </div>
+        
     );
 }
 

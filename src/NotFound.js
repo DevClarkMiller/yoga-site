@@ -4,11 +4,13 @@ import { RefContext } from './App'
 
 const NotFound = () =>{
     const context = useContext(RefContext);
-    const {appRef} = context;
+    const {appRef, setIsAdmin} = context;
 
    //Switches whenever the page loads at all
     useEffect(() =>{
         if(appRef.current){
+            setIsAdmin(true);
+            appRef.current.classList.add('centerContent');
             appRef.current.classList.add('fullHeight');
         }    
     }, []);

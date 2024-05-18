@@ -1,4 +1,4 @@
-import {Route, Routes, HashRouter} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import { createContext, useRef, React, useState, useEffect } from 'react';
 import Header from './Header'
 import Footer from './Footer';
@@ -27,8 +27,19 @@ function App() {
   useEffect( ()=>{
     const fetchDatesConfig = async () =>{
       try{
-        const response = await api.get('/get/all');       
+        console.log('Now attempting to download data');
+        const response = await api.get('/get/all', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });      
+        
+        if(response.status != 200){
+          throw new Error('Failed to fetch data, status code: ' + response.status)
+        }
+        
         const data = response.data; 
+        console.log(data);
         setDatesConfigAll({
           general: data.general,
           header: data.header,
@@ -69,8 +80,8 @@ function App() {
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>
-          <Route path='//' element={<Content setIsAdmin={setIsAdmin} />}/>
-          <Route path='/admin' element={<Admin/>}/> 
+          <Route path='/' element={<Content setIsAdmin={setIsAdmin} />}/>
+          <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
         {!isAdmin && <Footer />}
