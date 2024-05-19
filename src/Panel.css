@@ -104,6 +104,7 @@
         grid-template-rows: auto;
     }
     .generalPanelGrid, .generalPanelFlex{
+        width: 40%;
     }
 }
 
