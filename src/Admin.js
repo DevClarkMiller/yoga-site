@@ -11,22 +11,9 @@ import TableFormDataTArea from "./TableFormDataTArea";
 import DateConfig from './ConfigFiles/DatesConfig.json';
 import outputErrors from "./outputErrors";
 import checkResponseStatus from "./checkResponseStatus";
+import fetchPut from "./fetchPut";
 
 const Admin = () =>{
-    const fetchPut = async (path, data) =>{
-        try{
-            const response = await api.put(`/put${path}`, data, {headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }});   
-    
-            checkResponseStatus(response);
-            return response.data;
-        }catch(err){
-            outputErrors(err);
-        }
-    }
-
     const navigate = useNavigate();
 
     const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = useContext(RefContext);
@@ -100,9 +87,7 @@ const Admin = () =>{
             }
         }
 
-        const data = fetchPut('/all', updatedData);
-          
-        if(data){
+        fetchPut('/all', updatedData, (data) =>{
             setDatesConfigAll({
                 general: data.general,
                 header: data.header,
@@ -115,7 +100,7 @@ const Admin = () =>{
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-        }
+        });
     }
 
     const onContentSubmit = async (e) =>{
@@ -133,9 +118,7 @@ const Admin = () =>{
         }
 
         console.log(updatedData);
-
-        const data = fetchPut('/content', updatedData);
-        if(data){
+        fetchPut('/content', updatedData, (data)=>{
             setContentConfig(data);
             console.log('Dates data recieved');
             setLoading(false);
@@ -144,7 +127,7 @@ const Admin = () =>{
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-        }
+        });
     }
 
     return(
