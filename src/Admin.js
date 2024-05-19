@@ -7,6 +7,7 @@ import { RefContext } from './App'
 import AdminTable from "./AdminTable";
 import NotFound from "./NotFound";
 import TableFormData from "./TableFormData";
+import TableFormDataTArea from "./TableFormDataTArea";
 
 const Admin = () =>{
     const navigate = useNavigate();
@@ -25,11 +26,9 @@ const Admin = () =>{
 
     const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
 
-    const [editContent, setEditContent] = useState(contentConfig);
-    console.log(editFooter);
-    const [editContentP1, setEditContentP1] = useState(editContent.firstPanel);
-    const [editContentP2, setEditContentP2] = useState(editContent.secondPanel);
-    const [editContentP3, setEditContentP3] = useState(editContent.thirdPanel) 
+    const [editContentP1, setEditContentP1] = useState(contentConfig.firstPanel);
+    const [editContentP2, setEditContentP2] = useState(contentConfig.secondPanel);
+    const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel) 
 
     const putData = async (path, data) =>{
         try{
@@ -52,8 +51,6 @@ const Admin = () =>{
         }
     }
 
-
-
     useEffect(()=>{
         setIsAdmin(true);        
 
@@ -62,7 +59,6 @@ const Admin = () =>{
             appRef.current.classList.add('fullHeight');
         }
         console.log(datesConfigAll);
-        console.log(editContent);
     }, []);
 
     const onSubmit = async (e) =>{
@@ -176,8 +172,8 @@ const Admin = () =>{
                             <tbody>
                                 <tr>
                                     <th>Day</th>
-                                    <TableFormData _type={"text"} id={"headerDay"} val={editHeader.day} change={(e) => setEditHeader({...editHeader, header: e.target.value})} labelTxt={"Header Day"}/>
-                                    <TableFormData _type={"text"} id={"footerDay"} val={editFooter.day} change={(e) => setEditFooter({...editFooter, header: e.target.value})} labelTxt={"Footer Day"}/>
+                                    <TableFormData _type={"text"} id={"headerDay"} val={editHeader.day} change={(e) => setEditHeader({...editHeader, day: e.target.value})} labelTxt={"Header Day"}/>
+                                    <TableFormData _type={"text"} id={"footerDay"} val={editFooter.day} change={(e) => setEditFooter({...editFooter, day: e.target.value})} labelTxt={"Footer Day"}/>
                                 </tr>
                                 <tr>
                                     <th>Month</th>
@@ -234,15 +230,15 @@ const Admin = () =>{
                             <tbody>
                                 <tr>
                                     <th>Layout</th>
-                                    <td><select onChange={(e) => setEditContentP1({...editContentP1, layout: e.target.value})} value={editContentP1.layout ?? 0}>
+                                    <td><select id="p1Layout" onChange={(e) => setEditContentP1({...editContentP1, layout: e.target.value})} value={editContentP1.layout ?? 0}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
-                                    <td><select onChange={(e) => setEditContentP2({...editContentP2, layout: e.target.value})} value={editContentP2.layout ?? 1}>
+                                    <td><select id="p2Layout" onChange={(e) => setEditContentP2({...editContentP2, layout: e.target.value})} value={editContentP2.layout ?? 1}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
-                                    <td><select onChange={(e) => setEditContentP3({...editContentP3, layout: e.target.value})} value={editContentP3.layout ?? 1}>
+                                    <td><select id="p3Layout" onChange={(e) => setEditContentP3({...editContentP3, layout: e.target.value})} value={editContentP3.layout ?? 1}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
@@ -250,37 +246,31 @@ const Admin = () =>{
                                 </tr>
                                 <tr>
                                     <th>Title</th>
-                                    <td><label className="hide" htmlFor="p1Header">Panel 1 Header</label><input value={editContentP1.header} onChange={(e) => setEditContentP1({...editContentP1, header: e.target.value})} id="p1Header" type="text"></input></td>
-                                    
-                                    <td><label className="hide" htmlFor="p2Header">Panel 2 Header</label><input value={editContentP2.header} onChange={(e) => setEditContentP2({...editContentP2, header: e.target.value})} id="p2Header" type="text"></input></td>
-
-                                    <td><label className="hide" htmlFor="p3Header">Panel 3 Header</label><input value={editContentP3.header} onChange={(e) => setEditContentP3({...editContentP3, header: e.target.value})} id="p3Header" type="text"></input></td>
+                                    <TableFormData _type={"text"} id={"p1Header"} val={editContentP1.header} change={(e) => setEditContentP1({...editContentP1, header: e.target.value})} labelTxt={"Panel 1 Header"}/>                                    
+                                    <TableFormData _type={"text"} id={"p2Header"} val={editContentP2.header} change={(e) => setEditContentP2({...editContentP2, header: e.target.value})} labelTxt={"Panel 2 Header"}/>                                    
+                                    <TableFormData _type={"text"} id={"p3Header"} val={editContentP3.header} change={(e) => setEditContentP3({...editContentP3, header: e.target.value})} labelTxt={"Panel 3 Header"}/>                                    
                                 </tr>
                                 <tr>
                                     <th>Paragraph</th>
-                                    <td><label className="hide" htmlFor="p1Paragraph">Panel 1 Paragraph</label><textarea value={editContentP1.text} onChange={(e) => setEditContentP1({...editContentP1, text: e.target.value})} id="p1Paragraph" type="text"></textarea></td>
-
-
-                                    <td><label className="hide" htmlFor="p2Paragraph">Panel 2 Paragraph</label><textarea value={editContentP2.text} onChange={(e) => setEditContentP2({...editContentP2, text: e.target.value})} id="p2Paragraph" type="text"></textarea></td>
-
-                                    <td><label className="hide" htmlFor="p3Paragraph">Panel 3 Paragraph</label><textarea value={editContentP3.text} onChange={(e) => setEditContentP3({...editContentP3, text: e.target.value})} id="p3Paragraph" type="text"></textarea></td>
-
+                                    <TableFormDataTArea _type={"text"} id={"p1Paragraph"} val={editContentP1.text} change={(e) => setEditContentP1({...editContentP1, text: e.target.value})} labelTxt={"Panel 1 Paragraph"}/>                                    
+                                    <TableFormDataTArea _type={"text"} id={"p2Paragraph"} val={editContentP2.text} change={(e) => setEditContentP2({...editContentP2, text: e.target.value})} labelTxt={"Panel 2 Paragraph"}/>                                    
+                                    <TableFormDataTArea _type={"text"} id={"p3Paragraph"} val={editContentP3.text} change={(e) => setEditContentP3({...editContentP3, text: e.target.value})} labelTxt={"Panel 3 Paragraph"}/> 
                                 </tr>
                                 <tr>
                                     <th>Colour</th>
-                                    <td><label className="hide" htmlFor="p1Colour">Panel 1 Colour</label><input value={editContentP1.colour} onChange={(e) => setEditContentP1({...editContentP1, colour: e.target.value})} id="p1Colour" type="color"></input></td>
-                                    <td><label className="hide" htmlFor="headerColour">Panel 2 Colour</label><input value={editContentP2.colour} onChange={(e) => setEditContentP2({...editContentP2, colour: e.target.value})} id="headerColour" type="color"></input></td>
-                                    <td><label className="hide" htmlFor="footerTimes">Panel 3 Colour</label><input value={editContentP3.colour} onChange={(e) => setEditContentP3({...editContentP3, colour: e.target.value})} id="footerColour" type="color"></input></td>
+                                    <TableFormData _type={"color"} id={"p1Colour"} val={editContentP1.colour} change={(e) => setEditContentP1({...editContentP1, colour: e.target.value})} labelTxt={"Panel 1 Colour"}/>                                    
+                                    <TableFormData _type={"color"} id={"p2Colour"} val={editContentP2.colour} change={(e) => setEditContentP2({...editContentP2, colour: e.target.value})} labelTxt={"Panel 2 Colour"}/>                                    
+                                    <TableFormData _type={"color"} id={"p3Colour"} val={editContentP3.colour} change={(e) => setEditContentP3({...editContentP3, colour: e.target.value})} labelTxt={"Panel 3 Colour"}/>                                    
                                 </tr>
                             </tbody>
                         </table>
+                        {/*Changes to a loading button if the request is taking a long time, then switches to a full icon then back to normal*/}
                         <button className="adminBtn" type="submit">{
                         (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
                         </button> 
                     </form>} />
 
                 <Route path='*' element={<NotFound />}/>
-
             </Routes>
             <div className="buttonsNav">
                 <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button>

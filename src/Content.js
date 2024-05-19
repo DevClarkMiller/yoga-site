@@ -7,9 +7,9 @@ import template from './Images/yogaTemplateBW.png';
 import { useContext, useEffect } from "react";
 import { RefContext } from "./App";
 
-const Content = ({setIsAdmin}) =>{
+const Content = () =>{
     const context = useContext(RefContext);
-    const {aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = context;
+    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = context;
 
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
@@ -18,6 +18,7 @@ const Content = ({setIsAdmin}) =>{
 
     useEffect(() =>{
         setIsAdmin(false);
+        console.log(datesConfigAll);
     }, []);
 
     return(
