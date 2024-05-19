@@ -4,76 +4,65 @@ import { BsArrowDownSquare, BsArrowDownSquareFill } from "react-icons/bs";
 import api from './ConfigFiles/api'
 import {Oval } from 'react-loading-icons'
 import { RefContext } from './App'
-import TableFormData from "./TableFormData";
-import TableFormDataTArea from "./TableFormDataTArea";
 import AdminTable from "./AdminTable";
 import NotFound from "./NotFound";
+import TableFormData from "./TableFormData";
 
 const Admin = () =>{
     const navigate = useNavigate();
 
     const context = useContext(RefContext);
-    const {appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = context;
+    const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = context;
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
- 
-    const [editTitle, setEditTitle] = useState('');
-    const [editSubtitle, setEditSubtitle] = useState('');
-    const [editDescription, setEditDescription] = useState('');
-    const [editHeaderDay, setEditHeaderDay] = useState('');
-    const [editHeaderMonth, setEditHeaderMonth] = useState('');
-    const [editHeaderDaysAvailable, setEditHeaderDaysAvailable] = useState('');
-    const [editHeaderTimes, setEditHeaderTimes] = useState('');
-    const [editOrgName, setEditOrgName] = useState('');
-    const [editLocation, setEditLocation] = useState('');
-    const [editFee, setEditFee] = useState('');
-    const [editHeaderColour, setEditHeaderColour] = useState('#ffffff');
+    const [editLogin, setEditLogin] = useState({username: "", password: ""});
 
-    const [editFooterDay, setEditFooterDay] = useState('');
-    const [editFooterMonth, setEditFooterMonth] = useState('');
-    const [editFooterDaysAvailable, setEditFooterDaysAvailable] = useState('');
-    const [editFooterTimes, setEditFooterTimes] = useState('');
-    const [editFooterColour, setEditFooterColour] = useState('#ffffff');
+    const [editGeneral, setEditGeneral] = useState(datesConfigAll.general);
 
-    const [editContent, setEditContent] = useState();
-    const [editContentP1, setEditContentP1] = useState(contentConfig.firstPanel);
-    const [editContentP2, setEditContentP2] = useState(contentConfig.secondPanel);
-    const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel) 
+    const [editHeader, setEditHeader] = useState(datesConfigAll.header);
+
+    const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
+
+    const [editContent, setEditContent] = useState(contentConfig);
+    console.log(editFooter);
+    const [editContentP1, setEditContentP1] = useState(editContent.firstPanel);
+    const [editContentP2, setEditContentP2] = useState(editContent.secondPanel);
+    const [editContentP3, setEditContentP3] = useState(editContent.thirdPanel) 
+
+    const putData = async (path, data) =>{
+        try{
+            //If there's no data, throw error
+            if(!data) throw new Error('Issue with the dataSet to be uploaded');
+            const response = await api.put(`/put${path}`, data, {headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }});   
+            return response.data;      
+        }catch(err){
+            if(err.response){
+              console.log(err.response.data);
+              console.log(err.response.status);
+              console.log(err.response.headers);
+              alert(`Error: ${err.response.data.error}`);
+            }else{
+              console.log(`Error: ${err.message}`);
+            }  
+        }
+    }
 
 
-    //Will only do this if the datesHeader and datesFooter objects are loaded
+
     useEffect(()=>{
         setIsAdmin(true);        
-        if(datesConfigAll){
-            //Sets all the initial values for the input fields
-            setEditTitle(datesConfigAll.general.title);
-            setEditSubtitle(datesConfigAll.general.subtitle);
-            setEditDescription(datesConfigAll.general.description);
-            setEditOrgName(datesConfigAll.general.orgName);
-            setEditLocation(datesConfigAll.general.location);
-            setEditFee(datesConfigAll.general.fee);
-
-            setEditHeaderDay(datesConfigAll.header.day);
-            setEditHeaderMonth(datesConfigAll.header.month);
-            setEditHeaderDaysAvailable(datesConfigAll.header.daysAvailable);
-            setEditHeaderTimes(datesConfigAll.header.times);
-            setEditHeaderColour(datesConfigAll.header.colour)
-
-            setEditFooterDay(datesConfigAll.footer.day);
-            setEditFooterMonth(datesConfigAll.footer.month);
-            setEditFooterDaysAvailable(datesConfigAll.footer.daysAvailable);
-            setEditFooterTimes(datesConfigAll.footer.times);
-            setEditFooterColour(datesConfigAll.footer.colour);
-        }
 
         if(appRef.current){
             appRef.current.classList.add('centerContent');
             appRef.current.classList.add('fullHeight');
         }
+        console.log(datesConfigAll);
+        console.log(editContent);
     }, []);
 
     const onSubmit = async (e) =>{
@@ -83,45 +72,36 @@ const Admin = () =>{
 
         const updatedData = {
             loginData: {
-                username: username,
-                password: password,
+                username: editLogin.username,
+                password: editLogin.password,
             },
             general: {
-                title: editTitle,
-                subtitle: editSubtitle,
-                description: editDescription,
-                orgName: editOrgName,
-                location: editLocation,
-                fee: editFee
+                title: editGeneral.title,
+                subtitle: editGeneral.subtitle,
+                description: editGeneral.description,
+                orgName: editGeneral.orgName,
+                location: editGeneral.location,
+                fee: editGeneral.fee
             },
             header: {
-                day: editHeaderDay,
-                month: editHeaderMonth,
-                daysAvailable: editHeaderDaysAvailable,
-                times: editHeaderTimes,
-                colour: editHeaderColour
+                day: editHeader.day,
+                month: editHeader.month,
+                daysAvailable: editHeader.daysAvailable,
+                times: editHeader.times,
+                colour: editHeader.colour
             },
 
             footer: {
-                day: editFooterDay,
-                month: editFooterMonth,
-                daysAvailable: editFooterDaysAvailable,
-                times: editFooterTimes,
-                colour: editFooterColour
+                day: editFooter.day,
+                month: editFooter.month,
+                daysAvailable: editFooter.daysAvailable,
+                times: editFooter.times,
+                colour: editFooter.colour
             }
         }
 
-        try{
-            console.log(updatedData);
-            //If there's no data, throw error
-            if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
-            const response = await api.put('/put/all', updatedData, {headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }});   
-            const data = response.data;
-
-            //console.log(response);   
+        const data = putData('/all', updatedData);
+        if(data){
             setDatesConfigAll({
                 general: data.general,
                 header: data.header,
@@ -130,20 +110,9 @@ const Admin = () =>{
             console.log('Dates data recieved');
             setLoading(false);
             setSubmit(true);
-            //Delays un-filling the downloading button
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-            
-        }catch(err){
-            if(err.response){
-              console.log(err.response.data);
-              console.log(err.response.status);
-              console.log(err.response.headers);
-              alert(`Error: ${err.response.data.error}`);
-            }else{
-              console.log(`Error: ${err.message}`);
-            }  
         }
     }
 
@@ -152,21 +121,19 @@ const Admin = () =>{
         e.preventDefault();
 
         const updatedData = {
+            loginData: {
+                username: editLogin.username,
+                password: editLogin.password,
+            },
             firstPanel: editContentP1,
             secondPanel: editContentP2,
             thirdPanel: editContentP3
         }
 
-        try{
-            //If there's no data, throw error
-            if(!updatedData) throw new Error('Issue with the dataSet to be uploaded');
-            const response = await api.put('/put/content', updatedData, {headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }});   
-            const data = response.data;
+        console.log(updatedData);
 
-            //console.log(response);   
+        const data = putData('/content', updatedData);
+        if(data){
             setContentConfig(data);
             console.log('Dates data recieved');
             setLoading(false);
@@ -175,16 +142,6 @@ const Admin = () =>{
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-            
-        }catch(err){
-            if(err.response){
-              console.log(err.response.data);
-              console.log(err.response.status);
-              console.log(err.response.headers);
-              alert(`Error: ${err.response.data.error}`);
-            }else{
-              console.log(`Error: ${err.message}`);
-            }  
         }
     }
 
@@ -192,21 +149,20 @@ const Admin = () =>{
         <div className="adminPage">
             <h1>Admin Panel</h1>
             <Link to={'/'}>Take me home</Link>
-            
             <Routes>
                 <Route path="/" element={<div></div>} />
                 <Route path="/dates" element={
                     <form className="adminForm" onSubmit={onSubmit} >
                         <AdminTable tableRows=
                         {[
-                            {isTArea: false, th: "Username", _type: "text", id: "username", val:username, change: setUsername, labelTxt: "Username"},
-                            {isTArea: false, th: "Password", _type: "password", id: "password", val:password, change: setPassword, labelTxt: "Password"},
-                            {isTArea: false, th:"Title", _type: "text", id: "title", val:editTitle, change: setEditTitle, labelTxt: "Title"},
-                            {isTArea: false, th: "subtitle", _type: "text", id: "subtitle", val:editSubtitle, change: setEditSubtitle, labelTxt:"Subtitle"},
-                            {isTArea: true, th: "Description", _type: "text", id: "description", val:editDescription, change: setEditDescription, labelTxt:"Description"},
-                            {isTArea: false, th: "Org Name", _type: "text", id: "orgName", val:editOrgName, change: setEditOrgName, labelTxt: "Org"},
-                            {isTArea: false, th: "Location", _type: "text", id: "location", val:editLocation, change: setEditLocation, labelTxt: "Location"},
-                            {isTArea: false, th: "Fee", _type: "text", id: "fee", val:editFee, change: setEditFee, labelTxt: "Fee"},
+                            {isTArea: false, th: "Username", _type: "text", id: "username", val:editLogin.username, change: (e) => setEditLogin({...editLogin, username: e.target.value}), labelTxt: "Username"},
+                            {isTArea: false, th: "Password", _type: "password", id: "password", val:editLogin.password, change: (e) => setEditLogin({...editLogin, password: e.target.value}), labelTxt: "Password"},
+                            {isTArea: false, th:"Title", _type: "text", id: "title", val:editGeneral.title, change: (e) => setEditGeneral({...editGeneral, title: e.target.value}), labelTxt: "Title"},
+                            {isTArea: false, th: "subtitle", _type: "text", id: "subtitle", val:editGeneral.subtitle, change: (e) => setEditGeneral({...editGeneral, subtitle: e.target.value}), labelTxt:"Subtitle"},
+                            {isTArea: true, th: "Description", _type: "text", id: "description", val:editGeneral.description, change: (e) => setEditGeneral({...editGeneral, description: e.target.value}), labelTxt:"Description"},
+                            {isTArea: false, th: "Org Name", _type: "text", id: "orgName", val:editGeneral.orgName, change: (e) => setEditGeneral({...editGeneral, orgName: e.target.value}), labelTxt: "Org"},
+                            {isTArea: false, th: "Location", _type: "text", id: "location", val:editGeneral.location, change: (e) => setEditGeneral({...editGeneral, location: e.target.value}), labelTxt: "Location"},
+                            {isTArea: false, th: "Fee", _type: "text", id: "fee", val:editGeneral.fee, change: (e) => setEditGeneral({...editGeneral, fee: e.target.value}), labelTxt: "Fee"}, 
                         ]} />
 
                         <table className="headerFooterTable">
@@ -220,28 +176,28 @@ const Admin = () =>{
                             <tbody>
                                 <tr>
                                     <th>Day</th>
-                                    <td><label className="hide" htmlFor="headerDay">Header Day</label>< input value={editHeaderDay} onChange={(e) => setEditHeaderDay(e.target.value)} id="headerDay" type="text"></input></td>
-                                    <td><label className="hide" htmlFor="footerDay">Footer Day</label><input value={editFooterDay} onChange={(e) => setEditFooterDay(e.target.value)} id="footerDay" type="text"></input></td>
+                                    <TableFormData _type={"text"} id={"headerDay"} val={editHeader.day} change={(e) => setEditHeader({...editHeader, header: e.target.value})} labelTxt={"Header Day"}/>
+                                    <TableFormData _type={"text"} id={"footerDay"} val={editFooter.day} change={(e) => setEditFooter({...editFooter, header: e.target.value})} labelTxt={"Footer Day"}/>
                                 </tr>
                                 <tr>
                                     <th>Month</th>
-                                    <td><label className="hide" htmlFor="headerMonth">Header Month</label><input value={editHeaderMonth} onChange={(e) => setEditHeaderMonth(e.target.value)} id="headerMonth" type="text"></input></td>
-                                    <td><label className="hide" htmlFor="footerMonth">Footer Month</label><input value={editFooterMonth} onChange={(e) => setEditFooterMonth(e.target.value)} id="footerMonth" type="text"></input></td>
+                                    <TableFormData _type={"text"} id={"headerMonth"} val={editHeader.month} change={(e) => setEditHeader({...editHeader, month: e.target.value})} labelTxt={"Header Month"}/>
+                                    <TableFormData _type={"text"} id={"footerMonth"} val={editFooter.month} change={(e) => setEditFooter({...editFooter, month: e.target.value})} labelTxt={"Footer Month"}/>
                                 </tr>
                                 <tr>
                                     <th>Availability</th>
-                                    <td><label className="hide" htmlFor="headerDaysAvailable">Header Days Available</label><input value={editHeaderDaysAvailable} onChange={(e) => setEditHeaderDaysAvailable(e.target.value)} id="headerDaysAvailable" type="text"></input></td>
-                                    <td><label className="hide" htmlFor="footerDaysAvailable">Footer Days Available</label><input value={editFooterDaysAvailable} onChange={(e) => setEditFooterDaysAvailable(e.target.value)} id="footerDaysAvailable" type="text"></input></td>
+                                    <TableFormData _type={"text"} id={"headerDaysAvailable"} val={editHeader.daysAvailable} change={(e) => setEditHeader({...editHeader, daysAvailable: e.target.value})} labelTxt={"Header Days Available"}/>
+                                    <TableFormData _type={"text"} id={"footerDaysAvailable"} val={editFooter.daysAvailable} change={(e) => setEditFooter({...editFooter, daysAvailable: e.target.value})} labelTxt={"Footer Days Available"}/>
                                 </tr>
                                 <tr>
                                     <th>Times</th>
-                                    <td><label className="hide" htmlFor="headerTimes">Header Times</label><input value={editHeaderTimes} onChange={(e) => setEditHeaderTimes(e.target.value)} id="headerTimes" type="text"></input></td>
-                                    <td><label className="hide" htmlFor="footerTimes">Footer Times</label><input value={editFooterTimes} onChange={(e) => setEditFooterTimes(e.target.value)} id="footerTimes" type="text"></input></td>
+                                    <TableFormData _type={"text"} id={"headerTimes"} val={editHeader.times} change={(e) => setEditHeader({...editHeader, times: e.target.value})} labelTxt={"Header Times"}/>
+                                    <TableFormData _type={"text"} id={"footerTimes"} val={editFooter.times} change={(e) => setEditFooter({...editFooter, times: e.target.value})} labelTxt={"Footer Times"}/>
                                 </tr>
                                 <tr>
                                     <th>Colour</th>
-                                    <td><label className="hide" htmlFor="headerColour">Header Colour</label><input value={editHeaderColour} onChange={(e) => setEditHeaderColour(e.target.value)} id="headerColour" type="color"></input></td>
-                                    <td><label className="hide" htmlFor="footerTimes">Footer Colour</label><input value={editFooterColour} onChange={(e) => setEditFooterColour(e.target.value)} id="footerColour" type="color"></input></td>
+                                    <TableFormData _type={"color"} id={"headerColour"} val={editHeader.colour} change={(e) => setEditHeader({...editHeader, colour: e.target.value})} labelTxt={"Header Colour"}/>
+                                    <TableFormData _type={"color"} id={"footerColour"} val={editFooter.colour} change={(e) => setEditFooter({...editFooter, colour: e.target.value})} labelTxt={"Footer Colour"}/>
                                 </tr>
                             </tbody>
                         </table>
@@ -252,22 +208,21 @@ const Admin = () =>{
                 }/>
 
                 <Route path="/content" element={ 
-                     <form className="adminForm"> 
+                     <form className="adminForm" onSubmit={onContentSubmit}> 
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Username</th>
+                                    <TableFormData _type={"text"} id={"username2"} val={editLogin.username} change={(e) => setEditLogin({...editLogin, username: e.target.value})} labelTxt={"Username"}/>
+                                </tr>
+                                <tr>
+                                    <th>Password</th>
+                                    <TableFormData _type={"password"} id={"password2"} val={editLogin.password} change={(e) => setEditLogin({...editLogin, password: e.target.value})} labelTxt={"Password"}/>
+                                </tr> 
+                            </tbody>
+                        </table>
 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Username</th>
-                                <td><label className="hide" htmlFor="username2">Username</label><input id="username2" type="text"  value={username} onChange={(e) => setUsername(e.target.value)}></input></td>
-                            </tr>
-                            <tr>
-                                <th>Password</th>
-                                <td><label className="hide" htmlFor="password2">Password</label><input id="password2" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input></td>
-                            </tr> 
-                        </tbody>
-                    </table>
-
-                     <table className="headerFooterTable">
+                        <table className="headerFooterTable">
                             <thead>
                                 <tr>
                                     <th>Options</th>
@@ -314,10 +269,8 @@ const Admin = () =>{
                                 <tr>
                                     <th>Colour</th>
                                     <td><label className="hide" htmlFor="p1Colour">Panel 1 Colour</label><input value={editContentP1.colour} onChange={(e) => setEditContentP1({...editContentP1, colour: e.target.value})} id="p1Colour" type="color"></input></td>
-
-
-                                    <td><label className="hide" htmlFor="headerColour">Header Colour</label><input value={editHeaderColour} onChange={(e) => setEditHeaderColour(e.target.value)} id="headerColour" type="color"></input></td>
-                                    <td><label className="hide" htmlFor="footerTimes">Footer Colour</label><input value={editFooterColour} onChange={(e) => setEditFooterColour(e.target.value)} id="footerColour" type="color"></input></td>
+                                    <td><label className="hide" htmlFor="headerColour">Panel 2 Colour</label><input value={editContentP2.colour} onChange={(e) => setEditContentP2({...editContentP2, colour: e.target.value})} id="headerColour" type="color"></input></td>
+                                    <td><label className="hide" htmlFor="footerTimes">Panel 3 Colour</label><input value={editContentP3.colour} onChange={(e) => setEditContentP3({...editContentP3, colour: e.target.value})} id="footerColour" type="color"></input></td>
                                 </tr>
                             </tbody>
                         </table>

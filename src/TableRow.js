@@ -1,14 +1,26 @@
 import TableFormDataTArea from "./TableFormDataTArea";
 import TableFormData from "./TableFormData";
 
-const TableRow = (item) =>{
-    const data = item.item;
+const TableRow = ({item}) =>{
+    const { th, isTArea, _type, id, val, change, labelTxt, property } = item;
     return(
         <tr>
-            <th>{data.th}</th>
-            {(!data.isTArea) ? 
-            <TableFormData _type={data._type} id={data.id} val={data.val} change={data.change} labelTxt={data.labelTxt}/> : 
-            <TableFormDataTArea _type={data._type} id={data.id} val={data.val} change={data.change} labelTxt={data.labelTxt}/>
+            <th>{th}</th>
+            {(!isTArea) ? 
+            <TableFormData 
+                _type={_type} 
+                id={id} 
+                val={val} 
+                change={change} 
+                labelTxt={labelTxt} 
+            /> : 
+            <TableFormDataTArea 
+                _type={_type} 
+                id={id} 
+                val={val} 
+                change={change} 
+                labelTxt={labelTxt} 
+            />
             }
         </tr>
     );
