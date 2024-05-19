@@ -8,6 +8,7 @@ import Admin from './Admin';
 import DateConfig from './ConfigFiles/DatesConfig.json';
 import api from './ConfigFiles/api'
 import scrollTo from './ScrollTo';
+import useFetchGet from './useFetchGet';
 export const RefContext = createContext();
 
 function App() {
@@ -27,42 +28,23 @@ function App() {
 
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
-
-  const fetchDatesConfig = async () =>{
-    try{
-      const response = await api.get('/get/all', {
-        headers: {
-          'Accept': 'application/json'
-        }
-      });  
-
-      if(response.status !== 200){
-        throw new Error('Failed to fetch data');
-      }
-      
-      const data = response.data; 
-      setDatesConfigAll({
-        general: data.general,
-        header: data.header,
-        footer: data.footer
-      });
-
-      setContentConfig(data.content);
-    }catch(err){
-      if(err.response){
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      }else{
-        console.log(`Error: ${err.message}`);
-      }
-    }
-  }
+  const { data, loading, error } = useFetchGet('/get/all');
 
   //Fetch data everytime the page loads
   useEffect( ()=>{
-    fetchDatesConfig();
-  }, []);
+    if(!loading){
+        console.log(data);
+      if(!error){
+        setDatesConfigAll({
+          general: data.general,
+          header: data.header,
+          footer: data.footer
+        });
+
+        setContentConfig(data.content);
+      }
+    }
+  }, [data]);
 
   return (
     <div className="App" ref={appRef}>
@@ -70,7 +52,7 @@ function App() {
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>
-          <Route path='/' element={<Content setIsAdmin={setIsAdmin} />}/>
+          <Route path='/' element={<Content />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
