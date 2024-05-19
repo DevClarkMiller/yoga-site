@@ -4,12 +4,11 @@ import MotivationPanel from "./MotivationPanel";
 import conventionPic from './Images/conventionPic.jpg';
 import mugshot from './Images/andreaPic.jpg';
 import template from './Images/yogaTemplateBW.png';
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RefContext } from "./App";
 
 const Content = () =>{
-    const context = useContext(RefContext);
-    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = context;
+    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = useContext(RefContext);
 
     if(appRef.current){
         appRef.current.classList.remove('fullHeight');
@@ -22,6 +21,7 @@ const Content = () =>{
     }, []);
 
     return(
+        contentConfig &&
         <main>
             <Panel 
                 config={contentConfig.firstPanel}

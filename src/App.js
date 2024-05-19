@@ -8,10 +8,36 @@ import Admin from './Admin';
 import DateConfig from './ConfigFiles/DatesConfig.json';
 import api from './ConfigFiles/api'
 import scrollTo from './ScrollTo';
-import useFetchGet from './useFetchGet';
+import outputErrors from './outputErrors';
+import checkResponseStatus from './checkResponseStatus';
 export const RefContext = createContext();
 
 function App() {
+  const fetchGetAll = async () =>{
+    try{
+        const response = await api.get('/get/all', {headers: {
+            'Accept': 'application/json'
+        }});
+
+        checkResponseStatus(response);
+
+        const allData = response.data;
+
+        setDatesConfigAll({
+          general: allData.general,
+          header: allData.header,
+          footer: allData.footer
+        });
+    
+        if(allData){
+          setContentConfig(allData.content);
+        }
+
+    }catch(err){
+        outputErrors(err);
+    }
+  } 
+
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
@@ -28,23 +54,11 @@ function App() {
 
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
-  const { data, loading, error } = useFetchGet('/get/all');
 
   //Fetch data everytime the page loads
-  useEffect( ()=>{
-    if(!loading){
-        console.log(data);
-      if(!error){
-        setDatesConfigAll({
-          general: data.general,
-          header: data.header,
-          footer: data.footer
-        });
-
-        setContentConfig(data.content);
-      }
-    }
-  }, [data]);
+  useEffect(()=>{
+    fetchGetAll();
+  }, []);
 
   return (
     <div className="App" ref={appRef}>

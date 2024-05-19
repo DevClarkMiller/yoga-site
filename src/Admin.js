@@ -8,13 +8,28 @@ import AdminTable from "./AdminTable";
 import NotFound from "./NotFound";
 import TableFormData from "./TableFormData";
 import TableFormDataTArea from "./TableFormDataTArea";
-import useFetchPut from "./useFetchPut";
+import DateConfig from './ConfigFiles/DatesConfig.json';
+import outputErrors from "./outputErrors";
+import checkResponseStatus from "./checkResponseStatus";
 
 const Admin = () =>{
+    const fetchPut = async (path, data) =>{
+        try{
+            const response = await api.put(`/put${path}`, data, {headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }});   
+    
+            checkResponseStatus(response);
+            return response.data;
+        }catch(err){
+            outputErrors(err);
+        }
+    }
+
     const navigate = useNavigate();
 
-    const context = useContext(RefContext);
-    const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = context;
+    const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -28,40 +43,28 @@ const Admin = () =>{
     const [editContentP2, setEditContentP2] = useState(contentConfig.secondPanel);
     const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel);
 
-    const { putData, putLoading, putError } = useFetchPut(null);
-
     useEffect(()=>{
         setIsAdmin(true);        
-
         if(appRef.current){
             appRef.current.classList.add('centerContent');
             appRef.current.classList.add('fullHeight');
         }
-        console.log(datesConfigAll);
     }, []);
 
-    /*
-    const putData = async (path, data) =>{
-        try{
-            //If there's no data, throw error
-            if(!data) throw new Error('Issue with the dataSet to be uploaded');
-            const response = await api.put(`/put${path}`, data, {headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }});   
-            return response.data;      
-        }catch(err){
-            if(err.response){
-              console.log(err.response.data);
-              console.log(err.response.status);
-              console.log(err.response.headers);
-              alert(`Error: ${err.response.data.error}`);
-            }else{
-              console.log(`Error: ${err.message}`);
-            }  
-        }
-    }*/
+    useEffect(()=>{
+        console.log(contentConfig);
 
+        setEditContentP1(contentConfig.firstPanel);
+        setEditContentP2(contentConfig.secondPanel)
+        setEditContentP3(contentConfig.thirdPanel);
+    }, [contentConfig]);
+
+    useEffect(()=>{
+        setEditGeneral(datesConfigAll.general);
+        setEditHeader(datesConfigAll.header);
+        setEditFooter(datesConfigAll.footer);
+    }, [contentConfig]);
+    
     const onSubmit = async (e) =>{
         setLoading(true);
         console.log('VERSION: 1.16');
@@ -97,22 +100,7 @@ const Admin = () =>{
             }
         }
 
-        const data = putData('/all', updatedData);
-        useEffect( ()=>{
-            if(!loading){
-                console.log(data);
-              if(!error){
-                setDatesConfigAll({
-                  general: data.general,
-                  header: data.header,
-                  footer: data.footer
-                });
-        
-                setContentConfig(data.content);
-              }
-            }
-          }, [data]);
-
+        const data = fetchPut('/all', updatedData);
           
         if(data){
             setDatesConfigAll({
@@ -120,6 +108,7 @@ const Admin = () =>{
                 header: data.header,
                 footer: data.footer
             });
+            
             console.log('Dates data recieved');
             setLoading(false);
             setSubmit(true);
@@ -145,7 +134,7 @@ const Admin = () =>{
 
         console.log(updatedData);
 
-        const data = putData('/content', updatedData);
+        const data = fetchPut('/content', updatedData);
         if(data){
             setContentConfig(data);
             console.log('Dates data recieved');
