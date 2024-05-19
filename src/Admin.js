@@ -8,6 +8,7 @@ import AdminTable from "./AdminTable";
 import NotFound from "./NotFound";
 import TableFormData from "./TableFormData";
 import TableFormDataTArea from "./TableFormDataTArea";
+import useFetchPut from "./useFetchPut";
 
 const Admin = () =>{
     const navigate = useNavigate();
@@ -19,17 +20,27 @@ const Admin = () =>{
     const [loading, setLoading] = useState(false);
 
     const [editLogin, setEditLogin] = useState({username: "", password: ""});
-
     const [editGeneral, setEditGeneral] = useState(datesConfigAll.general);
-
     const [editHeader, setEditHeader] = useState(datesConfigAll.header);
-
     const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
 
     const [editContentP1, setEditContentP1] = useState(contentConfig.firstPanel);
     const [editContentP2, setEditContentP2] = useState(contentConfig.secondPanel);
-    const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel) 
+    const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel);
 
+    const { putData, putLoading, putError } = useFetchPut(null);
+
+    useEffect(()=>{
+        setIsAdmin(true);        
+
+        if(appRef.current){
+            appRef.current.classList.add('centerContent');
+            appRef.current.classList.add('fullHeight');
+        }
+        console.log(datesConfigAll);
+    }, []);
+
+    /*
     const putData = async (path, data) =>{
         try{
             //If there's no data, throw error
@@ -49,17 +60,7 @@ const Admin = () =>{
               console.log(`Error: ${err.message}`);
             }  
         }
-    }
-
-    useEffect(()=>{
-        setIsAdmin(true);        
-
-        if(appRef.current){
-            appRef.current.classList.add('centerContent');
-            appRef.current.classList.add('fullHeight');
-        }
-        console.log(datesConfigAll);
-    }, []);
+    }*/
 
     const onSubmit = async (e) =>{
         setLoading(true);
@@ -97,6 +98,22 @@ const Admin = () =>{
         }
 
         const data = putData('/all', updatedData);
+        useEffect( ()=>{
+            if(!loading){
+                console.log(data);
+              if(!error){
+                setDatesConfigAll({
+                  general: data.general,
+                  header: data.header,
+                  footer: data.footer
+                });
+        
+                setContentConfig(data.content);
+              }
+            }
+          }, [data]);
+
+          
         if(data){
             setDatesConfigAll({
                 general: data.general,
