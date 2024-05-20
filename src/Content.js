@@ -29,27 +29,33 @@ const Content = () =>{
     useEffect(() =>{
         setIsAdmin(false);
         console.log(datesConfigAll);
+        console.log(contentConfig);
         window.addEventListener('resize', handleResize);
     }, []);
 
     return(
         contentConfig &&
         <main>
-            <Panel 
-                config={contentConfig.firstPanel}
-                image={conventionPic}
-                altText={"Lady meditating in the glowing sun"}
-            />
-            <Panel 
-                config={contentConfig.secondPanel}
-            />
-            <Panel
-                config={contentConfig.thirdPanel}
-                itemRef={aboutRef}
-                image={mugshot}
-                altText={"asds"}
-                //bgImg={clouds2}
-            />
+            <div className="panelDuo">
+                <Panel 
+                    config={contentConfig.firstPanel}
+                    image={conventionPic}
+                    altText={"Lady meditating in the glowing sun"}
+                />
+                <Panel 
+                    config={contentConfig.secondPanel}
+                />
+            </div>
+
+            <div className="panelSolo">
+                <Panel
+                    config={contentConfig.thirdPanel}
+                    itemRef={aboutRef}
+                    image={mugshot}
+                    altText={"asds"}
+                    //bgImg={clouds2}
+                />
+            </div>
             
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>

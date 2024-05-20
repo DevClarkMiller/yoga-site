@@ -262,5 +262,6 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
   }
 }

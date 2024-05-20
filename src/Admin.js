@@ -219,15 +219,15 @@ const Admin = () =>{
                             <tbody>
                                 <tr>
                                     <th>Layout</th>
-                                    <td><select id="p1Layout" onChange={(e) => setEditContentP1({...editContentP1, layout: e.target.value})} value={editContentP1.layout ?? 0}>
+                                    <td><select id="p1Layout" onChange={(e) => setEditContentP1({...editContentP1, layout: parseInt(e.target.value)})} value={editContentP1.layout ?? 0}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
-                                    <td><select id="p2Layout" onChange={(e) => setEditContentP2({...editContentP2, layout: e.target.value})} value={editContentP2.layout ?? 1}>
+                                    <td><select id="p2Layout" onChange={(e) => setEditContentP2({...editContentP2, layout: parseInt(e.target.value)})} value={editContentP2.layout ?? 1}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
-                                    <td><select id="p3Layout" onChange={(e) => setEditContentP3({...editContentP3, layout: e.target.value})} value={editContentP3.layout ?? 1}>
+                                    <td><select id="p3Layout" onChange={(e) => setEditContentP3({...editContentP3, layout: parseInt(e.target.value)})} value={editContentP3.layout ?? 1}>
                                         <option value={0}>Layout 1</option>
                                         <option value={1}>Layout 2</option>
                                     </select></td>
