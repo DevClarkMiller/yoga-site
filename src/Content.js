@@ -9,7 +9,7 @@ import { RefContext } from "./App";
 
 const Content = () =>{
     const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = useContext(RefContext);
-    const VIEW_CHANGE = 760;
+    const VIEW_CHANGE = 850;
 
     const [usingFooterImg, setUsingFooterImg] = useState(false);
 
@@ -60,8 +60,8 @@ const Content = () =>{
             <MotivationPanel></MotivationPanel>
             <div ref={datesRef}></div>
             <div className="datesSection">
-                <Dates DateConfig={datesConfigAll} template={template} isHeader={true}/>
-                {usingFooterImg ? <Dates DateConfig={datesConfigAll} template={template} isFooter={true}/> : <Dates DateConfig={datesConfigAll} template={null} isFooter={true}/> }
+                <Dates DateConfig={datesConfigAll} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
+                {usingFooterImg ? <Dates DateConfig={datesConfigAll} template={template} isFooter={true} usingFooterImg={usingFooterImg}/> : <Dates DateConfig={datesConfigAll} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>}
             </div>
         </main>
     );

@@ -1,6 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './template.css'
-const Dates = ({DateConfig, template, isHeader, isBody, isFooter}) =>{
+import { useEffect, useState } from 'react';
+
+
+const Dates = ({DateConfig, template, isHeader, isBody, isFooter, usingFooterImg}) =>{
     const css = (isHeader) ?  {backgroundColor: DateConfig.header.colour} : (isBody) ? {backgroundColor: "#fff"} : {backgroundColor: DateConfig.footer.colour};
 
     return(
@@ -27,6 +29,7 @@ const Dates = ({DateConfig, template, isHeader, isBody, isFooter}) =>{
         (isBody) ? 
         <div style={css}></div>
         :  
+        //Only remaining posibility is the dates footer
         <div style={css} className='datesFooter borderTopDash'>
            <div className='templateContainer'>
             {template && <img src={template} alt="template for the dates available" />}
@@ -46,7 +49,6 @@ const Dates = ({DateConfig, template, isHeader, isBody, isFooter}) =>{
                 </div>
             </div>
         </div>
-        //Only posibility is the dates footer
     );
 }
 
