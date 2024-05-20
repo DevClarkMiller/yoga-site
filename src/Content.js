@@ -57,7 +57,7 @@ const Content = () =>{
                 />
             </div>
             
-            <MotivationPanel></MotivationPanel>
+            
             <div ref={datesRef}></div>
             <div className="datesSection">
                 <Dates DateConfig={datesConfigAll} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>

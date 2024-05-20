@@ -115,7 +115,15 @@
     }
 
     .panelSolo{
-    
+        border-top: 2px dashed black;
+    }
+
+    .panelSolo .generalPanelGrid p{
+        font-size: 1.5vw;
+    }
+
+    .panelSolo .generalPanelGrid{
+        width: 75%;
     }
 
     .panelDuo{
@@ -126,6 +134,10 @@
     .panelDuo .generalPanelGrid{
         width: 70%;
         border-right: 3px solid black;
+    }
+
+    .panelDuo .generalPanelGrid p{
+        font-size: 1.5vw;
     }
 
     .panelDuo .generalPanelFlex{

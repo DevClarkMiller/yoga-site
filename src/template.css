@@ -128,4 +128,27 @@
     gap: 0;
   }
 
+  @media screen and (min-width: 850px){
+    .datesFooter{
+      border-top: 2px solid black;
+    }
+    
+    .datesSection{
+      display: flex;
+    }
+
+    .textContainer h3{
+      font-size: 1.6vw;
+    }
+
+    .textContainer h2, .textContainerFooter h2{
+      font-size: 1.9vw;
+      font-family: "Poetsen One", sans-serif;
+    }
+
+    .textContainer p, .textContainerFooter p{
+      font-size: 1.4vw;
+    }
+  }
+
  
