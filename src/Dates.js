@@ -33,7 +33,7 @@ const Dates = ({DateConfig, template, isHeader, isBody, isFooter, usingFooterImg
         <div style={css} className='datesFooter borderTopDash'>
            <div className='templateContainer'>
             {template && <img src={template} alt="template for the dates available" />}
-                <div className={`textContainer fullWidth fitHeight`}>
+                <div className={`textContainer ${usingFooterImg && 'templateText'} fullWidth fitHeight`}>
                     <span className='middle'>
                         <span className='dateInfo'>
                             <h2>{DateConfig.footer.day}, {DateConfig.footer.month}</h2>
