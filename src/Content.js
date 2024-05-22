@@ -4,6 +4,7 @@ import MotivationPanel from "./MotivationPanel";
 import conventionPic from './Images/conventionPic.jpg';
 import mugshot from './Images/andreaPic.jpg';
 import template from './Images/yogaTemplateBW.png';
+import mirroredTemplate from './Images/mirroredYogaTemplateBW.png'
 import { useContext, useEffect, useState } from "react";
 import { RefContext } from "./App";
 
@@ -62,7 +63,11 @@ const Content = () =>{
             <div ref={datesRef}></div>
             <div className="datesSection">
                 <Dates DateConfig={datesConfigAll} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
-                {usingFooterImg ? <Dates DateConfig={datesConfigAll} template={template} isFooter={true} usingFooterImg={usingFooterImg}/> : <Dates DateConfig={datesConfigAll} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>}
+                {usingFooterImg ? 
+                    <Dates DateConfig={datesConfigAll} template={mirroredTemplate} isFooter={true} usingFooterImg={usingFooterImg}/> 
+                    : 
+                    <Dates DateConfig={datesConfigAll} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>
+                }
             </div>
         </main>
     );
