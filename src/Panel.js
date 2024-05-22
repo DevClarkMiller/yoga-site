@@ -1,5 +1,4 @@
 import './Panel.css'
-
 const Panel = ({
     config, imageClass, image, altText, itemRef, bgImg
 }) =>{
@@ -39,8 +38,12 @@ const Panel = ({
                 </div>
             </div>}
             <div className='headerAndP'>
-                {config.header && <h2>{config.header}</h2>}
+                
+                {config.header && 
+                    <h2>{config.header}</h2>
+                }
                 <p>{config.text}</p>
+         
             </div>
         </div>
 

@@ -106,8 +106,35 @@
     flex-direction: column;
 }
 
+@media screen and (min-width: 850px){
+    .headerAndP h2{
+        font-size: 1.8vw;
+        font-size: calc(1.8vw * 0.5vh);
+        font-size: clamp(20px, 1.8vw, 32px);
+    }
+    
+    .headerAndP p{
+        font-size: 1.2vw;
+        font-size: clamp(12px, 1.4vw, 18px);
+    }
+
+}
+
 /*Desktop View*/
 @media screen and (min-width: 850px){
+    /*
+    .headerAndP h2{
+        font-size: 1.8vw;
+        font-size: calc(1.8vw * 0.5vh)
+    }
+
+    .headerAndP p{
+        font-size: 1.2vw;
+        font-family: Arial, Helvetica, sans-serif ;
+        padding: 0;
+        margin: 0;
+    }*/
+
     .generalPanelGrid{
         grid-template-columns: 50% 50%;
         grid-template-rows: auto;
@@ -116,10 +143,6 @@
 
     .panelSolo{
         border-top: 2px dashed black;
-    }
-
-    .panelSolo .generalPanelGrid p{
-        font-size: 1.5vw;
     }
 
     .panelSolo .generalPanelGrid{
@@ -136,69 +159,35 @@
         border-right: 3px solid black;
     }
 
-    .panelDuo .generalPanelGrid p{
-        font-size: 1.5vw;
-    }
-
     .panelDuo .generalPanelFlex{
         width: 25%;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP{
-        height: 100%;
-    }
-
-    .panelDuo .generalPanelFlex{
-        height: 40vh;
+        box-shadow: 3px 3px 4px black;
         min-height: 100%;
         padding: 0;
     }
+}
+
+@media screen and (min-width: 900px){
+    .headerAndP h2{
+        font-size: 2vw;
+    }
 
     .headerAndP p{
-        font-size: 16px;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP h2{
-        font-size: 25px;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP p{
-        font-size: 12px;
+        font-size: 1.4vw;
+        font-family: Arial, Helvetica, sans-serif ;
+        padding: 0;
+        margin: 0;
     }
 }
 
+
 @media screen and (min-width: 950px){
-    .headerAndP p{
-        font-size: 18px;
-    }
-
     .panelDuo .generalPanelFlex{
-        height: 50vh;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP h2{
-        font-size: 28px;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP p{
-        
     }
 }
 
 @media screen and (min-width: 1240px){
     .panelDuo .generalPanelFlex{
-        height: 85vh;
-    }
-    .headerAndP p{
-        font-size: 22px;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP h2{
-        font-size: 30px;
-    }
-
-    .panelDuo .generalPanelFlex .headerAndP p{
-        font-size: 25px;
     }
 }
 

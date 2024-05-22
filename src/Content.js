@@ -20,6 +20,7 @@ const Content = () =>{
 
     const handleResize = () => {
         if(window.innerWidth >= VIEW_CHANGE){
+            console.log();
             setUsingFooterImg(true);
         }else{
             setUsingFooterImg(false);
@@ -31,6 +32,7 @@ const Content = () =>{
         console.log(datesConfigAll);
         console.log(contentConfig);
         window.addEventListener('resize', handleResize);
+        handleResize();
     }, []);
 
     return(
@@ -56,7 +58,6 @@ const Content = () =>{
                     //bgImg={clouds2}
                 />
             </div>
-            
             
             <div ref={datesRef}></div>
             <div className="datesSection">

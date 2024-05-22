@@ -1,5 +1,6 @@
 import './template.css'
 import { useEffect, useState } from 'react';
+import ScaleText from "react-scale-text";
 
 
 const Dates = ({DateConfig, template, isHeader, isBody, isFooter, usingFooterImg}) =>{
