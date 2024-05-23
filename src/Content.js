@@ -7,6 +7,7 @@ import template from './Images/yogaTemplateBW.png';
 import mirroredTemplate from './Images/mirroredYogaTemplateBW.png'
 import { useContext, useEffect, useState } from "react";
 import { RefContext } from "./App";
+import ReviewsPanel from "./ReviewsPanel";
 
 const Content = () =>{
     const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = useContext(RefContext);
@@ -59,6 +60,8 @@ const Content = () =>{
                     //bgImg={clouds2}
                 />
             </div>
+        
+            <ReviewsPanel />
             
             <div ref={datesRef}></div>
             <div className="datesSection">

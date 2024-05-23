@@ -259,10 +259,9 @@ const Admin = () =>{
                         </button> 
                     </form>} />
                 
-                    <Route path="/reviews" element={
-                        reviews && 
-                            <div></div>
-                    } />
+                    {/*<Route path="/reviews" element={
+                        //reviews && 
+                    } />*/}
                 <Route path='*' element={<NotFound />}/>
             </Routes>
             <div className="buttonsNav">
