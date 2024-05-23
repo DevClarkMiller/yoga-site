@@ -257,11 +257,12 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
   }
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 850px){
   main{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
+
 }

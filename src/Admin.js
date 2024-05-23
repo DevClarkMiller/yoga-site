@@ -16,7 +16,7 @@ import fetchPut from "./fetchPut";
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = useContext(RefContext);
+    const { appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig, reviews } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -258,7 +258,11 @@ const Admin = () =>{
                         (loading) ? <Oval /> : (submit) ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
                         </button> 
                     </form>} />
-
+                
+                    <Route path="/reviews" element={
+                        reviews && 
+                            <div></div>
+                    } />
                 <Route path='*' element={<NotFound />}/>
             </Routes>
             <div className="buttonsNav">

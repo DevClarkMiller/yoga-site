@@ -45,6 +45,7 @@ function App() {
   const datesRef = useRef();
   const appRef = useRef();
 
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [datesConfigAll, setDatesConfigAll] = useState({
     general: DateConfig.general,
@@ -55,6 +56,8 @@ function App() {
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
 
+  const [reviews, setReviews] = useState(null);
+
   //Fetch data everytime the page loads
   useEffect(()=>{
     fetchGetAll();
@@ -62,7 +65,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig}}> 
+      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, reviews}}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>
