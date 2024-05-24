@@ -1,9 +1,46 @@
+import { useContext, useEffect, useState } from "react";
+import { RefContext } from "./App";
+import ReviewItem from "./ReviewItem";
+
 const ReviewsPanel = () =>{
+    const [randomReviews, setRandomReviews] = useState([]);
+    const { reviews } = useContext(RefContext);
+    useEffect(() =>{
+        if(reviews){
+            let tempReviews = [];
+
+            for(let i = 0; i < reviews.length; i++){
+                if(i < 3){
+                    const randomReview = reviews[Math.floor(Math.random() * reviews.length)];
+                    //Checks if review has already been randomly pulled
+                    if(tempReviews.find((review) => review === randomReview) || randomReview.rating < 4){
+                        //If it has, the loop will iterate backwards
+                        i--;
+                    }else{
+                        //If it doesn't, it will just push the review to the randomReviews array
+                        tempReviews.push(randomReview);
+                    }
+                }else{
+                    break;
+                }
+            }
+            setRandomReviews(tempReviews);
+        }
+    }, [reviews]);
+
     return(
-        <div className="reviewsPanel">
-            <h3>Reviews</h3>
-            <p>Test paragraph!</p>
-        </div>
+        <>
+            {
+                randomReviews && 
+                <div className="reviewsPanel">
+                    <h2 className="reviewsHeader">⭐⭐⭐ Top Reviews ⭐⭐⭐</h2>
+                    {randomReviews.map((review) =>(
+                    <ReviewItem key={randomReviews.indexOf(review)} review={review} />
+                    ))}
+                </div>
+            }
+        </>
+        
     );
 }
 

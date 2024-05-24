@@ -239,6 +239,24 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
   background-color: transparent;
 }
 
+.reviewItem{
+  border-radius: 5px;
+  border: 1px black solid;
+  padding: 1%;
+  background-color: #FAF9F6
+}
+
+.reviewItem h2{
+  border-bottom: 1px solid black;
+  padding-bottom: 1%;
+  text-align: left;
+}
+
+.reviewItem p{
+  font-family: "Rubik", sans-serif;
+}
+
+
 @keyframes shake {
   from, to {
     transform: translate3d(0, 0, 0);

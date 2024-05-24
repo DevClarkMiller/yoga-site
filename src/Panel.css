@@ -25,6 +25,18 @@
     margin-bottom: 2%;
 }
 
+.reviewsPanel{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5%;
+}
+
+.reviewsHeader{
+    font-family: "Poetsen One", sans-serif;
+    text-align: center;
+}
+
 .motivationPanel{
     background-color: #fff;
     display: flex;
