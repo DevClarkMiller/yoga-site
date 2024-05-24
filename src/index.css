@@ -249,11 +249,23 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 .reviewItem h2{
   border-bottom: 1px solid black;
   padding-bottom: 1%;
-  text-align: left;
+  font-family: "Freeman", sans-serif;
 }
 
 .reviewItem p{
   font-family: "Rubik", sans-serif;
+}
+
+.labelInputPair{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.labelInputPair input{
+  width: 50%;
 }
 
 

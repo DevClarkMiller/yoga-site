@@ -60,7 +60,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, reviews }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>

@@ -13,7 +13,7 @@ const ReviewsPanel = () =>{
                 if(i < 3){
                     const randomReview = reviews[Math.floor(Math.random() * reviews.length)];
                     //Checks if review has already been randomly pulled
-                    if(tempReviews.find((review) => review === randomReview) || randomReview.rating < 4){
+                    if(tempReviews.find((review) => review === randomReview)){
                         //If it has, the loop will iterate backwards
                         i--;
                     }else{

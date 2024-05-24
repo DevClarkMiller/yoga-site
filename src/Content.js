@@ -51,7 +51,7 @@ const Content = () =>{
                 />
             </div>
 
-            <div className="panelSolo">
+            <div className="panelSoloReviews">
                 <Panel
                     config={contentConfig.thirdPanel}
                     itemRef={aboutRef}
@@ -59,9 +59,10 @@ const Content = () =>{
                     altText={"asds"}
                     //bgImg={clouds2}
                 />
+                <ReviewsPanel />
             </div>
-        
-            <ReviewsPanel />
+            {/*<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Flisa.hagerty.10%2Fposts%2Fpfbid02jXsXhcpCMq3rXXw8cZUkcg9f23QGY2rMVS9ZYZWUCi9dWF7SW2FnueKJJDfNjMTel&show_text=true&width=500&is_preview=true" width="500" height="169" style={{border:"none", overflow:"hidden"}} scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>*/}
+            
             
             <div ref={datesRef}></div>
             <div className="datesSection">
