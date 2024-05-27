@@ -51,6 +51,7 @@ function App() {
 
     const fetchReviews = async () =>{
       const data = await fetchGet('reviews');
+      console.log(data);
       setReviews(data);
     }
     

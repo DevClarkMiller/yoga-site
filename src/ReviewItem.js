@@ -1,7 +1,7 @@
 const ReviewItem = ({review}) =>{
     return(
         <div className="reviewItem">
-                <h2>{review.name}</h2>
+                <h2>{review.sender}</h2>
                 <p>{review.message}</p>
         </div>
     )

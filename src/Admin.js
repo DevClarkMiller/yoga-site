@@ -15,10 +15,12 @@ import fetchPut from "./fetchPut";
 import AdminDatesPage from "./AdminDatesPage";
 import AdminContentPage from "./AdminContentPage";
 import AdminReviewsPage from "./AdminReviewsPage";
+import AdminDeleteReviewsPage from "./AdminDeleteReviewsPage";
 
 export const AdminDatesContext = createContext();
 export const AdminContentContext = createContext();
 export const AdminReviewsContext = createContext();
+export const AdminReviewsDeleteContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
@@ -37,6 +39,8 @@ const Admin = () =>{
     const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel);
 
     const [editNewReview, setEditNewReview] = useState("");
+
+    const [deletedReviews, setDeletedReviews] = useState([]);
 
     useEffect(()=>{
         setIsAdmin(true);        
@@ -140,8 +144,13 @@ const Admin = () =>{
         setLoading(true);
         e.preventDefault();
 
+        const reviewObj = {
+            url: editNewReview
+        }
+
+        console.log(reviewObj);
         if(editNewReview != null || editNewReview != ""){
-            fetchPut('/reviewURL', editNewReview, (data) =>{
+            fetchPut('/reviewURL', reviewObj, (data) =>{
                 setReviews(data);
                 console.log('Put new review onto server!');
                 setLoading(false);
@@ -152,6 +161,37 @@ const Admin = () =>{
                 }, 1000);
             });
         }
+    }
+
+    const onSubmitDeleteReviews = (e) =>{
+        e.preventDefault();
+        setLoading(true);
+    
+        //1. Filter out any deleted reviews
+        let deletedReviewsIDS = [];
+        deletedReviews.forEach((review) =>{
+            deletedReviewsIDS.push(review.id);
+        })
+
+        const updatedData = {
+            loginData: {
+                username: editLogin.username,
+                password: editLogin.password,
+            },
+            reviews: deletedReviewsIDS
+        }
+
+        //3. Send new array to the back-end
+        fetchPut('/reviews', updatedData, (data) =>{
+            setReviews(data);
+            setLoading(false);
+            setSubmit(true);
+            //Delays un-filling the downloading button
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        })
+
     }
 
     return(
@@ -176,12 +216,18 @@ const Admin = () =>{
                         <AdminReviewsPage />
                     </AdminReviewsContext.Provider>
                 }/>
+                <Route path="/deleteReviews" element={
+                    <AdminReviewsDeleteContext.Provider value={{deletedReviews, setDeletedReviews, reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews}}>
+                        <AdminDeleteReviewsPage />
+                    </AdminReviewsDeleteContext.Provider>
+                }/>
                 <Route path='*' element={<NotFound />}/>
             </Routes>
             <div className="buttonsNav">
                 <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button>
                 <button onClick={() => navigate('/admin/content')} className="sendButton">2</button>
                 <button onClick={() => navigate('/admin/reviews')} className="sendButton">3</button>
+                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">4</button>
             </div>
         </div>
         
