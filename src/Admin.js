@@ -145,6 +145,10 @@ const Admin = () =>{
         e.preventDefault();
 
         const reviewObj = {
+            loginData: {
+                username: editLogin.username,
+                password: editLogin.password,
+            },
             url: editNewReview
         }
 
@@ -190,8 +194,7 @@ const Admin = () =>{
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-        })
-
+        });
     }
 
     return(
