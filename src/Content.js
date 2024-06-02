@@ -8,6 +8,7 @@ import mirroredTemplate from './Images/mirroredYogaTemplateBW.png'
 import { useContext, useEffect, useState } from "react";
 import { RefContext } from "./App";
 import ReviewsPanel from "./ReviewsPanel";
+import ListPanel from "./ListPanel";
 
 const Content = () =>{
     const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = useContext(RefContext);
@@ -46,9 +47,11 @@ const Content = () =>{
                     image={conventionPic}
                     altText={"Lady meditating in the glowing sun"}
                 />
+                <ListPanel config={contentConfig.secondPanel}/>
+                {/*
                 <Panel 
                     config={contentConfig.secondPanel}
-                />
+                />*/}
             </div>
 
             <div className="panelSoloReviews">
@@ -60,9 +63,7 @@ const Content = () =>{
                     //bgImg={clouds2}
                 />
                 <ReviewsPanel />
-            </div>
-            {/*<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Flisa.hagerty.10%2Fposts%2Fpfbid02jXsXhcpCMq3rXXw8cZUkcg9f23QGY2rMVS9ZYZWUCi9dWF7SW2FnueKJJDfNjMTel&show_text=true&width=500&is_preview=true" width="500" height="169" style={{border:"none", overflow:"hidden"}} scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>*/}
-            
+            </div>            
             
             <div ref={datesRef}></div>
             <div className="datesSection">
