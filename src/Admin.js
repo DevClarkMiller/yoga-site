@@ -12,15 +12,17 @@ import DateConfig from './ConfigFiles/DatesConfig.json';
 import outputErrors from "./outputErrors";
 import checkResponseStatus from "./checkResponseStatus";
 import fetchPut from "./fetchPut";
-import AdminDatesPage from "./AdminDatesPage";
-import AdminContentPage from "./AdminContentPage";
-import AdminReviewsPage from "./AdminReviewsPage";
-import AdminDeleteReviewsPage from "./AdminDeleteReviewsPage";
+import AdminDatesPage from "./AdminPages/AdminDatesPage";
+import AdminContentPage from "./AdminPages/AdminContentPage";
+import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
+import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
+import AdminQualificationsPage from "./AdminPages/AdminQualificationsPage";
 
 export const AdminDatesContext = createContext();
 export const AdminContentContext = createContext();
 export const AdminReviewsContext = createContext();
 export const AdminReviewsDeleteContext = createContext();
+export const AdminQualificationsContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
@@ -214,6 +216,13 @@ const Admin = () =>{
                         <AdminContentPage /> 
                     </AdminContentContext.Provider>
                 }/>
+
+                <Route path="/content/qualifications" element={
+                    <AdminQualificationsContext.Provider value={{loading, submit}}>
+                        <AdminQualificationsPage />
+                    </AdminQualificationsContext.Provider>
+                }/>
+
                 <Route path="/reviews" element={
                     <AdminReviewsContext.Provider value={{onNewUrlSubmit, editLogin, setEditLogin, loading, submit, editNewReview, setEditNewReview}}>
                         <AdminReviewsPage />
@@ -229,8 +238,9 @@ const Admin = () =>{
             <div className="buttonsNav">
                 <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button>
                 <button onClick={() => navigate('/admin/content')} className="sendButton">2</button>
-                <button onClick={() => navigate('/admin/reviews')} className="sendButton">3</button>
-                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">4</button>
+                <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">3</button>
+                <button onClick={() => navigate('/admin/reviews')} className="sendButton">4</button>
+                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">5</button>
             </div>
         </div>
         

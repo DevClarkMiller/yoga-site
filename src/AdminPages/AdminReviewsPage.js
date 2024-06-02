@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { AdminReviewsContext } from "./Admin";
-import TableFormData from "./TableFormData";
+import { AdminReviewsContext } from "../Admin";
+import TableFormData from "../TableFormData";
 import { Oval } from "react-loading-icons";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
 

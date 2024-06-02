@@ -1,9 +1,9 @@
-import { AdminDatesContext } from "./Admin";
-import AdminTable from "./AdminTable";
+import { AdminDatesContext } from "../Admin";
+import AdminTable from "../AdminTable";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
 import { Oval } from "react-loading-icons";
-import TableFormData from "./TableFormData";
-import TableFormDataTArea from "./TableFormDataTArea";
+import TableFormData from "../TableFormData";
+import TableFormDataTArea from "../TableFormDataTArea";
 import { useContext } from "react";
 
 const AdminDatesPage = () =>{

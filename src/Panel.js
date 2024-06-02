@@ -45,7 +45,6 @@ const Panel = ({
          
             </div>
         </div>
-
     );
 }
 

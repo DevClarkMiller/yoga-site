@@ -1,7 +1,7 @@
-import TableFormData from "./TableFormData";
-import TableFormDataTArea from "./TableFormDataTArea";
+import TableFormData from "../TableFormData";
+import TableFormDataTArea from "../TableFormDataTArea";
 import { useContext } from "react";
-import { AdminContentContext } from "./Admin";
+import { AdminContentContext } from "../Admin";
 import { Oval } from "react-loading-icons";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
 

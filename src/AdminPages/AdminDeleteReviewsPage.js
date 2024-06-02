@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import { AdminReviewsDeleteContext } from "./Admin";
-import TableFormData from "./TableFormData";
+import { AdminReviewsDeleteContext } from "../Admin";
+import TableFormData from "../TableFormData";
 import { Oval } from "react-loading-icons";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
-import ReviewToDelete from "./ReviewToDelete";
+import ReviewToDelete from "../ReviewToDelete";
 
 const AdminDeleteReviewsPage = () =>{
     const {deletedReviews, setDeletedReviews, reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews} = useContext(AdminReviewsDeleteContext)
