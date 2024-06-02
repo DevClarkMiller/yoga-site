@@ -8,10 +8,11 @@ const AdminQualificationsPage = () =>{
     return(
         <form className="adminForm">
             <ul>
+                
             </ul>
 
 
-            
+
             <button className="adminBtn" type="submit">{
                 (loading) ? <Oval /> : (submit) ? <BsArrowUpSquareFill /> : <BsArrowUpSquare />}
             </button>    
