@@ -38,7 +38,6 @@ const Panel = ({
                 </div>
             </div>}
             <div className='headerAndP'>
-                
                 {config.header && 
                     <h2>{config.header}</h2>
                 }

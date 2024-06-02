@@ -1,3 +1,4 @@
+
 const ListPanel = ({config}) =>{
     let css = {backgroundColor: config.colour};
     return(
@@ -9,7 +10,7 @@ const ListPanel = ({config}) =>{
                 <p> am extremely grateful to my amazing teachers, for sharing their passion and deep wisdom, inspiring my teaching and my life.</p>
          
             </div>
-            <ul>
+            <ul className="qualificationsUl">
                 <li>300-Hour Advanced Yoga Teacher Training</li>
                 <li>Your Yoga Flow 200-Hour Yoga Teacher Training</li>
                 <li>Your Yoga Flow Restorative Yoga Teacher</li>
