@@ -293,6 +293,13 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
   background-color: transparent;
 }
 
+.labelNInput{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 @keyframes shake {
   from, to {
     transform: translate3d(0, 0, 0);

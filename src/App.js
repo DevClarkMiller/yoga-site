@@ -29,6 +29,8 @@ function App() {
     footer: DateConfig.footer
   });
 
+  const [qualifications, setQualifications] = useState(null);
+
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
 
@@ -54,6 +56,11 @@ function App() {
       console.log(data);
       setReviews(data);
     }
+
+    const fetchQualifications = async () =>{
+      const data = await fetchGet('qualifications');
+      setQualifications(data);
+    }
     
     fetchAll();
     fetchReviews();
@@ -61,7 +68,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && <Header />}
         <Routes>

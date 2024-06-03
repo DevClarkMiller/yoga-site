@@ -26,7 +26,7 @@ export const AdminQualificationsContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { reviews, setReviews, appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig } = useContext(RefContext);
+    const { reviews, setReviews, appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig, qualifications, setQualifications } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -218,7 +218,7 @@ const Admin = () =>{
                 }/>
 
                 <Route path="/content/qualifications" element={
-                    <AdminQualificationsContext.Provider value={{loading, submit}}>
+                    <AdminQualificationsContext.Provider value={{loading, submit, qualifications, setQualifications, editLogin, setEditLogin}}>
                         <AdminQualificationsPage />
                     </AdminQualificationsContext.Provider>
                 }/>
