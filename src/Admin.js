@@ -1,23 +1,13 @@
 import { useEffect, useState, useContext, createContext } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
-import { BsArrowDownSquare, BsArrowDownSquareFill } from "react-icons/bs";
-import api from './ConfigFiles/api'
-import {Oval } from 'react-loading-icons'
 import { RefContext } from './App'
-import AdminTable from "./AdminTable";
 import NotFound from "./NotFound";
-import TableFormData from "./TableFormData";
-import TableFormDataTArea from "./TableFormDataTArea";
-import DateConfig from './ConfigFiles/DatesConfig.json';
-import outputErrors from "./outputErrors";
-import checkResponseStatus from "./checkResponseStatus";
-import fetchPut from "./fetchPut";
+import { fetchPut } from "./fetch";
 import AdminDatesPage from "./AdminPages/AdminDatesPage";
 import AdminContentPage from "./AdminPages/AdminContentPage";
 import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
 import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
 import AdminQualificationsPage from "./AdminPages/AdminQualificationsPage";
-
 export const AdminDatesContext = createContext();
 export const AdminContentContext = createContext();
 export const AdminReviewsContext = createContext();
@@ -42,8 +32,6 @@ const Admin = () =>{
 
     const [editNewReview, setEditNewReview] = useState("");
 
-    const [deletedReviews, setDeletedReviews] = useState([]);
-
     useEffect(()=>{
         setIsAdmin(true);        
         if(appRef.current){
@@ -53,8 +41,6 @@ const Admin = () =>{
     }, []);
 
     useEffect(()=>{
-        console.log(contentConfig);
-
         setEditContentP1(contentConfig.firstPanel);
         setEditContentP2(contentConfig.secondPanel)
         setEditContentP3(contentConfig.thirdPanel);
@@ -172,24 +158,41 @@ const Admin = () =>{
     const onSubmitDeleteReviews = (e) =>{
         e.preventDefault();
         setLoading(true);
-    
-        //1. Filter out any deleted reviews
-        let deletedReviewsIDS = [];
-        deletedReviews.forEach((review) =>{
-            deletedReviewsIDS.push(review.id);
-        })
 
         const updatedData = {
             loginData: {
                 username: editLogin.username,
                 password: editLogin.password,
             },
-            reviews: deletedReviewsIDS
+            reviews: reviews
         }
 
         //3. Send new array to the back-end
         fetchPut('/reviews', updatedData, (data) =>{
             setReviews(data);
+            setLoading(false);
+            setSubmit(true);
+            //Delays un-filling the downloading button
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        });
+    }
+
+    const onSubmitQualifications = (e) =>{
+        e.preventDefault();
+        setLoading(true);
+
+        const updatedData = {
+            loginData: {
+                username: editLogin.username,
+                password: editLogin.password,
+            },
+            qualifications: qualifications
+        }
+
+        fetchPut('/qualifications', updatedData, (data) =>{
+            setQualifications(data);
             setLoading(false);
             setSubmit(true);
             //Delays un-filling the downloading button
@@ -218,7 +221,7 @@ const Admin = () =>{
                 }/>
 
                 <Route path="/content/qualifications" element={
-                    <AdminQualificationsContext.Provider value={{loading, submit, qualifications, setQualifications, editLogin, setEditLogin}}>
+                    <AdminQualificationsContext.Provider value={{loading, submit, qualifications, setQualifications, editLogin, setEditLogin, onSubmitQualifications}}>
                         <AdminQualificationsPage />
                     </AdminQualificationsContext.Provider>
                 }/>
@@ -229,7 +232,7 @@ const Admin = () =>{
                     </AdminReviewsContext.Provider>
                 }/>
                 <Route path="/deleteReviews" element={
-                    <AdminReviewsDeleteContext.Provider value={{deletedReviews, setDeletedReviews, reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews}}>
+                    <AdminReviewsDeleteContext.Provider value={{reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews}}>
                         <AdminDeleteReviewsPage />
                     </AdminReviewsDeleteContext.Provider>
                 }/>

@@ -6,8 +6,9 @@ import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
 import ReviewToDelete from "../ReviewToDelete";
 
 const AdminDeleteReviewsPage = () =>{
-    const {deletedReviews, setDeletedReviews, reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews} = useContext(AdminReviewsDeleteContext)
-    
+    const {reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews} = useContext(AdminReviewsDeleteContext)
+
+
     return (
         <form className="adminForm" onSubmit={onSubmitDeleteReviews}>
             <table>
@@ -26,9 +27,8 @@ const AdminDeleteReviewsPage = () =>{
    
             <div className="deletableReviews">
                 {
-                    reviews && reviews.filter((review) => !deletedReviews.includes(review))
-                    .map((review) => (
-                    <ReviewToDelete key={review.id} review={review} />
+                    reviews && reviews.map((review) =>(
+                        <ReviewToDelete key={review.id} review={review} />
                     ))
                 } 
             </div>

@@ -10,7 +10,7 @@ import api from './ConfigFiles/api'
 import scrollTo from './ScrollTo';
 import outputErrors from './outputErrors';
 import checkResponseStatus from './checkResponseStatus';
-import fetchGet from './fetchGet';
+import { fetchGet } from './fetch';
 export const RefContext = createContext();
 
 function App() {
@@ -29,7 +29,12 @@ function App() {
     footer: DateConfig.footer
   });
 
-  const [qualifications, setQualifications] = useState(null);
+  const [qualifications, setQualifications] = useState([
+    "300-Hour Advanced Yoga Teacher Training",
+    "Your Yoga Flow",
+    "Restorative Yoga Teacher Training",
+    "Tianne Allan"
+  ]);
 
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
@@ -53,7 +58,6 @@ function App() {
 
     const fetchReviews = async () =>{
       const data = await fetchGet('reviews');
-      console.log(data);
       setReviews(data);
     }
 
@@ -61,7 +65,8 @@ function App() {
       const data = await fetchGet('qualifications');
       setQualifications(data);
     }
-    
+
+    fetchQualifications();
     fetchAll();
     fetchReviews();
   }, []);

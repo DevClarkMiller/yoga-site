@@ -1,14 +1,31 @@
 import Oval from "react-loading-icons/dist/esm/components/oval";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
 import { AdminQualificationsContext } from "../Admin";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import TableFormData from "../TableFormData";
+import { MdDeleteOutline } from "react-icons/md";
+import { IoEnterOutline } from "react-icons/io5";
 
 const AdminQualificationsPage = () =>{
-    const {loading, submit, qualifications, setQualifications, editLogin, setEditLogin} = useContext(AdminQualificationsContext);
-    return(
-        <form className="adminForm">
+    const {loading, submit, qualifications, setQualifications, editLogin, setEditLogin, onSubmitQualifications} = useContext(AdminQualificationsContext);
 
+    const [editNewQual, setEditNewQual] = useState("");
+
+    const addQualification = () =>{
+        const tempQualifications = [...qualifications];
+        tempQualifications.push({text: editNewQual});
+        setQualifications(tempQualifications);
+        setEditNewQual("");
+    }
+
+    const removeQualification = (id) =>{
+        const tempQualifications = [...qualifications];
+        tempQualifications.splice(id);
+        setQualifications(tempQualifications)
+    }
+
+    return(
+        <form className="adminForm" onSubmit={onSubmitQualifications}>
             <table>
                 <tbody>
                     <tr>
@@ -24,21 +41,20 @@ const AdminQualificationsPage = () =>{
 
             <span className="labelNInput">
             <label htmlFor="newQualification">Add Qualification</label>
-            <input id="newQualification" type="text"></input>
+            <input value={editNewQual} onChange={(e) => setEditNewQual(e.target.value)} id="newQualification" type="text"></input>
+            <IoEnterOutline onClick={addQualification} className="enterBtn"/>
             </span>
             
             {
                 qualifications &&
                 <ul>
                     {
-                        qualifications.map((qualification) =>{
-                            <li key={qualifications.indexOf(qualification)}>asd</li>
-                        })
+                        qualifications.map((qualification) =>(
+                            <li className="qualNDelete" key={qualifications.indexOf(qualification)}>{qualification.text}<MdDeleteOutline onClick={() => removeQualification(qualifications.indexOf(qualification))} className="deleteBtn"/></li>
+                        ))
                     }
                 </ul>
             }
-            
-
             <button className="adminBtn" type="submit">{
                 (loading) ? <Oval /> : (submit) ? <BsArrowUpSquareFill /> : <BsArrowUpSquare />}
             </button>    

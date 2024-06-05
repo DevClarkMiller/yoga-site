@@ -300,6 +300,22 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
   gap: 10px;
 }
 
+.qualNDelete{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deleteBtn{
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.enterBtn{
+  font-size: 25px;
+  cursor: pointer;
+}
+
 @keyframes shake {
   from, to {
     transform: translate3d(0, 0, 0);

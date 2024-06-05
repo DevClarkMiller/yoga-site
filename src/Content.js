@@ -11,7 +11,7 @@ import ReviewsPanel from "./ReviewsPanel";
 import ListPanel from "./ListPanel";
 
 const Content = () =>{
-    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig} = useContext(RefContext);
+    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig, qualifications} = useContext(RefContext);
     const VIEW_CHANGE = 850;
 
     const [usingFooterImg, setUsingFooterImg] = useState(false);
@@ -32,8 +32,6 @@ const Content = () =>{
 
     useEffect(() =>{
         setIsAdmin(false);
-        console.log(datesConfigAll);
-        console.log(contentConfig);
         window.addEventListener('resize', handleResize);
         handleResize();
     }, []);
@@ -47,7 +45,7 @@ const Content = () =>{
                     image={conventionPic}
                     altText={"Lady meditating in the glowing sun"}
                 />
-                <ListPanel config={contentConfig.secondPanel}/>
+                <ListPanel config={contentConfig.secondPanel} list={qualifications}/>
                 {/*
                 <Panel 
                     config={contentConfig.secondPanel}
