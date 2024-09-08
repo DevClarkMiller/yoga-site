@@ -16,7 +16,6 @@ const Panel = ({
         case 1:
             panelType = "panel1"
             break;
-        default:
     }
 
     if(bgImg){
@@ -41,11 +40,8 @@ const Panel = ({
                 </div>
             </div>}
             <div className='headerAndP'>
-                {config.header && 
-                    <h2>{config.header}</h2>
-                }
-                <p>{config.text}</p>
-         
+                {config?.header && <h2>{config?.header}</h2>}
+                <p>{config?.text}</p>
             </div>
         </div>
     );

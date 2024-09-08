@@ -152,11 +152,7 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .adminForm{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  width: 100%;
+  @apply w-full col-flex-center gap-7;
 }
 
 .adminForm table{
@@ -263,10 +259,6 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 
 @media screen and (min-width: 850px){
   main{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    @apply flex justify-center flex-wrap;
   }
-
 }

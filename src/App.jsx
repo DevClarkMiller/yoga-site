@@ -23,7 +23,6 @@ function App() {
   const datesRef = useRef();
   const appRef = useRef();
 
-
   const [isAdmin, setIsAdmin] = useState(false);
   const [datesConfigAll, setDatesConfigAll] = useState({
     general: DateConfig.general,
@@ -48,14 +47,12 @@ function App() {
     const fetchAll = async () =>{
       const data = await fetchGet('all');
       setDatesConfigAll({
-        general: data.general,
-        header: data.header,
-        footer: data.footer
+        general: data?.general,
+        header: data?.header,
+        footer: data?.footer
       });
   
-      if(data){
-        setContentConfig(data.content);
-      }
+      if (data) setContentConfig(data.content);
     }
 
     const fetchReviews = async () =>{
