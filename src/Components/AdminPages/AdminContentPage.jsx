@@ -1,9 +1,15 @@
+import { useContext } from "react";
+
+// Components
+import { Oval } from "react-loading-icons";
 import TableFormData from "../TableFormData";
 import TableFormDataTArea from "../TableFormDataTArea";
-import { useContext } from "react";
-import { AdminContentContext } from "../Admin";
-import { Oval } from "react-loading-icons";
+
+// Icons
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
+
+// Context
+import { AdminContentContext } from "../Admin";
 
 const AdminContentPage = () =>{
     const {onContentSubmit, editLogin, setEditLogin, editContentP1, setEditContentP1, editContentP2, setEditContentP2, editContentP3, setEditContentP3, loading, submit} = useContext(AdminContentContext);

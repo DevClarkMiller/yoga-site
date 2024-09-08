@@ -1,10 +1,17 @@
-import Oval from "react-loading-icons/dist/esm/components/oval";
-import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
-import { AdminQualificationsContext } from "../Admin";
 import { useContext, useEffect, useState } from "react";
+
+// Components
 import TableFormData from "../TableFormData";
+import Oval from "react-loading-icons/dist/esm/components/oval";
+
+
+// Icons
 import { MdDeleteOutline } from "react-icons/md";
 import { IoEnterOutline } from "react-icons/io5";
+import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
+
+// Context
+import { AdminQualificationsContext } from "../Admin";
 
 const AdminQualificationsPage = () =>{
     const {loading, submit, qualifications, setQualifications, editLogin, setEditLogin, onSubmitQualifications} = useContext(AdminQualificationsContext);

@@ -1,9 +1,17 @@
 import { useRef, useContext, useState } from 'react'
-import { RefContext } from './App'
-import SocialsList from './SocialsList';
-import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
+
+// CSS
+import '../header.css'
+
+// Components
 import { ShakeRotate  } from 'reshake';
-import './header.css'
+import SocialsList from './SocialsList';
+
+// Icons
+import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
+
+// Context
+import { RefContext } from '../App'
 
 /*
 *   Component: Header

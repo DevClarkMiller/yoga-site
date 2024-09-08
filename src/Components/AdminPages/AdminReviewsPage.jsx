@@ -1,8 +1,14 @@
 import { useContext } from "react";
-import { AdminReviewsContext } from "../Admin";
+
+// Components
 import TableFormData from "../TableFormData";
+
+// Icons
 import { Oval } from "react-loading-icons";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs";
+
+// Context 
+import { AdminReviewsContext } from "../Admin";
 
 const AdminReviewsPage = () => {
     const {onNewUrlSubmit, editLogin, setEditLogin, loading, submit, editNewReview, setEditNewReview} = useContext(AdminReviewsContext)

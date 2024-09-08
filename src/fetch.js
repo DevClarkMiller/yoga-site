@@ -1,6 +1,6 @@
 
-import checkResponseStatus from "./checkResponseStatus";
-import outputErrors from "./outputErrors";
+import checkResponseStatus from "./Utilities/checkResponseStatus";
+import outputErrors from "./Utilities/outputErrors";
 import api from "./ConfigFiles/api";
 
 const fetchGet = async (path) =>{

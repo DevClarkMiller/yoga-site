@@ -1,7 +1,10 @@
-import './template.css'
 import { useEffect, useState } from 'react';
-import ScaleText from "react-scale-text";
 
+// CSS
+import '../template.css'
+
+// Components
+import ScaleText from "react-scale-text";
 
 const Dates = ({DateConfig, template, isHeader, isBody, isFooter, usingFooterImg}) =>{
     const css = (isHeader) ?  {backgroundColor: DateConfig.header.colour} : (isBody) ? {backgroundColor: "#fff"} : {backgroundColor: DateConfig.footer.colour};

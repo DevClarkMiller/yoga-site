@@ -1,14 +1,19 @@
-import Panel from "./Panel";
-import Dates from "./Dates";
-import MotivationPanel from "./MotivationPanel";
-import conventionPic from './Images/conventionPic.jpg';
-import mugshot from './Images/andreaPic.jpg';
-import template from './Images/yogaTemplateBW.png';
-import mirroredTemplate from './Images/mirroredYogaTemplateBW.png'
 import { useContext, useEffect, useState } from "react";
-import { RefContext } from "./App";
-import ReviewsPanel from "./ReviewsPanel";
+
+// Components
+import Dates from "./Dates";
+import Panel from "./Panel";
 import ListPanel from "./ListPanel";
+import ReviewsPanel from "./ReviewsPanel";
+
+// Images
+import conventionPic from '../Images/conventionPic.jpg';
+import mugshot from '../Images/andreaPic.jpg';
+import template from '../Images/yogaTemplateBW.png';
+import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png'
+
+// Context
+import { RefContext } from "../App";
 
 const Content = () =>{
     const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig, qualifications} = useContext(RefContext);

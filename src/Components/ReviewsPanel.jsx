@@ -1,5 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { RefContext } from "./App";
+
+// Components
+import { RefContext } from "../App";
+
+// Icons
 import ReviewItem from "./ReviewItem";
 
 const ReviewsPanel = () =>{

@@ -1,4 +1,7 @@
-import './Panel.css'
+
+// CSS
+import '../Panel.css'
+
 const Panel = ({
     config, imageClass, image, altText, itemRef, bgImg
 }) =>{

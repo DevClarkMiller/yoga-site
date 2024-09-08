@@ -1,7 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+  .col-flex-center{
+    @apply flex flex-col items-center;
+  }
+  
+  .nice-trans{
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
 body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
+  @apply m-0 p-0 min-h-screen;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -15,41 +27,23 @@ code {
 }
 
 .App{
+  @apply col-flex-center m-0 p-0 bg-[#b3ecec];
   font-family: "Open Sans", sans-serif; /*Test*/
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding: 0;
   min-height: inherit;
   width: inherit;
-  background-color: #b3ecec;
 }
 
 main{
-  padding-top: 4%;
-  display: flex;
-  flex-direction: column;
-  justify-content: row;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
+  @apply w-full col-flex-center flex-wrap overflow-hidden box-border pt-1;
 }
 
 nav, footer{
-  font-family: "Rubik", sans-serif;
+  @apply font-Rubik;
 }
 
 footer{
+  @apply w-full h-fit flex justify-center py-[5%] px-0; 
   border-top: 2px solid black;
-  padding: 5% 0;
-  /*background-color: #fff;*/
-  height: fit-content;
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 footer h2{
@@ -58,75 +52,48 @@ footer h2{
 
 
 .contactForm{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+  @apply w-full col-flex-center;
 }
 
 .inputPairArea{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  @apply w-full col-flex-center gap-2;
 }
 
 .inputPair{
-  width: 100%;
-  display: grid;
+  @apply w-full grid gap-[5%] items-center;
   grid-template-columns: 25% 60%;
   grid-template-rows: auto;
-  gap: 5%;
-  align-items: center;
 }
 
 .inputPair label{
-  text-align: right;
-  padding: 0;
-  margin: 0;
-  user-select: none;
+  @apply text-right p-0 m-0 select-none;
 }
 
 .inputPair textarea, .inputPair input{
-  text-align: left;
+  @apply text-left;
 }
 
 .inputPair textarea{
-  height: 88%;
+  @apply h-[88%];
 }
 
 .sendButton{
-  color: black;
-  padding: 0;
-  padding-left: 8px;
-  border: none;
-  background-color: transparent;
+  @apply size-fit text-black p-0 pl-2 border-none bg-transparent text-3xl;
+  @apply hover:text-blue-600;
   transition: all 250ms ease-in-out;
-  height: fit-content;
-  width: fit-content;
   transition: transform 750ms ease-in-out;
-  font-size: 30px;
 }
 
 .buttonsNav{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
+  @apply flex justify-center items-center gap-4;
 }
 
 .buttonsNav button{
-  margin: 0;
-  padding: 0;
-}
-
-.sendButton:hover{
-  color: blue;
+  @apply m-0 p-0;
 }
 
 .sent{
-  color: green;
+  @apply text-green-600;
   transform: translateX(100vw);
 }
 
@@ -152,22 +119,12 @@ footer h2{
 }
 
 .socials{  
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @apply size-[40px] rounded bg-white flex items-center justify-center;
   box-shadow: 2px 2px 3px black;
 }
 
 .socials a{
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 45px;
+  @apply text-white flex items-center justify-center text-[45px];
 }
 
 input[type="text"],
@@ -179,31 +136,19 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .notFound{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  @apply size-full flex justify-center items-center;
 }
 
 .fullHeight{
-  min-height: 100vh;
+  @apply min-h-screen;
 }
 
 .centerContent{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @apply col-flex-center justify-center;
 }
 
 .adminPage{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 75%;
+  @apply w-3/4 col-flex-center justify-center;
 }
 
 .adminForm{
@@ -240,7 +185,7 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .reviewItem{
-  border-radius: 16px;
+  @apply rounded-md;
   padding: 1.5%;
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -250,70 +195,52 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .reviewItem h2{
-  border-bottom: 1px solid black;
-  padding-bottom: 1%;
-  font-family: "Changa One", sans-serif;
+  @apply border-b border-black font-Changa-One pb-0.5;
 }
 
 .reviewItem p{
-  font-family: "Rubik", sans-serif;
+  @apply font-Rubik;
 }
 
 .labelInputPair{
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+  @apply w-full flex items-center justify-center gap-1;
 }
 
 .labelInputPair input{
-  width: 50%;
+  @apply w-1/2;
 }
 
 .deletableReviews{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  @apply flex flex-col gap-1 p-1;
   border: 3px solid black;
-  padding: 5px;
 }
 
 .reviewToDelete{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-  justify-content: center;
+  @apply flex items-center justify-center gap-1;
   border-bottom: 1px dashed black;
 }
 .reviewToDelete button{
-  outline: none;
-  border: none;
-  background-color: transparent;
+  @apply outline-none border-none bg-transparent;
 }
 
 .labelNInput{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+  @apply flex items-center gap-2;
 }
 
 .qualNDelete{
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @apply flex items-center gap-2;
+}
+
+.btn{
+  @apply text-xl cursor-pointer;
 }
 
 .deleteBtn{
-  font-size: 25px;
-  cursor: pointer;
+  @apply btn;
 }
 
 .enterBtn{
-  font-size: 25px;
-  cursor: pointer;
+  @apply btn;
 }
 
 @keyframes shake {

@@ -5,7 +5,7 @@
 */
 
 import { useContext, useState, useRef } from "react";
-import { RefContext } from "./App";
+import { RefContext } from "../App";
 import InputPair from "./InputPair";
 import { BiMailSend } from "react-icons/bi";
 import { ShakeLittle } from 'reshake';

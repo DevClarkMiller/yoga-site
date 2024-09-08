@@ -1,15 +1,17 @@
 import {Route, Routes} from 'react-router-dom';
 import { createContext, useRef, React, useState, useEffect } from 'react';
-import Header from './Header'
-import Footer from './Footer';
-import Content from './Content'
-import NotFound from './NotFound';
-import Admin from './Admin';
+
+// Components
+import Header from './Components/Header';
+import Footer from './Components/Footer';
+import Content from './Components/Content'
 import DateConfig from './ConfigFiles/DatesConfig.json';
-import api from './ConfigFiles/api'
-import scrollTo from './ScrollTo';
-import outputErrors from './outputErrors';
-import checkResponseStatus from './checkResponseStatus';
+import scrollTo from './Utilities/ScrollTo';
+
+// Pages
+import NotFound from './Components/NotFound';
+import Admin from './Components/Admin';
+
 import { fetchGet } from './fetch';
 export const RefContext = createContext();
 

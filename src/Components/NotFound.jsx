@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
 import { useContext, useEffect } from 'react'
-import { RefContext } from './App'
+import { Link } from "react-router-dom";
+
+// Context
+import { RefContext } from '../App'
 
 const NotFound = () =>{
     const context = useContext(RefContext);

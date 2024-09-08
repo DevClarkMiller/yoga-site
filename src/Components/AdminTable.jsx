@@ -1,6 +1,7 @@
-import TableFormDataTArea from "./TableFormDataTArea";
-import TableFormData from "./TableFormData";
+
+// Components
 import TableRow from "./TableRow";
+
 const AdminTable = ({tableRows}) =>{
     return(
         <table>

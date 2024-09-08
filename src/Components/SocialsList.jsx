@@ -1,6 +1,11 @@
+
+// Components
+import Socials from "./Socials";
+
+// Icons
 import { TiSocialFacebook, TiSocialInstagram } from "react-icons/ti";
 import { MdOutlineEmail } from "react-icons/md";
-import Socials from "./Socials";
+
 const SocialsList = () =>{
     return(
         <div className="socialsList">

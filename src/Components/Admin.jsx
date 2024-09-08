@@ -1,18 +1,25 @@
 import { useEffect, useState, useContext, createContext } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
-import { RefContext } from './App'
-import NotFound from "./NotFound";
-import { fetchPut } from "./fetch";
+
+import { fetchPut } from "../fetch";
+// Components
+
+// Pages
 import AdminDatesPage from "./AdminPages/AdminDatesPage";
 import AdminContentPage from "./AdminPages/AdminContentPage";
 import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
 import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
 import AdminQualificationsPage from "./AdminPages/AdminQualificationsPage";
+import NotFound from "./NotFound";
+
+//Context
+import { RefContext } from '../App'
 export const AdminDatesContext = createContext();
 export const AdminContentContext = createContext();
 export const AdminReviewsContext = createContext();
 export const AdminReviewsDeleteContext = createContext();
 export const AdminQualificationsContext = createContext();
+
 const Admin = () =>{
     const navigate = useNavigate();
 
