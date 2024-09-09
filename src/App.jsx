@@ -1,5 +1,6 @@
-import {Route, Routes} from 'react-router-dom';
-import { createContext, useRef, React, useState, useEffect } from 'react';
+import { createContext, useRef, React, useState, useEffect, useMemo } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { fetchGet } from './fetch';
 
 // Components
 import Header from './Components/Header';
@@ -13,10 +14,25 @@ import NotFound from './Components/NotFound';
 import Admin from './Components/Admin';
 import LocationPage from './Components/LocationPage';
 
-import { fetchGet } from './fetch';
 export const RefContext = createContext();
 
+const defaultQualifications = [
+  "300-Hour Advanced Yoga Teacher Training",
+  "Your Yoga Flow",
+  "Restorative Yoga Teacher Training",
+  "Tianne Allan"
+];
+
+const defaultLocations = [];
+
 function App() {
+  // Memoized values
+  const defaultDatesConfig = useMemo(() =>({
+    general: DateConfig.general,
+    header: DateConfig.header,
+    footer: DateConfig.footer
+  }), [DateConfig]);
+
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
@@ -26,23 +42,16 @@ function App() {
 
   const [showHeaderFooter, setShowHeaderFooter] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [datesConfigAll, setDatesConfigAll] = useState({
-    general: DateConfig.general,
-    header: DateConfig.header,
-    footer: DateConfig.footer
-  });
+  const [datesConfigAll, setDatesConfigAll] = useState(defaultDatesConfig);
 
-  const [qualifications, setQualifications] = useState([
-    "300-Hour Advanced Yoga Teacher Training",
-    "Your Yoga Flow",
-    "Restorative Yoga Teacher Training",
-    "Tianne Allan"
-  ]);
+  const [qualifications, setQualifications] = useState(defaultQualifications);
 
   //Default values for the contentConfig are here just in case that
   const [contentConfig, setContentConfig] = useState(DateConfig.content);
 
   const [reviews, setReviews] = useState(null);
+
+  const [locations, setLocations] = useState(defaultLocations);
 
   //Fetch data everytime the page loads
   useEffect(()=>{
@@ -74,7 +83,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter && <Header />}
         <Routes>

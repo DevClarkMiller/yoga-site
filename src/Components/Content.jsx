@@ -83,7 +83,7 @@ const Content = () =>{
             </div> */}
 
             <div className="w-full min-h-64 bg-light-turqoise col-flex-center justify-center">
-                <button onClick={() => navigate('/location')} class="neumorphic-btn bg-turqoise">See Available Dates</button>
+                <button onClick={() => navigate('/location')} className="neumorphic-btn bg-turqoise">See Available Dates</button>
             </div>
         </main>
     );
