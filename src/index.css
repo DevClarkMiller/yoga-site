@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --turqoise: #b2f7e0;
+}
+
 @layer base{
   .col-flex-center{
     @apply flex flex-col items-center;
@@ -9,6 +13,10 @@
   
   .nice-trans{
     @apply transition-all duration-300 ease-in-out;
+  }
+
+  .neumorphic-btn{
+    @apply relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-6 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] hover:translate-x-[3px] hover:translate-y-[3px] hover:[box-shadow:0px_0px_rgb(82_82_82)];
   }
 }
 
@@ -27,7 +35,7 @@ code {
 }
 
 .App{
-  @apply col-flex-center m-0 p-0 bg-[#b3ecec];
+  @apply col-flex-center m-0 p-0 bg-turqoise;
   font-family: "Open Sans", sans-serif; /*Test*/
   min-height: inherit;
   width: inherit;
@@ -181,8 +189,7 @@ input[type="email"], input[type="password"], input[type="number"], input[type="c
 }
 
 .reviewItem{
-  @apply rounded-md;
-  padding: 1.5%;
+  @apply rounded-md p-[1.5%];
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);

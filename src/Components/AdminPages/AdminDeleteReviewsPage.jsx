@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 
 // Components
 import { Oval } from "react-loading-icons";
-import ReviewToDelete from "../ReviewToDelete";
+import ReviewToDelete from '../Reviews/ReviewToDelete';
 import TableFormData from "../TableFormData";
 
 // Icons

@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 
 // Components
-import { RefContext } from "../App";
+import ReviewItem from '../Reviews/ReviewItem';
 
-// Icons
-import ReviewItem from "./ReviewItem";
+// Context 
+import { RefContext } from "../../App";
 
 const ReviewsPanel = () =>{
     const [randomReviews, setRandomReviews] = useState([]);
     const { reviews } = useContext(RefContext);
+
     useEffect(() =>{
         if(reviews){
             let tempReviews = [];

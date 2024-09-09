@@ -66,7 +66,7 @@ const Footer = () =>{
 
                     <span className="inputPair">
                         <label htmlFor="subject">Subject</label>
-                        <textarea value={subject} onChange={(e) => setSubject(e.target.value)}required placeholder="Write something..." name="subject" id="subject" aria-label="subject input field, aka: message body for an email"></textarea>
+                        <textarea className="p-1" value={subject} onChange={(e) => setSubject(e.target.value)}required placeholder="Write something..." name="subject" id="subject" aria-label="subject input field, aka: message body for an email"></textarea>
                     </span>
                 </div>
             </form>

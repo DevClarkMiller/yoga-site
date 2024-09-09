@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 // Context
-import { AdminReviewsDeleteContext } from "./Admin";
+import { AdminReviewsDeleteContext } from "../Admin";
 
 const ReviewToDelete = ({review}) =>{
     const {reviews, setReviews} = useContext(AdminReviewsDeleteContext);

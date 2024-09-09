@@ -1,6 +1,6 @@
 
 // CSS
-import '../Panel.css'
+import  '../../Panel.css';
 
 const Panel = ({
     config, imageClass, image, altText, itemRef, bgImg

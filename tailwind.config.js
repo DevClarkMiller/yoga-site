@@ -8,6 +8,10 @@ module.exports = {
       fontFamily: {
         "Changa-One": '"Changa One", "sans-serif"',
         "Rubik": '"Rubik", "sans-serif"'
+      },
+      colors: {
+        "turqoise": "#b3ecec",
+        "light-turqoise": "#b2f7e0"
       }
     },
   },

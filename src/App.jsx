@@ -11,6 +11,7 @@ import scrollTo from './Utilities/ScrollTo';
 // Pages
 import NotFound from './Components/NotFound';
 import Admin from './Components/Admin';
+import LocationPage from './Components/LocationPage';
 
 import { fetchGet } from './fetch';
 export const RefContext = createContext();
@@ -23,6 +24,7 @@ function App() {
   const datesRef = useRef();
   const appRef = useRef();
 
+  const [showHeaderFooter, setShowHeaderFooter] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [datesConfigAll, setDatesConfigAll] = useState({
     general: DateConfig.general,
@@ -72,15 +74,16 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
-        {!isAdmin && <Header />}
+        {!isAdmin && showHeaderFooter && <Header />}
         <Routes>
           <Route path='/' element={<Content />}/>
+          <Route path='/location' element={<LocationPage />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
-        {!isAdmin && <Footer />}
+        {!isAdmin && showHeaderFooter && <Footer />}
       </ RefContext.Provider>
     </div>
   );

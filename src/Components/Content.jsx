@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import Dates from "./Dates";
-import Panel from "./Panel";
-import ListPanel from "./ListPanel";
-import ReviewsPanel from "./ReviewsPanel";
+import Panel from './Panels/Panel';
+import ListPanel from "./Panels/ListPanel";
+import ReviewsPanel from "./Panels/ReviewsPanel";
 
 // Images
 import conventionPic from '../Images/conventionPic.jpg';
@@ -16,7 +17,9 @@ import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png'
 import { RefContext } from "../App";
 
 const Content = () =>{
-    const {setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig, qualifications} = useContext(RefContext);
+    const navigate = useNavigate();
+
+    const { setIsAdmin, aboutRef, datesRef, appRef, datesConfigAll, contentConfig, qualifications, setShowHeaderFooter } = useContext(RefContext);
     const VIEW_CHANGE = 850;
 
     const [usingFooterImg, setUsingFooterImg] = useState(false);
@@ -36,6 +39,7 @@ const Content = () =>{
     };
 
     useEffect(() =>{
+        setShowHeaderFooter(true);
         setIsAdmin(false);
         window.addEventListener('resize', handleResize);
         handleResize();
@@ -69,13 +73,17 @@ const Content = () =>{
             </div>            
             
             <div ref={datesRef}></div>
-            <div className="datesSection">
+            {/* <div className="datesSection">
                 <Dates DateConfig={datesConfigAll} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
                 {usingFooterImg ? 
                     <Dates DateConfig={datesConfigAll} template={mirroredTemplate} isFooter={true} usingFooterImg={usingFooterImg}/> 
                     : 
                     <Dates DateConfig={datesConfigAll} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>
                 }
+            </div> */}
+
+            <div className="w-full min-h-64 bg-light-turqoise col-flex-center justify-center">
+                <button onClick={() => navigate('/location')} class="neumorphic-btn bg-turqoise">See Available Dates</button>
             </div>
         </main>
     );
