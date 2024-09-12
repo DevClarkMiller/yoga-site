@@ -13,6 +13,7 @@ import scrollTo from './Utilities/ScrollTo';
 import NotFound from './Components/NotFound';
 import Admin from './Components/Admin';
 import LocationPage from './Components/LocationPage';
+import SingleLocationPage from './Components/SingleLocationPage';
 
 export const RefContext = createContext();
 
@@ -23,7 +24,33 @@ const defaultQualifications = [
   "Tianne Allan"
 ];
 
-const defaultLocations = [];
+const defaultGeneralData = [{
+  orgName: "Simply Massage and Associates"
+}]
+
+const defaultLocations = [{
+  title: "RESTORATIVE YOGA",
+  subtitle: "Rest and Relax",
+  description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
+  location: "168 Curtis St. Entrance is on Catharine St.",
+  fee: 10
+}];
+
+const defLocations = [{
+  address: "168 Curtis St. Entrance is on Catharine St.",
+  classes: {
+    title: "RESTORATIVE YOGA",
+    subtitle: "Rest and Relax",
+    description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
+    fee: 10,
+    dateTimes: [{
+      weekDays: "Thursday",
+      month: "September",
+      days: "6, 13, 20, 27",
+      times: "7-8pm"
+    }]
+  }
+}];
 
 function App() {
   // Memoized values
@@ -51,7 +78,8 @@ function App() {
 
   const [reviews, setReviews] = useState(null);
 
-  const [locations, setLocations] = useState(defaultLocations);
+  const [generalData, setGeneralData] = useState(defaultGeneralData); 
+  const [locations, setLocations] = useState(defLocations);
 
   //Fetch data everytime the page loads
   useEffect(()=>{
@@ -89,6 +117,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Content />}/>
           <Route path='/location' element={<LocationPage />}/>
+          <Route path='/location/selectedLocation/:index' element={<SingleLocationPage locations={locations} />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
