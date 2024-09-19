@@ -38,7 +38,7 @@ const defaultLocations = [{
 
 const defLocations = [{
   address: "168 Curtis St. Entrance is on Catharine St.",
-  classes: {
+  classes: [{
     title: "RESTORATIVE YOGA",
     subtitle: "Rest and Relax",
     description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
@@ -49,7 +49,7 @@ const defLocations = [{
       days: "6, 13, 20, 27",
       times: "7-8pm"
     }]
-  }
+  }]
 }];
 
 function App() {

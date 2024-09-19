@@ -1,5 +1,5 @@
 
-const LocationInformation = ({config, template, isHeader, isBody, isFooter, usingFooterImg}) => {
+const ClassInformation = ({config, template, isHeader, isBody, isFooter, usingFooterImg}) => {
     const css = (isHeader) ?  {backgroundColor: config?.header?.colour} : (isBody) ? {backgroundColor: "#fff"} : {backgroundColor: config?.footer?.colour};
 
     return(
@@ -13,11 +13,11 @@ const LocationInformation = ({config, template, isHeader, isBody, isFooter, usin
                     <p className='description'>{config?.description}</p>
 
                     <span className='middle'>
-                        <span className='dateInfo'>
+                        {/* <span className='dateInfo'>
                             {config?.day && config?.month && <h2>{config?.day}, {config?.month}</h2>}
                             {config?.daysAvailable && <h2>{config?.daysAvailable}</h2>}
                         </span>
-                        <span className='times'><h2>{config?.times}</h2></span>
+                        <span className='times'><h2>{config?.times}</h2></span> */}
                     </span>
                 </div>
             </div>
@@ -32,16 +32,16 @@ const LocationInformation = ({config, template, isHeader, isBody, isFooter, usin
             {template && <img src={template} alt="template for the dates available" />}
                 <div className={`textContainer ${usingFooterImg && 'templateText'} fullWidth fitHeight`}>
                     <span className='middle'>
-                        <span className='dateInfo'>
+                        {/* <span className='dateInfo'>
                             {config?.day && config?.month && <h2>{config?.day}, {config?.month}</h2>}
                             {config?.daysAvailable && <h2>{config?.daysAvailable}</h2>}
-                        </span>
-                        <span className='times'><h2>{config?.times}</h2></span>
+                        </span> */}
+                        {/* <span className='times'><h2>{config?.times}</h2></span> */}
                     </span>
                     <span className='bottom spaceTop'>
                         <p>{config?.orgName}</p>
-                        <p>{config?.location}</p>
-                        {config?.fee && <p>Investment ${config?.fee} per class</p>}
+                        <p>{config?.address}</p>
+                        {/* {config?.fee && <p>Investment ${config?.fee} per class</p>} */}
                     </span>
                 </div>
             </div>
@@ -49,4 +49,4 @@ const LocationInformation = ({config, template, isHeader, isBody, isFooter, usin
     );
 }
 
-export default LocationInformation
+export default ClassInformation;

@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState, useMemo } from "react";
 import { useParams } from "react-router-dom"
 
 // Components
@@ -14,19 +14,6 @@ import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png'
 // Context
 import { RefContext } from "../App";
 
-const defConf = {
-    title: "RESTORATIVE YOGA",
-    subtitle: "Rest and Relax",
-    description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
-    fee: 10,
-    dateTimes: [{
-      weekDays: "Thursday",
-      month: "September",
-      days: "6, 13, 20, 27",
-      times: "7-8pm"
-    }]
-}
-
 const SingleLocationPage = ({locations}) => {
     // Context
     const { setShowHeaderFooter } = useContext(RefContext);
@@ -34,14 +21,16 @@ const SingleLocationPage = ({locations}) => {
     const { index } = useParams();
 
     // Memoized values
+    const location = useMemo(() => {
+        if (!locations || !index) return null;
+        return locations[index];
+    } ,[locations, index]);
 
-    useEffect(() => {setShowHeaderFooter(false)}, []);
-
-    useEffect(() =>{console.log(`Index is: ${index}`)}, [index]);
+    useEffect(() => {setShowHeaderFooter(false)}, []);  // Disables header and footer
 
     return (
         <div className="size-full min-h-screen col-flex-center">
-            <LocationInfoPanel config={defConf} className="bg-white"/>
+            <LocationInfoPanel config={location}/>
         </div>
     )
 }
