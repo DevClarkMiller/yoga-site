@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       fontFamily: {
         "Changa-One": '"Changa One", "sans-serif"',
-        "Rubik": '"Rubik", "sans-serif"'
+        "Rubik": '"Rubik", "sans-serif"',
+        "Slabo": '"Slabo", "sans-serif"'
       },
       colors: {
         "turqoise": "#b3ecec",

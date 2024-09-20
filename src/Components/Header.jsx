@@ -39,7 +39,7 @@ const Header = () =>{
 
     //Next thing to do is to add a socials pull down
     return(
-        <header>
+        <header className='shadow-sm'>
             {isMenuActive && <SocialsList />}
             <ShakeRotate r={4}>
                 <button className="burgerMenu selfCenter" onClick={burgerToggle}>{!isMenuActive ? <RxHamburgerMenu /> : <RxCross2 />}</button>
