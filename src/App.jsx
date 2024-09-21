@@ -38,6 +38,8 @@ const defaultLocations = [{
 
 const defLocations = [{
   address: "168 Curtis St. Entrance is on Catharine St.",
+  lat: 42.779607216517796,
+  long: -81.19156646080363, 
   classes: [{
     title: "RESTORATIVE YOGA",
     subtitle: "Rest and Relax",

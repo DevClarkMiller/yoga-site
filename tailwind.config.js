@@ -8,7 +8,8 @@ module.exports = {
       fontFamily: {
         "Changa-One": '"Changa One", "sans-serif"',
         "Rubik": '"Rubik", "sans-serif"',
-        "Slabo": '"Slabo", "sans-serif"'
+        "Slabo": '"Slabo", "sans-serif"',
+        "Poetson": '"Poetsen One", "sans-serif"'
       },
       colors: {
         "turqoise": "#b3ecec",

@@ -32,7 +32,7 @@ const SingleLocationPage = ({locations}) => {
         <div className="size-full min-h-screen col-flex-center">
             <LocationInfoPanel config={location}/>
         </div>
-    )
+    );
 }
 
 export default SingleLocationPage
