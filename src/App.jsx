@@ -14,7 +14,7 @@ import NotFound from './Components/NotFound';
 import Admin from './Components/Admin';
 import LocationPage from './Components/LocationPage';
 import SingleLocationPage from './Components/SingleLocationPage';
-import ClassInformation from './Components/ClassInformation';
+import ClassInfoPanel from './Components/ClassInfoPanel';
 
 export const RefContext = createContext();
 
@@ -28,14 +28,6 @@ const defaultQualifications = [
 const defaultGeneralData = [{
   orgName: "Simply Massage and Associates"
 }]
-
-const defaultLocations = [{
-  title: "RESTORATIVE YOGA",
-  subtitle: "Rest and Relax",
-  description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
-  location: "168 Curtis St. Entrance is on Catharine St.",
-  fee: 10
-}];
 
 const defLocations = [{
   address: "168 Curtis St. Entrance is on Catharine St.",
@@ -86,6 +78,7 @@ function App() {
   const [generalData, setGeneralData] = useState(defaultGeneralData); 
   const [locations, setLocations] = useState(defLocations);
 
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() =>{
@@ -123,14 +116,14 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter && <Header />}
         <Routes>
           <Route path='/' element={<Content />}/>
           <Route path='/location/*' element={<LocationPage />}/>
           <Route path='/location/selectedLocation/:index' element={<SingleLocationPage locations={locations} />}/>
-          <Route path='/location/selectedLocation/:index/class/:name' element={<ClassInformation />}/>
+          <Route path='/location/selectedLocation/:index/class/:name' element={<ClassInfoPanel />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
