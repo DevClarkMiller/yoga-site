@@ -10,7 +10,6 @@ import {
 
 import L from 'leaflet';
 
-
 // Images
 import MapPin from '../Images/mapPin.webp';
 
@@ -46,6 +45,7 @@ const Map = ({locations}) => {
             />
             {locations?.map((location, index) => (
                 <Marker 
+                    
                     key={location?.pos} 
                     position={[location?.lat, location?.long]} 
                     icon={GetIcon(50)} 
