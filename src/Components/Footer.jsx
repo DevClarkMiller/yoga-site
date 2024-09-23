@@ -5,11 +5,17 @@
 */
 
 import { useContext, useState, useRef } from "react";
-import { RefContext } from "../App";
+
+// Components
 import InputPair from "./InputPair";
-import { BiMailSend } from "react-icons/bi";
 import { ShakeLittle } from 'reshake';
 import {useForm} from '@formspree/react';
+
+// Icons
+import { BiMailSend } from "react-icons/bi";
+
+// Context
+import { RefContext } from "../App";
 
 const Footer = () =>{
     const context = useContext(RefContext);

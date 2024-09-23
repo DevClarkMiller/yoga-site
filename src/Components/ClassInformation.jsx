@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+// Context
+import { RefContext } from "../App";
 
 const ClassInformation = ({config, template, isHeader, isBody, isFooter, usingFooterImg}) => {
     const css = (isHeader) ?  {backgroundColor: config?.header?.colour} : (isBody) ? {backgroundColor: "#fff"} : {backgroundColor: config?.footer?.colour};

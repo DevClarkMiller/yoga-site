@@ -1,5 +1,5 @@
 import { createContext, useRef, React, useState, useEffect, useMemo } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { fetchGet } from './fetch';
 
 // Components
@@ -56,13 +56,15 @@ const defLocations = [{
 }];
 
 function App() {
+  const location = useLocation();
+
   // Memoized values
   const defaultDatesConfig = useMemo(() =>({
     general: DateConfig.general,
     header: DateConfig.header,
     footer: DateConfig.footer
   }), [DateConfig]);
-
+  
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
@@ -83,6 +85,13 @@ function App() {
 
   const [generalData, setGeneralData] = useState(defaultGeneralData); 
   const [locations, setLocations] = useState(defLocations);
+
+  const [selectedClass, setSelectedClass] = useState(null);
+
+  useEffect(() =>{
+    const path = location?.pathname;
+    setShowHeaderFooter(!path.includes("selectedLocation"));
+  }, [location?.pathname]);
 
   //Fetch data everytime the page loads
   useEffect(()=>{
@@ -114,7 +123,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter && <Header />}
         <Routes>

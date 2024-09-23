@@ -46,12 +46,6 @@ const LocationInfoPanel = ({config, className}) => {
         handleResize();
     }, []);
 
-    useEffect(() => console.log(config), [config]);
-
-    const onClassClick = () =>{
-
-    }
-
     return (
         <div className={`${className} size-full flex-grow col-flex-center justify-center p-3`}>
             <ul className="size-full flex-grow p-0">{config?.classes?.map((_class) => <LocationClass key={_class?.description} _class={_class}/>)}</ul>

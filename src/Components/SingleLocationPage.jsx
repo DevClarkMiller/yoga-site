@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, useMemo } from "react";
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 // Components
 import DatesPanel from "./DatesPanel";
@@ -15,10 +15,12 @@ import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png'
 import { RefContext } from "../App";
 
 const SingleLocationPage = ({locations}) => {
-    // Context
-    const { setShowHeaderFooter } = useContext(RefContext);
-    
+    const navigate = useNavigate();
+    const VIEW_CHANGE = 850;
+
     const { index } = useParams();
+
+    const { setUsingFooterImg } = useContext(RefContext)
 
     // Memoized values
     const location = useMemo(() => {
@@ -26,7 +28,19 @@ const SingleLocationPage = ({locations}) => {
         return locations[index];
     } ,[locations, index]);
 
-    useEffect(() => {setShowHeaderFooter(false)}, []);  // Disables header and footer
+    const handleResize = () => {
+        if(window.innerWidth >= VIEW_CHANGE){
+            console.log();
+            setUsingFooterImg(true);
+        }else{
+            setUsingFooterImg(false);
+        }
+    };
+
+    useEffect(() =>{
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    }, []);
 
     return (
         <div className="size-full min-h-screen col-flex-center">
