@@ -14,6 +14,7 @@ import NotFound from './Components/NotFound';
 import Admin from './Components/Admin';
 import LocationPage from './Components/LocationPage';
 import SingleLocationPage from './Components/SingleLocationPage';
+import ClassInformation from './Components/ClassInformation';
 
 export const RefContext = createContext();
 
@@ -118,8 +119,9 @@ function App() {
         {!isAdmin && showHeaderFooter && <Header />}
         <Routes>
           <Route path='/' element={<Content />}/>
-          <Route path='/location' element={<LocationPage />}/>
+          <Route path='/location/*' element={<LocationPage />}/>
           <Route path='/location/selectedLocation/:index' element={<SingleLocationPage locations={locations} />}/>
+          <Route path='/location/selectedLocation/:index/class/:name' element={<ClassInformation />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>

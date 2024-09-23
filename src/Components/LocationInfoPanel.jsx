@@ -8,9 +8,20 @@ import ClassInformation from "./ClassInformation";
 import template from '../Images/yogaTemplateBW.png';
 import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png';
 
+import testImg from './TestBase64Img';
+
 const LocationClass = ({_class}) =>{
     return(
-        <li className=""><Link to={`class/${_class?.title}`} >{_class?.title}</Link></li>
+        <li className="size-full flex-grow col-flex-center">
+            <Link className={`size-full min-h-64 flex-grow col-flex-center justify-center text-black bg-no-repeat bg-center bg-contain !no-underline`}
+                to={`class/${_class?.title}`}
+                style={{
+                    backgroundImage: `url('${testImg}')`
+                }}
+            >
+                <span className="backdrop-blur-xl font-bold text-3xl text-white rounded p-2 shadow-sm">{_class?.title}</span>
+            </Link>
+        </li>
     );
 }
 
@@ -42,8 +53,8 @@ const LocationInfoPanel = ({config, className}) => {
     }
 
     return (
-        <div className={`${className} size-full flex-grow col-flex-center justify-center`}>
-            <ul>{config?.classes?.map((_class) => <LocationClass key={_class?.description} _class={_class}/>)}</ul>
+        <div className={`${className} size-full flex-grow col-flex-center justify-center p-3`}>
+            <ul className="size-full flex-grow p-0">{config?.classes?.map((_class) => <LocationClass key={_class?.description} _class={_class}/>)}</ul>
 
             {/* <ClassInformation config={config} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
             {usingFooterImg ? 
