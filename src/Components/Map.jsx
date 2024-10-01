@@ -45,13 +45,10 @@ const Map = ({locations}) => {
             />
             {locations?.map((location, index) => (
                 <Marker 
-                    
-                    key={location?.pos} 
-                    position={[location?.lat, location?.long]} 
+                    key={toString(location?.lat) + "|" + toString(location?.long)} 
+                    position={[parseFloat(location?.lat), parseFloat(location?.long)]} 
                     icon={GetIcon(50)} 
-                    eventHandlers={{
-                        click: () => onMarkerClick(index)
-                    }}
+                    eventHandlers={{click: () => onMarkerClick(index)}}
                 ></Marker>
             ))}
       </MapContainer>

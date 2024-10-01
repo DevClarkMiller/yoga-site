@@ -17,9 +17,11 @@ import testImg from './TestBase64Img';
 import { RefContext } from "../App";
 
 const LocationClass = ({_class}) =>{
+    const { setSelectedClass } = useContext(RefContext);
+
     return(
         <li className="size-full flex-grow col-flex-center">
-            <Link className={`size-full min-h-64 flex-grow col-flex-center justify-center text-black bg-no-repeat bg-center bg-contain !no-underline`}
+            <Link onClick={() => setSelectedClass(_class)} className={`size-full min-h-64 flex-grow col-flex-center justify-center text-black bg-no-repeat bg-center bg-contain !no-underline`}
                 to={`class/${_class?.title}`}
                 style={{
                     backgroundImage: `url('${testImg}')`
@@ -62,15 +64,6 @@ const SingleLocationPage = ({locations}) => {
     return (
         <div className="size-full min-h-screen col-flex-center flex-grow col-flex-center justify-center p-3">
             <ul className="size-full flex-grow p-0">{location?.classes?.map((_class) => <LocationClass key={_class?.description} _class={_class}/>)}</ul>
-            {/* <LocationInfoPanel config={location}/> */}
-            {/* <ClassInformation config={location} template={template} isHeader={true} usingFooterImg={usingFooterImg}/> */}
-            
-            
-            {/* {usingFooterImg ? 
-                <ClassInformation config={location} template={mirroredTemplate} isFooter={true} usingFooterImg={usingFooterImg}/> 
-                : 
-                <ClassInformation config={location} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>
-            } */}
         </div>
     );
 }

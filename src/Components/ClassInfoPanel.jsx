@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom"
 // Components
 import ClassInformation from "./ClassInformation"
 
+// Images
+import template from '../Images/yogaTemplateBW.png';
+import mirroredTemplate from '../Images/mirroredYogaTemplateBW.png';
+
 // Context
 import { RefContext } from "../App";
 
@@ -12,8 +16,9 @@ const ClassInfoPanel = () => {
     const VIEW_CHANGE = 850;
 
     // Context
-    import { selectedLocation, selectedClass}
-
+    const { selectedLocation, selectedClass } = useContext(RefContext);
+ 
+    // State 
     const [usingFooterImg, setUsingFooterImg] = useState(false);
 
     const handleResize = () => {
@@ -30,15 +35,16 @@ const ClassInfoPanel = () => {
         handleResize();
     }, []);
 
-    return (
-        <div>ClassInfoPanel
-            <ClassInformation config={location} template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
-            
+    useEffect(() =>console.log(selectedClass), [selectedClass]);
+
+    return (            
+        <div className="datesSection">
+            <ClassInformation template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
             
             {usingFooterImg ? 
-                <ClassInformation config={location} template={mirroredTemplate} isFooter={true} usingFooterImg={usingFooterImg}/> 
+                <ClassInformation template={mirroredTemplate} isFooter={true} usingFooterImg={usingFooterImg}/> 
                 : 
-                <ClassInformation config={location} template={null} isFooter={true} usingFooterImg={usingFooterImg}/>
+                <ClassInformation template={null} isFooter={true} usingFooterImg={usingFooterImg}/>
             } 
         </div>
     )

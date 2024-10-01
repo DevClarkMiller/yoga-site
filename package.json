@@ -11,6 +11,7 @@
     "@vis.gl/react-google-maps": "^1.2.0",
     "bootstrap": "^5.3.3",
     "class-transformer": "^0.5.1",
+    "leaflet": "github:DevClarkMiller/Leaflet#v.1.8.0",
     "mailgun-js": "^0.22.0",
     "mill-comps": "file:../mill-comps",
     "miller-comps": "file:../mill-comps",

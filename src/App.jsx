@@ -78,7 +78,7 @@ function App() {
   const [generalData, setGeneralData] = useState(defaultGeneralData); 
   const [locations, setLocations] = useState(defLocations);
 
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(defLocations[0]);
   const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() =>{
@@ -116,14 +116,14 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter && <Header />}
         <Routes>
           <Route path='/' element={<Content />}/>
           <Route path='/location/*' element={<LocationPage />}/>
           <Route path='/location/selectedLocation/:index' element={<SingleLocationPage locations={locations} />}/>
-          <Route path='/location/selectedLocation/:index/class/:name' element={<ClassInfoPanel />}/>
+          {selectedLocation&&selectedClass&&<Route path='/location/selectedLocation/:index/class/:name' element={<ClassInfoPanel />}/>}
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
