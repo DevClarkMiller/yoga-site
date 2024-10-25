@@ -14,7 +14,6 @@ import { AdminReviewsDeleteContext } from "../Admin";
 const AdminDeleteReviewsPage = () =>{
     const {reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews} = useContext(AdminReviewsDeleteContext)
 
-
     return (
         <form className="adminForm" onSubmit={onSubmitDeleteReviews}>
             <table>
