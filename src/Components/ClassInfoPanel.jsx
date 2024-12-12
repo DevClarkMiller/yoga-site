@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 // Components
 import ClassInformation from "./ClassInformation"
@@ -14,6 +14,10 @@ import { RefContext } from "../App";
 const ClassInfoPanel = () => {
     const navigate = useNavigate();
     const VIEW_CHANGE = 850;
+
+    const { name } = useParams();
+
+    console.log(name);
 
     // Context
     const { selectedLocation, selectedClass } = useContext(RefContext);
@@ -38,7 +42,7 @@ const ClassInfoPanel = () => {
     useEffect(() =>console.log(selectedClass), [selectedClass]);
 
     return (            
-        <div className="datesSection">
+        <div className="datesSection h-screen items-center">
             <ClassInformation template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
             
             {usingFooterImg ? 

@@ -27,7 +27,7 @@ const Map = ({locations}) => {
     }
 
     const onMarkerClick = (index) => {
-        navigate(`selectedLocation/${index}`);
+        navigate(`location/selectedLocation/${index}`);
     }
 
     return (
@@ -48,7 +48,7 @@ const Map = ({locations}) => {
                     key={toString(location?.lat) + "|" + toString(location?.long)} 
                     position={[parseFloat(location?.lat), parseFloat(location?.long)]} 
                     icon={GetIcon(50)} 
-                    eventHandlers={{click: () => onMarkerClick(index)}}
+                    eventHandlers={{mousedown: () => onMarkerClick(index)}}
                 ></Marker>
             ))}
       </MapContainer>

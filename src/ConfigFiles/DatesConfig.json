@@ -1,44 +1,20 @@
-{
-  "general": {
-    "title": "RESTORATIVE YOGA",
-    "subtitle": "Rest and Relax",
-    "description": "Guided breath awareness, meditation and Restorative poses with the support of props.",
-    "orgName": "Simply Massage and Associates",
-    "location": "168 Curtis St. Entrance is on Catharine St. (Teal Door)",
-    "fee": 10
-  },
-  "header": {
-    "day": "Thursday",
-    "month": "May",
-    "daysAvailable": "2, 9, 16, 23, 30",
-    "times": "7-8pm",
-    "colour": "#ffd8e7"
-  },
-  "footer": {
-    "day": "Friday",
-    "month": "May",
-    "daysAvailable": "3, 10, 17, 23, 31",
-    "times": "7-8pm",
-    "colour": "#ffd8e7"
-  },
-  "content": {
-    "firstPanel":{
-      "layout": 0,
+[
+  {
+    "layout": 0,
       "header": "The Experience",
       "text": "Yoga with Andrea is an enlightining experience. In my 500-hour journey of getting my yoga-teacher certification, I've realized the power of restorative yoga. Yoga does not just change the way we see things; it transforms the person who sees it.",
       "colour": ""
-    },
-    "secondPanel":{
-      "layout": 1,
+  },
+  {
+    "layout": 1,
       "header": "Qualifications and Focus",
       "text": "With the 200-hour yoga teacher training and the 300-hour advanced training, I've achieved the 500-hour yoga instructor certification. With my experience, I have dedicated myself to the art of restorative yoga which has been fundamental in toning down my ADHD mind and giving my nervous system the opportunity to heal from the years of stress.",
       "colour": ""
-    },
-    "thirdPanel":{
-      "layout": 1,
+  },
+  {
+    "layout": 1,
       "header": "About Me",
       "text": "After becoming a mom, I sought physical well-being through yoga. Years later, my 200-hour teacher training opened my eyes to yoga's deeper aspects – meditation, breathwork, and self-awareness. This inward focus sparked a transformation, bringing yoga off the mat and into my daily life. Restorative yoga became a haven, quieting my mind and body, and teaching me deep relaxation.",
       "colour": "#fff"
-    }
   }
-}
+]

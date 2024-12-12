@@ -14,7 +14,7 @@
 
   .dates{
     @apply w-full flex justify-center;
-    border-top: 2px solid black;
+    /* border-top: 2px solid black; */
   }
 
   .datesFooter{
@@ -65,7 +65,7 @@
     @apply col-flex-center justify-center text-center pt-[5%] gap-[2%];
   }
 
-  .textContainer p, .textContainerFooter p{
+  .textContainer p{
     font-size: 2.4vw;
   }
 
@@ -106,7 +106,7 @@
 
   @media screen and (min-width: 850px){
     .datesFooter{
-      border-top: 2px solid black;
+      /* border-top: 2px solid black; */
     }
     
     .datesSection{
@@ -122,7 +122,7 @@
       font-family: "Poetsen One", sans-serif;
     }
 
-    .textContainer p, .textContainerFooter p{
+    .textContainer p{
       font-size: 1.4vw;
     }
   }

@@ -5,7 +5,7 @@ import api from "./ConfigFiles/api";
 
 const fetchGet = async (path) =>{
     try{
-        const response = await api.get(`/get/${path}`, {headers: {
+        const response = await api.get(`/${path}`, {headers: {
             'Accept': 'application/json'
         }});
 
@@ -19,7 +19,7 @@ const fetchGet = async (path) =>{
 
 const fetchPut = async (path, data, onResolve) =>{
     try{
-        const response = await api.put(`/put${path}`, data, {headers: {
+        const response = await api.put(`${path}`, data, {headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }});   

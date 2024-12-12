@@ -31,10 +31,10 @@ const ClassInformation = ({template, isHeader, isBody, isFooter, usingFooterImg}
         <div></div>
         :  
         //Only remaining posibility is the dates footer
-        <div className='datesFooter borderTopDash'>
-            <div className='templateContainer'>
+        <div className='datesFooter borderTopDash lg:border-t-0'>
+            <div className='templateContainer col-flex-center h-full pt-12 lg:pt-0 md:text-3xl lg:text-4xl'>
             {template && <img src={template} alt="template for the dates available" />}
-                <div className={`textContainer ${usingFooterImg && 'templateText'} fullWidth fitHeight`}>
+                <div className={`textContainerFooter ${usingFooterImg && 'templateText'} fullWidth fitHeight`}>
                     <span className='middle'>
                         {/* <span className='dateInfo'>
                             {config?.day && config?.month && <h2>{config?.day}, {config?.month}</h2>}
@@ -42,7 +42,7 @@ const ClassInformation = ({template, isHeader, isBody, isFooter, usingFooterImg}
                         </span> */}
                         {/* <span className='times'><h2>{config?.times}</h2></span> */}
                     </span>
-                    <span className='bottom spaceTop'>
+                    <span className='bottom spaceTop gap-3'>
                         <p>{generalData?.orgName}</p>
                         <p>{selectedLocation?.address}</p>
                         {selectedClass?.fee && <p>Investment ${selectedClass?.fee} per class</p>}

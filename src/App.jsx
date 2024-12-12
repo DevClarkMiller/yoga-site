@@ -4,6 +4,7 @@ import { fetchGet } from './fetch';
 
 // Components
 import Header from './Components/Header';
+import HomeHeader from './Components/HomeHeader';
 import Footer from './Components/Footer';
 import Content from './Components/Content'
 import DateConfig from './ConfigFiles/DatesConfig.json';
@@ -29,34 +30,12 @@ const defaultGeneralData = [{
   orgName: "Simply Massage and Associates"
 }]
 
-const defLocations = [{
-  address: "168 Curtis St. Entrance is on Catharine St.",
-  lat: 42.779607216517796,
-  long: -81.19156646080363, 
-  classes: [{
-    title: "RESTORATIVE YOGA",
-    subtitle: "Rest and Relax",
-    description: "Guided breath awareness, meditation and Restorative poses with the support of props.",
-    fee: 10,
-    dateTimes: [{
-      weekDays: "Thursday",
-      month: "September",
-      days: "6, 13, 20, 27",
-      times: "7-8pm"
-    }]
-  }]
-}];
-
 function App() {
   const location = useLocation();
 
   // Memoized values
-  const defaultDatesConfig = useMemo(() =>({
-    general: DateConfig.general,
-    header: DateConfig.header,
-    footer: DateConfig.footer
-  }), [DateConfig]);
-  
+  const defaultDatesConfig = useMemo(() =>(DateConfig), [DateConfig]); 
+
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
@@ -76,9 +55,10 @@ function App() {
   const [reviews, setReviews] = useState(null);
 
   const [generalData, setGeneralData] = useState(defaultGeneralData); 
-  const [locations, setLocations] = useState(defLocations);
+  const [locations, setLocations] = useState(null);
+  const [locationClasses, setLocationClasses] = useState(null);
 
-  const [selectedLocation, setSelectedLocation] = useState(defLocations[0]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() =>{
@@ -88,42 +68,40 @@ function App() {
 
   //Fetch data everytime the page loads
   useEffect(()=>{
-    const fetchAll = async () =>{
-      const data = await fetchGet('all');
-      setDatesConfigAll({
-        general: data?.general,
-        header: data?.header,
-        footer: data?.footer
-      });
-  
-      if (data) setContentConfig(data.content);
-    }
+    const fetchAll = async() =>{
+      let data = await fetchGet('content');
+      setContentConfig(data);
 
-    const fetchReviews = async () =>{
-      const data = await fetchGet('reviews');
+      data = await fetchGet('general');
+      setGeneralData(data);
+
+      data = await fetchGet('reviews');
       setReviews(data);
-    }
 
-    const fetchQualifications = async () =>{
-      const data = await fetchGet('qualifications');
+      data = await fetchGet('qualifications');
       setQualifications(data);
+
+      data = await fetchGet('locations');
+      setLocations(data);
+
+      data = await fetchGet('locationClass');
+      setLocationClasses(data);
     }
 
-    fetchQualifications();
     fetchAll();
-    fetchReviews();
   }, []);
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
-        {!isAdmin && showHeaderFooter && <Header />}
+        {!isAdmin && showHeaderFooter ? 
+        <Header /> : <HomeHeader/>}
         <Routes>
           <Route path='/' element={<Content />}/>
           <Route path='/location/*' element={<LocationPage />}/>
-          <Route path='/location/selectedLocation/:index' element={<SingleLocationPage locations={locations} />}/>
-          {selectedLocation&&selectedClass&&<Route path='/location/selectedLocation/:index/class/:name' element={<ClassInfoPanel />}/>}
+          <Route path='/location/selectedLocation/:index/*' element={<SingleLocationPage locations={locations} />}/>
+          <Route path='/location/selectedLocation/:index/class/:name/*' element={<ClassInfoPanel />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>

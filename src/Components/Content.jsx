@@ -54,11 +54,11 @@ const Content = () =>{
         <main>
             <div className="panelDuo">
                 <Panel 
-                    config={contentConfig.firstPanel}
+                    config={contentConfig[0]}
                     image={conventionPic}
                     altText={"Lady meditating in the glowing sun"}
                 />
-                <ListPanel config={contentConfig.secondPanel} list={qualifications}/>
+                <ListPanel config={contentConfig[1]} list={qualifications}/>
                 {/*
                 <Panel 
                     config={contentConfig.secondPanel}
@@ -67,7 +67,7 @@ const Content = () =>{
 
             <div className="panelSoloReviews">
                 <Panel
-                    config={contentConfig.thirdPanel}
+                    config={contentConfig[2]}
                     itemRef={aboutRef}
                     image={mugshot}
                     altText={"asds"}

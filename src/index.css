@@ -42,7 +42,7 @@ code {
 }
 
 main{
-  @apply w-full col-flex-center flex-wrap overflow-hidden box-border pt-1;
+  @apply w-full col-flex-center flex-wrap overflow-hidden box-border pt-[50px];
 }
 
 nav, footer{
