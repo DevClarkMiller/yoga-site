@@ -17,12 +17,13 @@ const fetchGet = async (path) =>{
     }
 }
 
-const fetchPut = async (path, data, onResolve) =>{
+const fetchPut = async (path, data, params = null, onResolve) =>{
     try{
         const response = await api.put(`${path}`, data, {headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-        }});   
+        },
+    params: params});   
 
         checkResponseStatus(response);
         onResolve(response.data);

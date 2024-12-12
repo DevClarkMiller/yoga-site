@@ -70,8 +70,8 @@
   }
 
   .description{
-    @apply w-[56%] m-0 p-0 pb-[1.5%];   
-    border-bottom: 1px solid black;
+    @apply w-[56%] m-0 p-0 pb-[1.5%] border-black border-b lg:border-none;   
+    /* border-bottom: 1px solid black; */
   }
 
   .textContainer h2, .textContainerFooter h2{

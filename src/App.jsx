@@ -59,7 +59,7 @@ function App() {
   const [locationClasses, setLocationClasses] = useState(null);
 
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(JSON.parse(localStorage.getItem('selectedClass')));
 
   useEffect(() =>{
     const path = location?.pathname;
@@ -101,7 +101,7 @@ function App() {
           <Route path='/' element={<Content />}/>
           <Route path='/location/*' element={<LocationPage />}/>
           <Route path='/location/selectedLocation/:index/*' element={<SingleLocationPage locations={locations} />}/>
-          <Route path='/location/selectedLocation/:index/class/:name/*' element={<ClassInfoPanel />}/>
+          <Route path='/location/selectedLocation/:index/class/' element={<ClassInfoPanel />}/>
           <Route path='/admin/*' element={<Admin/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>

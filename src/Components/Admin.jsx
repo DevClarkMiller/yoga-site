@@ -1,8 +1,14 @@
 import { useEffect, useState, useContext, createContext } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
+// Functions
 import { fetchPut } from "../fetch";
+
 // Components
+import TableFormData from "./TableFormData";
+
+// Icons
+import { IoIosLogIn } from "react-icons/io";
 
 // Pages
 import AdminDatesPage from "./AdminPages/AdminDatesPage";
@@ -33,9 +39,9 @@ const Admin = () =>{
     const [editHeader, setEditHeader] = useState(datesConfigAll.header);
     const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
 
-    const [editContentP1, setEditContentP1] = useState(contentConfig.firstPanel);
-    const [editContentP2, setEditContentP2] = useState(contentConfig.secondPanel);
-    const [editContentP3, setEditContentP3] = useState(contentConfig.thirdPanel);
+    const [editContentP1, setEditContentP1] = useState(null);
+    const [editContentP2, setEditContentP2] = useState(null);
+    const [editContentP3, setEditContentP3] = useState(null);
 
     const [editNewReview, setEditNewReview] = useState("");
 
@@ -48,13 +54,16 @@ const Admin = () =>{
     }, []);
 
     useEffect(()=>{
-        setEditContentP1(contentConfig.firstPanel);
-        setEditContentP2(contentConfig.secondPanel)
-        setEditContentP3(contentConfig.thirdPanel);
+        console.log(contentConfig);
+        if(contentConfig){
+            setEditContentP1(contentConfig[0]);
+            setEditContentP2(contentConfig[1]);
+            setEditContentP3(contentConfig[2]);
+        }
 
-        setEditGeneral(datesConfigAll.general);
-        setEditHeader(datesConfigAll.header);
-        setEditFooter(datesConfigAll.footer);
+        // setEditGeneral(datesConfigAll.general);
+        // setEditHeader(datesConfigAll.header);
+        // setEditFooter(datesConfigAll.footer);
     }, [contentConfig]);
 
     const onSubmit = async (e) =>{
@@ -122,10 +131,8 @@ const Admin = () =>{
             thirdPanel: editContentP3
         }
 
-        console.log(updatedData);
-        fetchPut('/content', updatedData, (data) =>{
+        fetchPut('/content', updatedData, editLogin, (data) =>{
             setContentConfig(data);
-            console.log('Dates data recieved');
             setLoading(false);
             setSubmit(true);
             //Delays un-filling the downloading button
@@ -139,19 +146,9 @@ const Admin = () =>{
         setLoading(true);
         e.preventDefault();
 
-        const reviewObj = {
-            loginData: {
-                username: editLogin.username,
-                password: editLogin.password,
-            },
-            url: editNewReview
-        }
-
-        console.log(reviewObj);
         if(editNewReview != null || editNewReview != ""){
-            fetchPut('/reviewURL', reviewObj, (data) =>{
+            fetchPut('/reviewURL', { url: editNewReview }, editLogin, (data) =>{
                 setReviews(data);
-                console.log('Put new review onto server!');
                 setLoading(false);
                 setSubmit(true);
                 //Delays un-filling the downloading button
@@ -166,16 +163,8 @@ const Admin = () =>{
         e.preventDefault();
         setLoading(true);
 
-        const updatedData = {
-            loginData: {
-                username: editLogin.username,
-                password: editLogin.password,
-            },
-            reviews: reviews
-        }
-
         //3. Send new array to the back-end
-        fetchPut('/reviews', updatedData, (data) =>{
+        fetchPut('/reviews', reviews, editLogin, (data) =>{
             setReviews(data);
             setLoading(false);
             setSubmit(true);
@@ -190,15 +179,7 @@ const Admin = () =>{
         e.preventDefault();
         setLoading(true);
 
-        const updatedData = {
-            loginData: {
-                username: editLogin.username,
-                password: editLogin.password,
-            },
-            qualifications: qualifications
-        }
-
-        fetchPut('/qualifications', updatedData, (data) =>{
+        fetchPut('/qualifications', qualifications, editLogin, (data) =>{
             setQualifications(data);
             setLoading(false);
             setSubmit(true);
@@ -210,9 +191,20 @@ const Admin = () =>{
     }
 
     return(
-        <div className="adminPage">
+        <main className="min-h-screen size-full col-flex-center justify-center gap-3">
             <h1>Admin Panel</h1>
-            <Link to={'/'}>Take me home</Link>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <TableFormData _type={"text"} id={"username2"} val={editLogin.username} change={(e) => setEditLogin({...editLogin, username: e.target.value})} labelTxt={"Username"}/>
+                    </tr>
+                    <tr>
+                        <th>Password</th>
+                        <TableFormData _type={"password"} id={"password2"} val={editLogin.password} change={(e) => setEditLogin({...editLogin, password: e.target.value})} labelTxt={"Password"}/>
+                    </tr> 
+                </tbody>
+            </table>
             <Routes>
                 <Route path="/" element={<div></div>} />
                 <Route path="/dates" element={
@@ -245,14 +237,14 @@ const Admin = () =>{
                 }/>
                 <Route path='*' element={<NotFound />}/>
             </Routes>
-            <div className="buttonsNav">
-                <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button>
-                <button onClick={() => navigate('/admin/content')} className="sendButton">2</button>
-                <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">3</button>
-                <button onClick={() => navigate('/admin/reviews')} className="sendButton">4</button>
-                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">5</button>
+            <div className="buttonsNav col-flex-center font-bold">
+                {/* <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button> */}
+                <button onClick={() => navigate('/admin/content')} className="sendButton">Edit Content</button>
+                <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">Edit Qualifications</button>
+                <button onClick={() => navigate('/admin/reviews')} className="sendButton">Add Reviews</button>
+                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">Delete Reviews</button>
             </div>
-        </div>
+        </main>
         
     );
 }

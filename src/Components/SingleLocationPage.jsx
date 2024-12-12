@@ -24,7 +24,8 @@ const LocationClass = ({_class}) =>{
     return(
         <li className="h-full flex-grow w-full lg:w-52">
             <Link onClick={() => setSelectedClass(_class)} className={`size-full min-h-64 w-full col-flex-center justify-center bg-no-repeat bg-center bg-contain !no-underline`}
-                to={`class/${_class?.title}`}
+                onClickCapture={() => localStorage.setItem("selectedClass", JSON.stringify(_class))}
+                to="class"
                 style={{
                     backgroundImage: `url('data:image/webp;base64,${_class?.image64 ? _class.image64 : testImg}')`
                 }}
@@ -71,9 +72,9 @@ const SingleLocationPage = ({locations}) => {
     }, []);
 
     return (
-        <div className="size-full min-h-screen flex-grow col-flex-center justify-between p-3">
+        <div className="size-full min-h-screen flex-grow col-flex-center justify-between">
             <h1>Classes</h1>
-            <ul className="size-full flex justify-center items-center flex-grow flex-wrap p-0 gap-3">{
+            <ul className="size-full flex justify-center items-center flex-grow flex-wrap p-0 gap-3 font-Poetson">{
             classes?.map((_class) => <LocationClass key={`${_class.class_ID} ${_class.location_ID}`} _class={_class}/>)
             }</ul>
         </div>

@@ -15,10 +15,6 @@ const ClassInfoPanel = () => {
     const navigate = useNavigate();
     const VIEW_CHANGE = 850;
 
-    const { name } = useParams();
-
-    console.log(name);
-
     // Context
     const { selectedLocation, selectedClass } = useContext(RefContext);
  
@@ -42,7 +38,7 @@ const ClassInfoPanel = () => {
     useEffect(() =>console.log(selectedClass), [selectedClass]);
 
     return (            
-        <div className="datesSection h-screen items-center">
+        <div className="datesSection h-screen items-center pt-[50px]">
             <ClassInformation template={template} isHeader={true} usingFooterImg={usingFooterImg}/>
             
             {usingFooterImg ? 

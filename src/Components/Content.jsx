@@ -90,7 +90,7 @@ const Content = () =>{
                 <button onClick={() => navigate('/location')} className="neumorphic-btn bg-turqoise">See Available Dates</button>
             </div> */}
 
-            <h3 className="text-4xl font-semibold font-Poetson">See Location Details</h3>
+            <h3 className="text-4xl font-semibold font-Poetson">Locations</h3>
             <Map locations={locations}/>
         </main>
     );
