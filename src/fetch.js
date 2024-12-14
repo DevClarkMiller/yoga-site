@@ -3,11 +3,12 @@ import checkResponseStatus from "./Utilities/checkResponseStatus";
 import outputErrors from "./Utilities/outputErrors";
 import api from "./ConfigFiles/api";
 
-const fetchGet = async (path) =>{
+const fetchGet = async (path, params = null) =>{
     try{
-        const response = await api.get(`/${path}`, {headers: {
+        const response = await api.get(`${path}`, {headers: {
             'Accept': 'application/json'
-        }});
+        },
+        params: params});
 
         checkResponseStatus(response);
         return response.data;

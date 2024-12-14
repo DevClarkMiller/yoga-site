@@ -1,22 +1,33 @@
-import { useEffect, useState, useContext, createContext } from "react";
+import { useEffect, useState, useContext, createContext, useReducer } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
 // Functions
-import { fetchPut } from "../fetch";
+import { fetchGet, fetchPut } from "../fetch";
+import api from "../ConfigFiles/api";
+import checkResponseStatus from "../Utilities/checkResponseStatus";
 
 // Components
 import TableFormData from "./TableFormData";
+import { Oval } from "react-loading-icons";
+import Modal from "./Modal/Modal";
+import ModalCreate from './Modal/ModalCreate';
+import ModalRowInput from "./Modal/ModalRowInput";
 
 // Icons
 import { IoIosLogIn } from "react-icons/io";
+import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs"
 
 // Pages
+import AdminClasses from './AdminPages/AdminClasses';
 import AdminDatesPage from "./AdminPages/AdminDatesPage";
 import AdminContentPage from "./AdminPages/AdminContentPage";
 import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
 import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
 import AdminQualificationsPage from "./AdminPages/AdminQualificationsPage";
 import NotFound from "./NotFound";
+
+// Reducers
+import { classReducer, INITIAL_CLASS } from "./AdminPages/classReducer";
 
 //Context
 import { RefContext } from '../App'
@@ -33,8 +44,12 @@ const Admin = () =>{
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [editLogin, setEditLogin] = useState({username: "", password: ""});
+    const [editLogin, setEditLogin] = useState(
+        sessionStorage.getItem("login") !== null ? JSON.parse(sessionStorage.getItem("login")) :
+        {username: "", password: ""}
+    );
     const [editGeneral, setEditGeneral] = useState(datesConfigAll.general);
     const [editHeader, setEditHeader] = useState(datesConfigAll.header);
     const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
@@ -44,6 +59,10 @@ const Admin = () =>{
     const [editContentP3, setEditContentP3] = useState(null);
 
     const [editNewReview, setEditNewReview] = useState("");
+
+    // Reducers
+    const [editClass, dispatchClass] = useReducer(classReducer, INITIAL_CLASS);
+
 
     useEffect(()=>{
         setIsAdmin(true);        
@@ -65,6 +84,29 @@ const Admin = () =>{
         // setEditHeader(datesConfigAll.header);
         // setEditFooter(datesConfigAll.footer);
     }, [contentConfig]);
+
+    const handleClassChange = e =>{
+        dispatchClass({
+            type:"CHANGE_INPUT", 
+            payload:{ name: e.target.name, value:e.target.value }
+        });
+    }
+
+    const handleAddImage = e =>{
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        if (file)
+            reader.readAsDataURL(file);
+        reader.onload = readerEvt =>{
+            const binStr = reader.result;
+            const encodedStr = btoa(binStr);
+
+            dispatchClass({
+                type:"CHANGE_INPUT", 
+                payload:{ name: e.target.name, value:encodedStr }
+            });
+        }
+    }
 
     const onSubmit = async (e) =>{
         setLoading(true);
@@ -190,23 +232,141 @@ const Admin = () =>{
         });
     }
 
+    const onLogin = async e =>{
+        e.preventDefault();
+        setLoading(true);
+
+        sessionStorage.setItem("login", JSON.stringify(editLogin));
+
+        try{
+            setSubmit(true);
+            const response = await api.get(`/login`, {headers: {
+                'Accept': 'application/json'
+            },
+            params: editLogin});
+            setIsLoggedIn(true);
+        }catch(err){
+            if (err.response.data){
+                alert(err.response.data.error);
+            }else
+                alert("Error: Unknown, try checking login credentials");
+        }finally{
+            setLoading(false);
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        }
+    }
+
+    const onCreateClass = async () =>{
+        setLoading(true);
+        try{
+            setSubmit(true);
+            const response = await api.post('/class', editClass, {params: editLogin});
+            console.log(response.data);
+        }catch(err){
+            if (err.response.data){
+                alert(err.response.data.error);
+            }else
+                alert("Error: Unknown, try checking login credentials");
+        }finally{
+            setLoading(false);
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        }
+        
+        dispatchClass({
+            type:"RESET_FIELDS"
+        });
+    }
+
+    // Use session storage to store a class object when it's updated from state
+    const onEditClass = async () =>{
+        setLoading(true);
+        fetchPut('/class', editClass, editLogin, (data) =>{
+            setLoading(false);
+            setSubmit(true);
+            //Delays un-filling the downloading button
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        });
+    }
+
     return(
         <main className="min-h-screen size-full col-flex-center justify-center gap-3">
             <h1>Admin Panel</h1>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>Username</th>
-                        <TableFormData _type={"text"} id={"username2"} val={editLogin.username} change={(e) => setEditLogin({...editLogin, username: e.target.value})} labelTxt={"Username"}/>
-                    </tr>
-                    <tr>
-                        <th>Password</th>
-                        <TableFormData _type={"password"} id={"password2"} val={editLogin.password} change={(e) => setEditLogin({...editLogin, password: e.target.value})} labelTxt={"Password"}/>
-                    </tr> 
-                </tbody>
-            </table>
+            {!isLoggedIn && <form onSubmit={onLogin} className="col-flex-center gap-2">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Username</th>
+                            <TableFormData required _type={"text"} id={"username2"} val={editLogin.username} change={(e) => setEditLogin({...editLogin, username: e.target.value})} labelTxt={"Username"}/>
+                        </tr>
+                        <tr>
+                            <th>Password</th>
+                            <TableFormData required _type={"password"} id={"password2"} val={editLogin.password} change={(e) => setEditLogin({...editLogin, password: e.target.value})} labelTxt={"Password"}/>
+                        </tr> 
+                    </tbody>
+                </table>
+                <button className="adminBtn text-4xl" type="submit">{
+                    (loading) ? <Oval /> : (submit) ? <IoIosLogIn className="text-blue"/> : <IoIosLogIn />}
+                </button> 
+            </form>}
             <Routes>
                 <Route path="/" element={<div></div>} />
+                <Route path="/classes/*" element={<AdminClasses />} />
+                <Route path="/classes/create" element={
+                    <ModalCreate  
+                        modalTitle="Create Class"
+                        cardTitle="Create Class"
+                        onSubmit={onCreateClass}
+                        rows={<>
+                                <ModalRowInput name="title"
+                                    placeholder="Restorative Yoga"
+                                    title="Class Title"
+                                    value={editClass.title}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="title"
+                                />
+                                <ModalRowInput name="subtitle"
+                                    placeholder="Rest and Relax"
+                                    title="Class Subtitle"
+                                    value={editClass.subtitle}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="subtitle"
+                                />
+                                <ModalRowInput name="description"
+                                    placeholder="Something descriptive"
+                                    title="Class Description"
+                                    value={editClass.description}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="description"
+                                />
+                                <ModalRowInput name="fee"
+                                    type="number"
+                                    placeholder="10"
+                                    title="Class Fee"
+                                    value={editClass.fee}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="fee"
+                                />
+                                <ModalRowInput name="image64"
+                                    type="file"
+                                    placeholder=""
+                                    title="Class Image"
+                                    onChange={handleAddImage}
+                                    key="image64"
+                                />
+                            </>}
+                    />
+                    } />
+
                 <Route path="/dates" element={
                     <AdminDatesContext.Provider value={{onSubmit, editLogin, setEditLogin, editGeneral, setEditGeneral, editHeader, setEditHeader, editFooter, setEditFooter, loading, submit}}>
                         <AdminDatesPage />
@@ -237,13 +397,14 @@ const Admin = () =>{
                 }/>
                 <Route path='*' element={<NotFound />}/>
             </Routes>
-            <div className="buttonsNav col-flex-center font-bold">
-                {/* <button onClick={() => navigate('/admin/dates')} className="sendButton">1</button> */}
+            {isLoggedIn&&<div className="buttonsNav col-flex-center font-bold">
+                {/* <button onClick={() => navigate('/admin/dcontentates')} className="sendButton">1</button> */}
+                <button onClick={() => navigate('/admin/classes')} className="sendButton">Edit Classes</button>
                 <button onClick={() => navigate('/admin/content')} className="sendButton">Edit Content</button>
                 <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">Edit Qualifications</button>
                 <button onClick={() => navigate('/admin/reviews')} className="sendButton">Add Reviews</button>
                 <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">Delete Reviews</button>
-            </div>
+            </div>}
         </main>
         
     );

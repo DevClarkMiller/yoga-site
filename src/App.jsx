@@ -9,6 +9,8 @@ import Footer from './Components/Footer';
 import Content from './Components/Content'
 import DateConfig from './ConfigFiles/DatesConfig.json';
 import scrollTo from './Utilities/ScrollTo';
+import Modal from './Components/Modal/Modal';
+import ModalRowInputText from './Components/Modal/ModalRowInput';
 
 // Pages
 import NotFound from './Components/NotFound';
@@ -26,9 +28,9 @@ const defaultQualifications = [
   "Tianne Allan"
 ];
 
-const defaultGeneralData = [{
+const defaultGeneralData = {
   orgName: "Simply Massage and Associates"
-}]
+}
 
 function App() {
   const location = useLocation();
@@ -57,13 +59,16 @@ function App() {
   const [generalData, setGeneralData] = useState(defaultGeneralData); 
   const [locations, setLocations] = useState(null);
   const [locationClasses, setLocationClasses] = useState(null);
+  const [classes, setClasses] = useState(null);
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedClass, setSelectedClass] = useState(JSON.parse(localStorage.getItem('selectedClass')));
 
+  const [modalActive, setModalActive] = useState(false);
+
   useEffect(() =>{
     const path = location?.pathname;
-    setShowHeaderFooter(!path.includes("selectedLocation"));
+    setShowHeaderFooter(!path.includes("selectedLocation") && !path.includes("testModal"));
   }, [location?.pathname]);
 
   //Fetch data everytime the page loads
@@ -86,6 +91,9 @@ function App() {
 
       data = await fetchGet('locationClass');
       setLocationClasses(data);
+
+      data = await fetchGet('classes');
+      setClasses(data);
     }
 
     fetchAll();
@@ -93,7 +101,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter ? 
         <Header /> : <HomeHeader/>}
@@ -103,9 +111,12 @@ function App() {
           <Route path='/location/selectedLocation/:index/*' element={<SingleLocationPage locations={locations} />}/>
           <Route path='/location/selectedLocation/:index/class/' element={<ClassInfoPanel />}/>
           <Route path='/admin/*' element={<Admin/>}/>
+          <Route path='/testModal/*' element={<Modal rows={
+            <ModalRowInputText name="title" title="Class Title" placeholder="Restorative Yoga" />
+          }/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
-        {!isAdmin && showHeaderFooter && <Footer />}
+   {!isAdmin && showHeaderFooter && <Footer />}
       </ RefContext.Provider>
     </div>
   );
