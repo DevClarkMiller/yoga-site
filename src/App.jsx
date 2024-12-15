@@ -71,6 +71,19 @@ function App() {
     setShowHeaderFooter(!path.includes("selectedLocation") && !path.includes("testModal"));
   }, [location?.pathname]);
 
+  const fetchClasses = async () =>{
+    let data = await fetchGet('classes');
+    setClasses(data);
+
+    data = await fetchGet('locationClass');
+    setLocationClasses(data);
+  }
+
+  const fetchLocations = async () =>{
+    let data = await fetchGet('locations');
+    setLocations(data);
+  }
+
   //Fetch data everytime the page loads
   useEffect(()=>{
     const fetchAll = async() =>{
@@ -83,17 +96,12 @@ function App() {
       data = await fetchGet('reviews');
       setReviews(data);
 
+      await fetchLocations();
+
       data = await fetchGet('qualifications');
       setQualifications(data);
 
-      data = await fetchGet('locations');
-      setLocations(data);
-
-      data = await fetchGet('locationClass');
-      setLocationClasses(data);
-
-      data = await fetchGet('classes');
-      setClasses(data);
+      await fetchClasses();
     }
 
     fetchAll();
@@ -101,7 +109,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses, fetchClasses, fetchLocations }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter ? 
         <Header /> : <HomeHeader/>}

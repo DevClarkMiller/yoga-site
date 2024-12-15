@@ -1,13 +1,11 @@
-export const INITIAL_CLASS = {
-    title: "",
-    subtitle: "",
-    description: "",
-    fee: 10,
-    image64: "",
-    class_ID: -1
+export const INITIAL_LOCATION = {
+    location_ID: -1,
+    address: "",
+    lat: 0,
+    long: 0
 }
 
-export const classReducer = (state, action) =>{
+export const locationReducer = (state, action) =>{
     switch(action.type){
         case "CHANGE_INPUT":
             return {
@@ -15,8 +13,8 @@ export const classReducer = (state, action) =>{
                 [action.payload.name]:action.payload.value
             };
         case "RESET_FIELDS":
-            return state = INITIAL_CLASS;
-        case "SET_CLASS": 
+            return state = INITIAL_LOCATION;
+        case "SET_LOCATION": 
             return state = action.payload;
         default:
             return state;

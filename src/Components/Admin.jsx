@@ -10,14 +10,15 @@ import checkResponseStatus from "../Utilities/checkResponseStatus";
 import TableFormData from "./TableFormData";
 import { Oval } from "react-loading-icons";
 import Modal from "./Modal/Modal";
-import ModalCreate from './Modal/ModalCreate';
 import ModalRowInput from "./Modal/ModalRowInput";
+import ModalTextArea from "./Modal/ModalTextArea";
 
 // Icons
 import { IoIosLogIn } from "react-icons/io";
 import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs"
 
 // Pages
+import AdminLocations from "./AdminPages/AdminLocations";
 import AdminClasses from './AdminPages/AdminClasses';
 import AdminDatesPage from "./AdminPages/AdminDatesPage";
 import AdminContentPage from "./AdminPages/AdminContentPage";
@@ -28,6 +29,7 @@ import NotFound from "./NotFound";
 
 // Reducers
 import { classReducer, INITIAL_CLASS } from "./AdminPages/classReducer";
+import { locationReducer, INITIAL_LOCATION } from "./AdminPages/locationReducer";
 
 //Context
 import { RefContext } from '../App'
@@ -40,7 +42,7 @@ export const AdminQualificationsContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { reviews, setReviews, appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig, qualifications, setQualifications } = useContext(RefContext);
+    const { reviews, setReviews, appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -62,6 +64,7 @@ const Admin = () =>{
 
     // Reducers
     const [editClass, dispatchClass] = useReducer(classReducer, INITIAL_CLASS);
+    const [editLocation, dispatchLocation] = useReducer(locationReducer, INITIAL_LOCATION);
 
 
     useEffect(()=>{
@@ -73,24 +76,42 @@ const Admin = () =>{
     }, []);
 
     useEffect(()=>{
-        console.log(contentConfig);
         if(contentConfig){
             setEditContentP1(contentConfig[0]);
             setEditContentP2(contentConfig[1]);
             setEditContentP3(contentConfig[2]);
         }
-
-        // setEditGeneral(datesConfigAll.general);
-        // setEditHeader(datesConfigAll.header);
-        // setEditFooter(datesConfigAll.footer);
     }, [contentConfig]);
 
-    const handleClassChange = e =>{
-        dispatchClass({
+    // Whenever page loads and there's valid login credentials in the sessionStorage
+    useEffect(() =>{
+        if (sessionStorage.getItem("login")){
+            setEditLogin(JSON.parse(sessionStorage.getItem("login")));
+            if (login())
+                setIsLoggedIn(true);
+        }
+    }, []);
+
+    const handleChange = (dispatchFunc, e) =>{
+        dispatchFunc({
             type:"CHANGE_INPUT", 
             payload:{ name: e.target.name, value:e.target.value }
         });
     }
+
+    const handleClassChange = e =>{ handleChange(dispatchClass, e); }
+    const handleLocationChange = e => { handleChange(dispatchLocation, e); }
+
+    const handleSet = (dispatchFunc, name, payload) =>{
+        dispatchFunc({
+            type: `SET_${name}`,
+            payload: payload
+        });
+    }
+
+    const handleSetClass = (_class) =>{ handleSet(dispatchClass, "CLASS", _class); }
+
+    const handleSetLocation = (location) =>{ handleSet(dispatchLocation, "LOCATION", location); }
 
     const handleAddImage = e =>{
         const file = e.target.files[0];
@@ -232,10 +253,7 @@ const Admin = () =>{
         });
     }
 
-    const onLogin = async e =>{
-        e.preventDefault();
-        setLoading(true);
-
+    const login = async () =>{
         sessionStorage.setItem("login", JSON.stringify(editLogin));
 
         try{
@@ -258,12 +276,18 @@ const Admin = () =>{
         }
     }
 
+    const onLogin = async e =>{
+        e.preventDefault();
+        setLoading(true);
+        login();
+    }
+
     const onCreateClass = async () =>{
         setLoading(true);
         try{
             setSubmit(true);
-            const response = await api.post('/class', editClass, {params: editLogin});
-            console.log(response.data);
+            await api.post('/class', editClass, {params: editLogin});
+            fetchClasses();
         }catch(err){
             if (err.response.data){
                 alert(err.response.data.error);
@@ -282,11 +306,27 @@ const Admin = () =>{
     }
 
     // Use session storage to store a class object when it's updated from state
-    const onEditClass = async () =>{
+    const onUpdateClass = async () =>{
         setLoading(true);
         fetchPut('/class', editClass, editLogin, (data) =>{
             setLoading(false);
             setSubmit(true);
+            fetchClasses();
+            //Delays un-filling the downloading button
+            localStorage.removeItem("selectedClass");
+            sessionStorage.removeItem("selectedClass");
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        });
+    }
+
+    const onUpdateLocation = async () =>{
+        setLoading(true);
+        fetchPut('/location', editLocation, editLogin, (data) =>{
+            setLoading(false);
+            setSubmit(true);
+            fetchLocations();
             //Delays un-filling the downloading button
             setTimeout(()=>{
                 setSubmit(false);
@@ -294,9 +334,69 @@ const Admin = () =>{
         });
     }
 
+    const onDelete = async (dispatchFunc, fetchFunc, path, id) =>{
+        setLoading(true);
+        try{
+            const params = editLogin;
+            params[`${path}_ID`] = id;
+            setSubmit(true);
+            await api.delete(`/${path}`, 
+                {params: params});
+                fetchFunc();
+        }catch(err){
+            if (err.response.data){
+                alert(err.response.data.error);
+            }else
+                alert("Error: Unknown, try checking login credentials");
+        }finally{
+            setLoading(false);
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        }
+
+        navigate(-1);        
+        dispatchFunc({
+            type:"RESET_FIELDS"
+        });
+    }
+
+    const onDeleteClass = async () =>{
+        onDelete(dispatchClass, fetchClasses, 'class', editClass.class_ID);
+        localStorage.removeItem("selectedClass");
+        sessionStorage.removeItem("selectedClass");
+    }
+
+    const onDeleteLocation = async () =>{
+        onDelete(dispatchLocation, fetchLocations, 'location', editLocation.location_ID);
+    }
+    
+
+    const onCreateLocation = async () =>{
+        setLoading(true);
+        try{
+            setSubmit(true);
+            await api.post('/location', editLocation, {params: editLogin});
+            fetchLocations();
+        }catch(err){
+            if (err.response.data){
+                alert(err.response.data.error);
+            }else
+                alert("Error: Unknown, try checking login credentials");
+        }finally{
+            setLoading(false);
+            setTimeout(()=>{
+                setSubmit(false);
+            }, 1000);
+        }
+        
+        dispatchClass({
+            type:"RESET_FIELDS"
+        });
+    }
+
     return(
         <main className="min-h-screen size-full col-flex-center justify-center gap-3">
-            <h1>Admin Panel</h1>
             {!isLoggedIn && <form onSubmit={onLogin} className="col-flex-center gap-2">
                 <table>
                     <tbody>
@@ -316,12 +416,147 @@ const Admin = () =>{
             </form>}
             <Routes>
                 <Route path="/" element={<div></div>} />
-                <Route path="/classes/*" element={<AdminClasses />} />
+                <Route path="/classes/*" element={<AdminClasses handleSetClass={handleSetClass} dispatchClass={dispatchClass} />} />
+                <Route path="/locations/*" element={<AdminLocations handleSetLocation={handleSetLocation} dispatchLocation={dispatchLocation} />} />
+                
+                <Route path="/locations/create" element={
+                    <Modal  
+                        actionText="create"
+                        modalTitle="Create Location"
+                        cardTitle="Create Location"
+                        onSubmit={onCreateLocation}
+                        rows={<>
+                                <ModalRowInput name="address"
+                                    placeholder="123 something street"
+                                    title="Location Address"
+                                    value={editLocation.address}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="address"
+                                />
+                                <ModalRowInput name="lat"
+                                    type="number"
+                                    placeholder="40"
+                                    title="Location Latitude"
+                                    value={editLocation.lat}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="latitude"
+                                />
+                                <ModalRowInput name="long"
+                                    type="number"
+                                    placeholder="40"
+                                    title="Location Longitude"
+                                    value={editLocation.long}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="longitude"
+                                />
+                            </>}
+                    />
+                } />
+
+                <Route path="/locations/update/:location_ID" element={
+                    <Modal  
+                        modalTitle="Update Location"
+                        cardTitle="Update Location"
+                        onSubmit={onUpdateLocation}
+                        delDialog="Delete location?"
+                        canDelete
+                        onDelete={onDeleteLocation}
+                        actionText="update"
+                        rows={<>
+                                <ModalRowInput name="address"
+                                    placeholder="123 something street"
+                                    title="Location Address"
+                                    value={editLocation.address}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="address"
+                                />
+                                <ModalRowInput name="lat"
+                                    type="number"
+                                    placeholder="40"
+                                    title="Location Latitude"
+                                    value={editLocation.lat}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="latitude"
+                                />
+                                <ModalRowInput name="long"
+                                    type="number"
+                                    placeholder="40"
+                                    title="Location Longitude"
+                                    value={editLocation.long}
+                                    required
+                                    onChange={handleLocationChange}
+                                    key="longitude"
+                                />
+                            </>}
+                    />
+                } />
+
+
                 <Route path="/classes/create" element={
-                    <ModalCreate  
+                    <Modal  
+                        actionText="create"
                         modalTitle="Create Class"
                         cardTitle="Create Class"
                         onSubmit={onCreateClass}
+                        rows={<>
+                                <ModalRowInput name="title"
+                                    placeholder="Restorative Yoga"
+                                    title="Class Title"
+                                    value={editClass.title}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="title"
+                                />
+                                <ModalRowInput name="subtitle"
+                                    placeholder="Rest and Relax"
+                                    title="Class Subtitle"
+                                    value={editClass.subtitle}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="subtitle"
+                                />
+                                <ModalTextArea name="description"
+                                    placeholder="Something descriptive"
+                                    title="Class Description"
+                                    value={editClass.description}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="description"
+                                />
+                                <ModalRowInput name="fee"
+                                    type="number"
+                                    placeholder="10"
+                                    title="Class Fee"
+                                    value={editClass.fee}
+                                    required
+                                    onChange={handleClassChange}
+                                    key="fee"
+                                />
+                                <ModalRowInput name="image64"
+                                    type="file"
+                                    placeholder=""
+                                    title="Class Image"
+                                    onChange={handleAddImage}
+                                    key="image64"
+                                />
+                            </>}
+                    />
+                } />
+
+                <Route path="/classes/update/:class_ID" element={
+                    <Modal  
+                        modalTitle="Update Class"
+                        cardTitle="Update Class"
+                        onSubmit={onUpdateClass}
+                        delDialog="Delete class?"
+                        canDelete
+                        onDelete={onDeleteClass}
+                        actionText="update"
                         rows={<>
                                 <ModalRowInput name="title"
                                     placeholder="Restorative Yoga"
@@ -365,7 +600,7 @@ const Admin = () =>{
                                 />
                             </>}
                     />
-                    } />
+                } />
 
                 <Route path="/dates" element={
                     <AdminDatesContext.Provider value={{onSubmit, editLogin, setEditLogin, editGeneral, setEditGeneral, editHeader, setEditHeader, editFooter, setEditFooter, loading, submit}}>
@@ -397,9 +632,10 @@ const Admin = () =>{
                 }/>
                 <Route path='*' element={<NotFound />}/>
             </Routes>
-            {isLoggedIn&&<div className="buttonsNav col-flex-center font-bold">
+            {isLoggedIn&&<div className="buttonsNav col-flex-center font-bold mt-10">
                 {/* <button onClick={() => navigate('/admin/dcontentates')} className="sendButton">1</button> */}
                 <button onClick={() => navigate('/admin/classes')} className="sendButton">Edit Classes</button>
+                <button onClick={() => navigate('/admin/locations')} className="sendButton">Edit Locations</button>
                 <button onClick={() => navigate('/admin/content')} className="sendButton">Edit Content</button>
                 <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">Edit Qualifications</button>
                 <button onClick={() => navigate('/admin/reviews')} className="sendButton">Add Reviews</button>
