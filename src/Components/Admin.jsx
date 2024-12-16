@@ -22,8 +22,7 @@ import { MdInfo } from "react-icons/md";
 
 // Pages
 import AdminPage from "./AdminPages/AdminPage";
-import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
-import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
+import AdminReview from "./AdminPages/AdminReview";
 import NotFound from "./NotFound";
 
 // Reducers
@@ -43,7 +42,7 @@ export const AdminQualificationsContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { reviews, setReviews, appRef, setIsAdmin, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations, classes, locations, fetchContent, fetchQualifications, modalActive } = useContext(RefContext);
+    const { reviews, setReviews, appRef, setIsAdmin, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations, classes, locations, fetchContent, fetchQualifications, modalActive, fetchReviews } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -137,22 +136,6 @@ const Admin = () =>{
         }
     }
 
-    const onSubmitDeleteReviews = (e) =>{
-        e.preventDefault();
-        setLoading(true);
-
-        //3. Send new array to the back-end
-        fetchPut('/reviews', reviews, editLogin, (data) =>{
-            setReviews(data);
-            setLoading(false);
-            setSubmit(true);
-            //Delays un-filling the downloading button
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
-    }
-
     const login = async () =>{
         sessionStorage.setItem("login", JSON.stringify(editLogin));
 
@@ -210,7 +193,7 @@ const Admin = () =>{
         onUpdate('/qualification', editQualification, fetchQualifications);
     }
 
-    const onDelete = async (dispatchFunc, fetchFunc, path, id) =>{
+    const onDelete = async (dispatchFunc, fetchFunc, path, id, nav = true) =>{
         setLoading(true);
         try{
             const params = editLogin;
@@ -220,7 +203,7 @@ const Admin = () =>{
                 {params: params});
                 fetchFunc();
         }catch(err){
-            if (err.response.data){
+            if (err.response && err.response.data){
                 alert(err.response.data.error);
             }else
                 alert("Error: Unknown, try checking login credentials");
@@ -231,10 +214,13 @@ const Admin = () =>{
             }, 1000);
         }
 
-        navigate(-1);        
-        dispatchFunc({
-            type:"RESET_FIELDS"
-        });
+        if (nav)
+            navigate(-1); 
+        if (dispatchFunc){
+            dispatchFunc({
+                type:"RESET_FIELDS"
+            });
+        }     
     }
 
     const onDeleteClass = async () =>{
@@ -249,6 +235,10 @@ const Admin = () =>{
 
     const onDeleteQualification = async () =>{
         onDelete(dispatchQualification, fetchQualifications, 'qualification', editQualification.qualification_ID);
+    }
+
+    const onDeleteReview = async review =>{
+        onDelete(null, fetchReviews, 'review', review.review_ID, false);
     }
 
     const onCreate = async (path, newData, fetchFunc, dispatch) => {
@@ -269,9 +259,15 @@ const Admin = () =>{
             }, 1000);
         }
         
-        dispatch({
-            type:"RESET_FIELDS"
-        });
+        if(dispatch){
+            dispatch({
+                type:"RESET_FIELDS"
+            });
+        }
+    }
+
+    const onCreateReview = async url =>{
+        onCreate('review', {url: url}, fetchReviews, null);
     }
 
     const onCreateClass = async () =>{
@@ -620,28 +616,18 @@ const Admin = () =>{
                     />
                 } />
 
-                <Route path="/reviews" element={isLoggedIn&&
-                    <AdminReviewsContext.Provider value={{onNewUrlSubmit, editLogin, setEditLogin, loading, submit, editNewReview, setEditNewReview}}>
-                        <AdminReviewsPage />
-                    </AdminReviewsContext.Provider>
-                }/>
-                <Route path="/deleteReviews" element={isLoggedIn&&
-                    <AdminReviewsDeleteContext.Provider value={{reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews}}>
-                        <AdminDeleteReviewsPage />
-                    </AdminReviewsDeleteContext.Provider>
-                }/>
+                <Route path="/reviews" element={isLoggedIn&& <AdminReview onCreateReview={onCreateReview} onDeleteReview={onDeleteReview} reviews={reviews} />} />
                 <Route path='*' element={<NotFound />}/>
             </Routes>
-            <footer className="col-flex-center h-fit !py-[2%]">
-                {isLoggedIn&&!modalActive&& <AdminNavList links={[
+            {isLoggedIn&&!modalActive&&<footer className="col-flex-center h-fit !py-[2%]">
+                <AdminNavList links={[
                     {to: "/classes", name: "Classes"},
                     {to: "/locations", name: "Locations"},
                     {to: "/content", name: "Content"},
                     {to: "/content/qualifications", name: "Qualifications"},
-                    {to: "/reviews", name: "Reviews"},
-                    {to: "/deleteReviews", name: "Delete Reviews"},
-                ]}/>}
-            </footer>
+                    {to: "/reviews", name: "Reviews"}
+                ]}/>
+            </footer>}
         </main>
     );
 }

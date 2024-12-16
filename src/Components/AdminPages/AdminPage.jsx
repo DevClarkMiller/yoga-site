@@ -15,10 +15,10 @@ const AdminPage = ({ handleSet, dispatch, content, pageType = "Content", canAdd 
             <>
                 <RoundedList title={`Modify ${pageType}`}>
                     {extraRows&& extraRows}
-                    {canAdd&&<li className="list-btn font-bold"><LinkWithIcon onClick={() => dispatch({
-            type:"RESET_FIELDS"})} icon={<IoMdAddCircle />} to="create">{`Add ${pageType}`}</LinkWithIcon></li>}
+                    {canAdd&&<LinkWithIcon li onClick={() => dispatch({
+            type:"RESET_FIELDS"})} icon={<IoMdAddCircle />} to="create">{`Add ${pageType}`}</LinkWithIcon>}
                     {content.map(item =>
-                    <li className="list-btn font-semibold"><LinkWithIcon onClick={() => handleSet(item)} icon={<MdEdit />} to={`update/${item[updateID]}`}>{item[updateName]}</LinkWithIcon></li>
+                    <LinkWithIcon li onClick={() => handleSet(item)} icon={<MdEdit />} to={`update/${item[updateID]}`}>{item[updateName]}</LinkWithIcon>
                     )}
                 </RoundedList>
             </>    

@@ -95,6 +95,11 @@ function App() {
     setQualifications(data);
   }
 
+  const fetchReviews = async () =>{
+    let data = await fetchGet('reviews');
+    setReviews(data); 
+  }
+
   //Fetch data everytime the page loads
   useEffect(()=>{
     const fetchAll = async() =>{
@@ -104,8 +109,7 @@ function App() {
       data = await fetchGet('general');
       setGeneralData(data);
 
-      data = await fetchGet('reviews');
-      setReviews(data);
+      await fetchReviews();
 
       await fetchLocations();
 
@@ -119,7 +123,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses, fetchClasses, fetchLocations, fetchContent, fetchQualifications }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses, fetchClasses, fetchLocations, fetchContent, fetchQualifications, fetchReviews }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter ? 
         <Header /> : <HomeHeader/>}
