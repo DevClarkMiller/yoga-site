@@ -35,9 +35,6 @@ const defaultGeneralData = {
 function App() {
   const location = useLocation();
 
-  // Memoized values
-  const defaultDatesConfig = useMemo(() =>(DateConfig), [DateConfig]); 
-
   const topRef = useRef();
   const aboutRef = useRef();
   const contactRef = useRef();
@@ -47,12 +44,12 @@ function App() {
 
   const [showHeaderFooter, setShowHeaderFooter] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [datesConfigAll, setDatesConfigAll] = useState(defaultDatesConfig);
+  const [datesConfigAll, setDatesConfigAll] = useState(DateConfig);
 
   const [qualifications, setQualifications] = useState(defaultQualifications);
 
   //Default values for the contentConfig are here just in case that
-  const [contentConfig, setContentConfig] = useState(DateConfig.content);
+  const [contentConfig, setContentConfig] = useState(DateConfig);
 
   const [reviews, setReviews] = useState(null);
 
@@ -68,7 +65,11 @@ function App() {
 
   useEffect(() =>{
     const path = location?.pathname;
-    setShowHeaderFooter(!path.includes("selectedLocation") && !path.includes("testModal"));
+    setShowHeaderFooter(!path.includes("selectedLocation"));
+    if (path.includes("update") || path.includes("create"))
+      setModalActive(true);
+    else
+      setModalActive(false);
   }, [location?.pathname]);
 
   const fetchClasses = async () =>{
@@ -82,6 +83,16 @@ function App() {
   const fetchLocations = async () =>{
     let data = await fetchGet('locations');
     setLocations(data);
+  }
+
+  const fetchContent = async () =>{
+    let data = await fetchGet('content');
+    setContentConfig(data);
+  }
+
+  const fetchQualifications = async () =>{
+    let data = await fetchGet('qualifications');
+    setQualifications(data);
   }
 
   //Fetch data everytime the page loads
@@ -98,8 +109,7 @@ function App() {
 
       await fetchLocations();
 
-      data = await fetchGet('qualifications');
-      setQualifications(data);
+      await fetchQualifications();
 
       await fetchClasses();
     }
@@ -109,7 +119,7 @@ function App() {
 
   return (
     <div className="App" ref={appRef}>
-      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses, fetchClasses, fetchLocations }}> 
+      <RefContext.Provider value={{reviews, setReviews, setIsAdmin, isAdmin, topRef, aboutRef, contactRef, datesRef, appRef, scrollTo, setDatesConfigAll, datesConfigAll, contentConfig, setContentConfig, qualifications, setQualifications, setShowHeaderFooter, showHeaderFooter, locations, setLocations, selectedClass, setSelectedClass, selectedLocation, setSelectedLocation, generalData, locationClasses, modalActive, setModalActive, classes, setClasses, fetchClasses, fetchLocations, fetchContent, fetchQualifications }}> 
       <div ref={topRef}></div>{/*Only exists so that I have a ref for the topRef */}
         {!isAdmin && showHeaderFooter ? 
         <Header /> : <HomeHeader/>}
@@ -119,9 +129,6 @@ function App() {
           <Route path='/location/selectedLocation/:index/*' element={<SingleLocationPage locations={locations} />}/>
           <Route path='/location/selectedLocation/:index/class/' element={<ClassInfoPanel />}/>
           <Route path='/admin/*' element={<Admin/>}/>
-          <Route path='/testModal/*' element={<Modal rows={
-            <ModalRowInputText name="title" title="Class Title" placeholder="Restorative Yoga" />
-          }/>}/>
           <Route path='*' element={<NotFound />}/>
         </Routes>
    {!isAdmin && showHeaderFooter && <Footer />}

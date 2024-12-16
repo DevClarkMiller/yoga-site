@@ -4,7 +4,6 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 // Functions
 import { fetchGet, fetchPut } from "../fetch";
 import api from "../ConfigFiles/api";
-import checkResponseStatus from "../Utilities/checkResponseStatus";
 
 // Components
 import TableFormData from "./TableFormData";
@@ -12,24 +11,26 @@ import { Oval } from "react-loading-icons";
 import Modal from "./Modal/Modal";
 import ModalRowInput from "./Modal/ModalRowInput";
 import ModalTextArea from "./Modal/ModalTextArea";
+import ModalRowSelect from "./Modal/ModalRowSelect";
+import HyperLinkWithIcon from "./Utilities/HyperLinkWithIcon";
+import AdminNavList from "./AdminPages/AdminNavList";
 
 // Icons
 import { IoIosLogIn } from "react-icons/io";
-import { BsArrowUpSquare, BsArrowUpSquareFill } from "react-icons/bs"
+import { MdInfo } from "react-icons/md";
+
 
 // Pages
-import AdminLocations from "./AdminPages/AdminLocations";
-import AdminClasses from './AdminPages/AdminClasses';
-import AdminDatesPage from "./AdminPages/AdminDatesPage";
-import AdminContentPage from "./AdminPages/AdminContentPage";
+import AdminPage from "./AdminPages/AdminPage";
 import AdminReviewsPage from "./AdminPages/AdminReviewsPage";
 import AdminDeleteReviewsPage from "./AdminPages/AdminDeleteReviewsPage";
-import AdminQualificationsPage from "./AdminPages/AdminQualificationsPage";
 import NotFound from "./NotFound";
 
 // Reducers
 import { classReducer, INITIAL_CLASS } from "./AdminPages/classReducer";
 import { locationReducer, INITIAL_LOCATION } from "./AdminPages/locationReducer";
+import { contentReducer, INITIAL_CONTENT } from "./AdminPages/contentReducer";
+import { qualificationReducer, INITIAL_QUALIFICATION } from "./AdminPages/qualificationReducer";
 
 //Context
 import { RefContext } from '../App'
@@ -42,7 +43,7 @@ export const AdminQualificationsContext = createContext();
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { reviews, setReviews, appRef, setIsAdmin, setDatesConfigAll, datesConfigAll, setContentConfig, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations } = useContext(RefContext);
+    const { reviews, setReviews, appRef, setIsAdmin, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations, classes, locations, fetchContent, fetchQualifications, modalActive } = useContext(RefContext);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -52,20 +53,14 @@ const Admin = () =>{
         sessionStorage.getItem("login") !== null ? JSON.parse(sessionStorage.getItem("login")) :
         {username: "", password: ""}
     );
-    const [editGeneral, setEditGeneral] = useState(datesConfigAll.general);
-    const [editHeader, setEditHeader] = useState(datesConfigAll.header);
-    const [editFooter, setEditFooter] = useState(datesConfigAll.footer);
-
-    const [editContentP1, setEditContentP1] = useState(null);
-    const [editContentP2, setEditContentP2] = useState(null);
-    const [editContentP3, setEditContentP3] = useState(null);
 
     const [editNewReview, setEditNewReview] = useState("");
 
     // Reducers
     const [editClass, dispatchClass] = useReducer(classReducer, INITIAL_CLASS);
     const [editLocation, dispatchLocation] = useReducer(locationReducer, INITIAL_LOCATION);
-
+    const [editContent, dispatchContent] = useReducer(contentReducer, INITIAL_CONTENT);
+    const [editQualification, dispatchQualification] = useReducer(qualificationReducer, INITIAL_QUALIFICATION);
 
     useEffect(()=>{
         setIsAdmin(true);        
@@ -75,13 +70,6 @@ const Admin = () =>{
         }
     }, []);
 
-    useEffect(()=>{
-        if(contentConfig){
-            setEditContentP1(contentConfig[0]);
-            setEditContentP2(contentConfig[1]);
-            setEditContentP3(contentConfig[2]);
-        }
-    }, [contentConfig]);
 
     // Whenever page loads and there's valid login credentials in the sessionStorage
     useEffect(() =>{
@@ -101,6 +89,8 @@ const Admin = () =>{
 
     const handleClassChange = e =>{ handleChange(dispatchClass, e); }
     const handleLocationChange = e => { handleChange(dispatchLocation, e); }
+    const handleContentChange = e => { handleChange(dispatchContent, e); }
+    const handleQualificationChange = e => { handleChange(dispatchQualification, e); }
 
     const handleSet = (dispatchFunc, name, payload) =>{
         dispatchFunc({
@@ -110,8 +100,9 @@ const Admin = () =>{
     }
 
     const handleSetClass = (_class) =>{ handleSet(dispatchClass, "CLASS", _class); }
-
     const handleSetLocation = (location) =>{ handleSet(dispatchLocation, "LOCATION", location); }
+    const handleSetContent = (content) =>{ handleSet(dispatchContent, "CONTENT", content); }
+    const handleSetQualification = (qualification) =>{ handleSet(dispatchQualification, "QUALIFICATION", qualification); }
 
     const handleAddImage = e =>{
         const file = e.target.files[0];
@@ -127,82 +118,6 @@ const Admin = () =>{
                 payload:{ name: e.target.name, value:encodedStr }
             });
         }
-    }
-
-    const onSubmit = async (e) =>{
-        setLoading(true);
-        console.log('VERSION: 1.16');
-        e.preventDefault();
-
-        const updatedData = {
-            loginData: {
-                username: editLogin.username,
-                password: editLogin.password,
-            },
-            general: {
-                title: editGeneral.title,
-                subtitle: editGeneral.subtitle,
-                description: editGeneral.description,
-                orgName: editGeneral.orgName,
-                location: editGeneral.location,
-                fee: editGeneral.fee
-            },
-            header: {
-                day: editHeader.day,
-                month: editHeader.month,
-                daysAvailable: editHeader.daysAvailable,
-                times: editHeader.times,
-                colour: editHeader.colour
-            },
-
-            footer: {
-                day: editFooter.day,
-                month: editFooter.month,
-                daysAvailable: editFooter.daysAvailable,
-                times: editFooter.times,
-                colour: editFooter.colour
-            }
-        }
-
-        fetchPut('/all', updatedData, (data) =>{
-            setDatesConfigAll({
-                general: data.general,
-                header: data.header,
-                footer: data.footer
-            });
-            
-            console.log('Dates data recieved');
-            setLoading(false);
-            setSubmit(true);
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
-    }
-
-    const onContentSubmit = async (e) =>{
-        setLoading(true);
-        e.preventDefault();
-
-        const updatedData = {
-            loginData: {
-                username: editLogin.username,
-                password: editLogin.password,
-            },
-            firstPanel: editContentP1,
-            secondPanel: editContentP2,
-            thirdPanel: editContentP3
-        }
-
-        fetchPut('/content', updatedData, editLogin, (data) =>{
-            setContentConfig(data);
-            setLoading(false);
-            setSubmit(true);
-            //Delays un-filling the downloading button
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
     }
 
     const onNewUrlSubmit = async (e) =>{
@@ -238,27 +153,12 @@ const Admin = () =>{
         });
     }
 
-    const onSubmitQualifications = (e) =>{
-        e.preventDefault();
-        setLoading(true);
-
-        fetchPut('/qualifications', qualifications, editLogin, (data) =>{
-            setQualifications(data);
-            setLoading(false);
-            setSubmit(true);
-            //Delays un-filling the downloading button
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
-    }
-
     const login = async () =>{
         sessionStorage.setItem("login", JSON.stringify(editLogin));
 
         try{
             setSubmit(true);
-            const response = await api.get(`/login`, {headers: {
+            await api.get(`/login`, {headers: {
                 'Accept': 'application/json'
             },
             params: editLogin});
@@ -282,56 +182,32 @@ const Admin = () =>{
         login();
     }
 
-    const onCreateClass = async () =>{
+    const onUpdate = (path, updatedData, fetchFunc) =>{
         setLoading(true);
-        try{
-            setSubmit(true);
-            await api.post('/class', editClass, {params: editLogin});
-            fetchClasses();
-        }catch(err){
-            if (err.response.data){
-                alert(err.response.data.error);
-            }else
-                alert("Error: Unknown, try checking login credentials");
-        }finally{
+        fetchPut(path, updatedData, editLogin, (data) =>{
             setLoading(false);
+            setSubmit(true);
+            fetchFunc();
+            //Delays un-filling the downloading button
             setTimeout(()=>{
                 setSubmit(false);
             }, 1000);
-        }
-        
-        dispatchClass({
-            type:"RESET_FIELDS"
         });
     }
 
     // Use session storage to store a class object when it's updated from state
     const onUpdateClass = async () =>{
-        setLoading(true);
-        fetchPut('/class', editClass, editLogin, (data) =>{
-            setLoading(false);
-            setSubmit(true);
-            fetchClasses();
-            //Delays un-filling the downloading button
-            localStorage.removeItem("selectedClass");
-            sessionStorage.removeItem("selectedClass");
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
+        onUpdate('/class', editClass, fetchClasses);
+        localStorage.removeItem("selectedClass");
+        sessionStorage.removeItem("selectedClass");
     }
 
     const onUpdateLocation = async () =>{
-        setLoading(true);
-        fetchPut('/location', editLocation, editLogin, (data) =>{
-            setLoading(false);
-            setSubmit(true);
-            fetchLocations();
-            //Delays un-filling the downloading button
-            setTimeout(()=>{
-                setSubmit(false);
-            }, 1000);
-        });
+        onUpdate('/location', editLocation, fetchLocations);
+    }
+
+    const onUpdateQualification = async () =>{
+        onUpdate('/qualification', editQualification, fetchQualifications);
     }
 
     const onDelete = async (dispatchFunc, fetchFunc, path, id) =>{
@@ -370,14 +246,17 @@ const Admin = () =>{
     const onDeleteLocation = async () =>{
         onDelete(dispatchLocation, fetchLocations, 'location', editLocation.location_ID);
     }
-    
 
-    const onCreateLocation = async () =>{
+    const onDeleteQualification = async () =>{
+        onDelete(dispatchQualification, fetchQualifications, 'qualification', editQualification.qualification_ID);
+    }
+
+    const onCreate = async (path, newData, fetchFunc, dispatch) => {
         setLoading(true);
         try{
             setSubmit(true);
-            await api.post('/location', editLocation, {params: editLogin});
-            fetchLocations();
+            await api.post(path, newData, {params: editLogin});
+            fetchFunc();
         }catch(err){
             if (err.response.data){
                 alert(err.response.data.error);
@@ -390,13 +269,29 @@ const Admin = () =>{
             }, 1000);
         }
         
-        dispatchClass({
+        dispatch({
             type:"RESET_FIELDS"
         });
     }
 
+    const onCreateClass = async () =>{
+        onCreate('/class', editClass, fetchClasses, dispatchClass);
+    }
+    
+    const onCreateQualification = () =>{
+        onCreate('/qualification', editQualification, fetchQualifications, dispatchQualification);
+    }
+
+    const onCreateLocation = async () =>{
+        onCreate('/location', fetchLocations, dispatchLocation);
+    }
+
+    const onUpdateContent = async () =>{
+        onUpdate('/content', editContent, fetchContent);
+    }
+
     return(
-        <main className="min-h-screen size-full col-flex-center justify-center gap-3">
+        <main className="h-screen justify-between gap-3 pt-24">
             {!isLoggedIn && <form onSubmit={onLogin} className="col-flex-center gap-2">
                 <table>
                     <tbody>
@@ -416,8 +311,87 @@ const Admin = () =>{
             </form>}
             <Routes>
                 <Route path="/" element={<div></div>} />
-                <Route path="/classes/*" element={<AdminClasses handleSetClass={handleSetClass} dispatchClass={dispatchClass} />} />
-                <Route path="/locations/*" element={<AdminLocations handleSetLocation={handleSetLocation} dispatchLocation={dispatchLocation} />} />
+                <Route path="/classes/*" element={isLoggedIn&& <AdminPage 
+                    handleSet={handleSetClass} 
+                    dispatch={dispatchContent}
+                    content={classes}
+                    pageType="Classes"
+                    updateID="class_ID"
+                    updateName="title"
+                    canAdd
+                />}/>
+                <Route path="/locations/*" element={isLoggedIn&& <AdminPage 
+                    handleSet={handleSetLocation} 
+                    dispatch={dispatchLocation}
+                    content={locations}
+                    pageType="Locations"
+                    updateID="location_ID"
+                    updateName="address"
+                    canAdd
+                    extraRows={<li className="list-btn font-bold">
+                        <HyperLinkWithIcon href="https://www.latlong.net/convert-address-to-lat-long.html" icon={<MdInfo />}>Get Long and Lat from Address</HyperLinkWithIcon>
+                    </li>}
+                />}/>
+
+                <Route path="/content/*" element={isLoggedIn&& <AdminPage 
+                    handleSet={handleSetContent} 
+                    dispatch={dispatchContent}
+                    content={contentConfig}
+                    pageType="Content"
+                    updateID="contentPanel_ID"
+                    updateName="header"
+                />}/>
+
+                <Route path="/content/qualifications/*" element={isLoggedIn&& <AdminPage 
+                    handleSet={handleSetQualification} 
+                    dispatch={dispatchQualification}
+                    content={qualifications}
+                    pageType="Qualification"
+                    updateID="qualification_ID"
+                    updateName="text"
+                    canAdd
+                />}/>
+
+                <Route path="/content/qualifications/create" element={
+                    <Modal  
+                        actionText="create"
+                        modalTitle="Create Qualification"
+                        cardTitle="Create Qualification"
+                        onSubmit={onCreateQualification}
+                        rows={<>
+                                <ModalRowInput name="text"
+                                    placeholder="100 hour yoga course"
+                                    title="Qualification Text"
+                                    value={editQualification.text}
+                                    required
+                                    onChange={handleQualificationChange}
+                                    key="text"
+                                />
+                            </>}
+                    />
+                } />
+
+                <Route path="/content/qualifications/update/:qualification_ID" element={isLoggedIn&&
+                    <Modal  
+                        modalTitle="Update Qualification"
+                        cardTitle="Update Qualification"
+                        onSubmit={onUpdateQualification}
+                        delDialog="Delete Qualification?"
+                        canDelete
+                        onDelete={onDeleteQualification}
+                        actionText="update"
+                        rows={<>
+                                <ModalRowInput name="text"
+                                    placeholder="100 hour yoga course"
+                                    title="Qualification Text"
+                                    value={editQualification.text}
+                                    required
+                                    onChange={handleQualificationChange}
+                                    key="text"
+                                />
+                            </>}
+                    />
+                } />
                 
                 <Route path="/locations/create" element={
                     <Modal  
@@ -456,7 +430,7 @@ const Admin = () =>{
                     />
                 } />
 
-                <Route path="/locations/update/:location_ID" element={
+                <Route path="/locations/update/:location_ID" element={isLoggedIn&&
                     <Modal  
                         modalTitle="Update Location"
                         cardTitle="Update Location"
@@ -497,7 +471,7 @@ const Admin = () =>{
                 } />
 
 
-                <Route path="/classes/create" element={
+                <Route path="/classes/create" element={isLoggedIn&&
                     <Modal  
                         actionText="create"
                         modalTitle="Create Class"
@@ -548,7 +522,7 @@ const Admin = () =>{
                     />
                 } />
 
-                <Route path="/classes/update/:class_ID" element={
+                <Route path="/classes/update/:class_ID" element={isLoggedIn&&
                     <Modal  
                         modalTitle="Update Class"
                         cardTitle="Update Class"
@@ -602,47 +576,73 @@ const Admin = () =>{
                     />
                 } />
 
-                <Route path="/dates" element={
-                    <AdminDatesContext.Provider value={{onSubmit, editLogin, setEditLogin, editGeneral, setEditGeneral, editHeader, setEditHeader, editFooter, setEditFooter, loading, submit}}>
-                        <AdminDatesPage />
-                    </AdminDatesContext.Provider>
-                }/>
+                <Route path="/content/update/:contentPanel_ID" element={isLoggedIn&&
+                    <Modal  
+                        modalTitle="Update Content"
+                        cardTitle="Update Content"
+                        onSubmit={onUpdateContent}
+                        actionText="update"
+                        rows={<>
+                                <ModalRowInput name="header"
+                                    placeholder="This is a header"
+                                    title="Panel Header"
+                                    value={editContent.header}
+                                    required
+                                    onChange={handleContentChange}
+                                    key="header"
+                                />
+                                <ModalTextArea name="text"
+                                    placeholder="Here is some content"
+                                    title="Panel Text"
+                                    value={editContent.text}
+                                    required
+                                    onChange={handleContentChange}
+                                    key="text"
+                                />
+                                <ModalRowSelect name="layout"
+                                    title="Panel Layout"
+                                    value={editContent.layout}
+                                    required
+                                    onChange={handleContentChange}
+                                    key="layout"
+                                    options={[0, 1]}
+                                />
+                                <ModalRowInput name="colour"
+                                    type="color"
+                                    placeholder="#BCFCEC"
+                                    title="Panel Colour"
+                                    value={editContent.colour}
+                                    required
+                                    onChange={handleContentChange}
+                                    key="colour"
+                                />
+                            </>}
+                    />
+                } />
 
-                <Route path="/content" element={ 
-                    <AdminContentContext.Provider value={{onContentSubmit, editLogin, setEditLogin, editContentP1, setEditContentP1, editContentP2, setEditContentP2, editContentP3, setEditContentP3, loading, submit}}> 
-                        <AdminContentPage /> 
-                    </AdminContentContext.Provider>
-                }/>
-
-                <Route path="/content/qualifications" element={
-                    <AdminQualificationsContext.Provider value={{loading, submit, qualifications, setQualifications, editLogin, setEditLogin, onSubmitQualifications}}>
-                        <AdminQualificationsPage />
-                    </AdminQualificationsContext.Provider>
-                }/>
-
-                <Route path="/reviews" element={
+                <Route path="/reviews" element={isLoggedIn&&
                     <AdminReviewsContext.Provider value={{onNewUrlSubmit, editLogin, setEditLogin, loading, submit, editNewReview, setEditNewReview}}>
                         <AdminReviewsPage />
                     </AdminReviewsContext.Provider>
                 }/>
-                <Route path="/deleteReviews" element={
+                <Route path="/deleteReviews" element={isLoggedIn&&
                     <AdminReviewsDeleteContext.Provider value={{reviews, setReviews, editLogin, setEditLogin, loading, submit, onSubmitDeleteReviews}}>
                         <AdminDeleteReviewsPage />
                     </AdminReviewsDeleteContext.Provider>
                 }/>
                 <Route path='*' element={<NotFound />}/>
             </Routes>
-            {isLoggedIn&&<div className="buttonsNav col-flex-center font-bold mt-10">
-                {/* <button onClick={() => navigate('/admin/dcontentates')} className="sendButton">1</button> */}
-                <button onClick={() => navigate('/admin/classes')} className="sendButton">Edit Classes</button>
-                <button onClick={() => navigate('/admin/locations')} className="sendButton">Edit Locations</button>
-                <button onClick={() => navigate('/admin/content')} className="sendButton">Edit Content</button>
-                <button onClick={() => navigate('/admin/content/qualifications')} className="sendButton">Edit Qualifications</button>
-                <button onClick={() => navigate('/admin/reviews')} className="sendButton">Add Reviews</button>
-                <button onClick={() => navigate('/admin/deleteReviews')} className="sendButton">Delete Reviews</button>
-            </div>}
+            <footer className="col-flex-center h-fit !py-[2%]">
+                {isLoggedIn&&!modalActive&& <AdminNavList links={[
+                    {to: "/classes", name: "Classes"},
+                    {to: "/locations", name: "Locations"},
+                    {to: "/content", name: "Content"},
+                    {to: "/content/qualifications", name: "Qualifications"},
+                    {to: "/reviews", name: "Reviews"},
+                    {to: "/deleteReviews", name: "Delete Reviews"},
+                ]}/>}
+            </footer>
         </main>
-        
     );
 }
 
