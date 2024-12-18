@@ -1,10 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 // Context
 import { RefContext } from "../App";
 
-const ClassInformation = ({template, isHeader, isBody, isFooter, usingFooterImg}) => {
-    const { selectedLocation, selectedClass, generalData } = useContext(RefContext);
+const ClassInformation = ({template, isHeader, usingFooterImg}) => {
+    const { selectedClass, generalData } = useContext(RefContext);
+    useEffect(() =>{
+        console.log(selectedClass);
+    }, [selectedClass]);
 
     return(
         (isHeader) ?
@@ -16,21 +19,10 @@ const ClassInformation = ({template, isHeader, isBody, isFooter, usingFooterImg}
                     <h3>{selectedClass?.subtitle}</h3>
                     <p className='description'>{selectedClass?.description}</p>
 
-                    <span className='middle'>
-                        {/* <span className='dateInfo'>
-                            {config?.day && config?.month && <h2>{config?.day}, {config?.month}</h2>}
-                            {config?.daysAvailable && <h2>{config?.daysAvailable}</h2>}
-                        </span>
-                        <span className='times'><h2>{config?.times}</h2></span> */}
-                    </span>
                 </div>
             </div>
         </div> : 
 
-        (isBody) ? 
-        <div></div>
-        :  
-        //Only remaining posibility is the dates footer
         <div className='datesFooter borderTopDash lg:border-t-0'>
             <div className='templateContainer col-flex-center h-full pt-12 lg:pt-0 md:text-lg lg:text-2xl'>
             {template && <img src={template} alt="template for the dates available" />}
@@ -44,7 +36,7 @@ const ClassInformation = ({template, isHeader, isBody, isFooter, usingFooterImg}
                     </span>
                     <span className='bottom spaceTop gap-3 font-semibold'>
                         <p>{generalData?.orgName}</p>
-                        <p>{selectedLocation?.address}</p>
+                        <p>{selectedClass?.address}</p>
                         {selectedClass?.fee && <p>Investment ${selectedClass?.fee} per class</p>}
                     </span>
                 </div>

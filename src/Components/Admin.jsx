@@ -306,6 +306,10 @@ const Admin = () =>{
         onUpdate('/content', editContent, fetchContent);
     }
 
+    const onUpdateLocationClass = async () =>{
+        onUpdate('locationClasses', editLocationClass, fetchClasses);
+    }
+
     const getLocationClassName = (locationClass) =>{
         if (!locationClass)
             return "unknown";
@@ -336,8 +340,8 @@ const Admin = () =>{
             </form>}
             <Routes>
                 <Route path="/" element={
-                    <div className="size-full col-flex-center">
-                        <h2>Admin Panel</h2>
+                    <div className="size-full col-flex-center flex-grow">
+                        <h2 className="text-4xl font-bold">Admin Panel</h2>
                     </div>
                     } />
                 <Route path="/classes/*" element={isLoggedIn&& <AdminPage 
@@ -714,7 +718,7 @@ const Admin = () =>{
                     <Modal  
                         modalTitle="Update Session"
                         cardTitle="Update Session"
-                        onSubmit={onUpdateClass}
+                        onSubmit={onUpdateLocationClass}
                         delDialog="Delete session?"
                         canDelete
                         onDelete={onDeleteLocationClass}
