@@ -1,12 +1,13 @@
-export const INITIAL_CONTENT = {
-    layout: "",
-    header: "",
-    text: "",
-    colour: "#B3FCEC",
-    contentPanel_ID: -1
+export const INITIAL_LOCATION_CLASS = {
+    locationClasses_ID: -1,
+    location_ID: undefined,
+    class_ID: undefined,
+    month: undefined,
+    days: "",
+    times: ""
 }
 
-export const contentReducer = (state, action) =>{
+export const locationClassesReducer = (state, action) =>{
     switch(action.type){
         case "CHANGE_INPUT":
             return {
@@ -14,7 +15,7 @@ export const contentReducer = (state, action) =>{
                 [action.payload.name]:action.payload.value
             };
         case "RESET_FIELDS":
-            return state = INITIAL_CONTENT;
+            return state = INITIAL_LOCATION_CLASS;
         case "SET": 
             return state = action.payload;
         default:

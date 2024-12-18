@@ -1,5 +1,11 @@
+import { useEffect } from "react";
 
 const ModalRowSelect = ({value, onChange, name, title, required = false, options}) => {
+    useEffect(() =>{
+        if ((value === undefined) && options?.length > 0){
+            onChange({target: {name: name, value: options[0].value} });
+        }
+    }, [value, options]);
     return(
         <div className="row flex items-center justify-center">
             <div className="col-4 font-Poetson">{title}: </div>
@@ -12,7 +18,7 @@ const ModalRowSelect = ({value, onChange, name, title, required = false, options
                     value={value}
                     onChange={e => onChange(e)}
                 >
-                    {options&& options.map((option) => <option value={option}>{`Layout: ${option + 1}`}</option>)}
+                    {options&& options.map((option) => <option value={option.value}>{option.label}</option>)}
                 </select>
             </div>
         </div>

@@ -14,7 +14,7 @@ export const locationReducer = (state, action) =>{
             };
         case "RESET_FIELDS":
             return state = INITIAL_LOCATION;
-        case "SET_LOCATION": 
+        case "SET": 
             return state = action.payload;
         default:
             return state;

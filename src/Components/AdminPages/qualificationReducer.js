@@ -12,7 +12,7 @@ export const qualificationReducer = (state, action) =>{
             };
         case "RESET_FIELDS":
             return state = INITIAL_QUALIFICATION;
-        case "SET_QUALIFICATION": 
+        case "SET": 
             return state = action.payload;
         default:
             return state;

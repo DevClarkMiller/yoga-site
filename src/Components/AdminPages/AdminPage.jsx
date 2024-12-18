@@ -7,7 +7,7 @@ import RoundedList from "../Utilities/RoundedList";
 import { MdEdit } from "react-icons/md";
 import { IoMdAddCircle } from "react-icons/io";
 
-const AdminPage = ({ handleSet, dispatch, content, pageType = "Content", canAdd = false, updateID, updateName, extraRows }) => {
+const AdminPage = ({ handleSet, dispatch, content, pageType = "Content", canAdd = false, updateID, updateName = null, extraRows, updateNameFunc }) => {
 
     return (
         <div className="w-full h-fit flex-grow col-flex-center justify-center">
@@ -15,10 +15,10 @@ const AdminPage = ({ handleSet, dispatch, content, pageType = "Content", canAdd 
             <>
                 <RoundedList title={`Modify ${pageType}`}>
                     {extraRows&& extraRows}
-                    {canAdd&&<LinkWithIcon li onClick={() => dispatch({
+                    {canAdd&&<LinkWithIcon bold li onClick={() => dispatch({
             type:"RESET_FIELDS"})} icon={<IoMdAddCircle />} to="create">{`Add ${pageType}`}</LinkWithIcon>}
                     {content.map(item =>
-                    <LinkWithIcon li onClick={() => handleSet(item)} icon={<MdEdit />} to={`update/${item[updateID]}`}>{item[updateName]}</LinkWithIcon>
+                    <LinkWithIcon li onClick={() => handleSet(item)} icon={<MdEdit />} to={`update/${item[updateID]}`}>{updateNameFunc ? updateNameFunc(item) : item[updateName]}</LinkWithIcon>
                     )}
                 </RoundedList>
             </>    

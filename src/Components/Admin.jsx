@@ -1,9 +1,10 @@
-import { useEffect, useState, useContext, createContext, useReducer } from "react";
+import { useEffect, useState, useContext, createContext, useReducer, useMemo } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
 // Functions
-import { fetchGet, fetchPut } from "../fetch";
+import { fetchPut } from "../fetch";
 import api from "../ConfigFiles/api";
+import { elipsesString } from "../Utilities/elipsesString";
 
 // Components
 import TableFormData from "./TableFormData";
@@ -30,6 +31,7 @@ import { classReducer, INITIAL_CLASS } from "./AdminPages/classReducer";
 import { locationReducer, INITIAL_LOCATION } from "./AdminPages/locationReducer";
 import { contentReducer, INITIAL_CONTENT } from "./AdminPages/contentReducer";
 import { qualificationReducer, INITIAL_QUALIFICATION } from "./AdminPages/qualificationReducer";
+import { locationClassesReducer, INITIAL_LOCATION_CLASS } from './AdminPages/locationClassesReducer';
 
 //Context
 import { RefContext } from '../App'
@@ -39,10 +41,19 @@ export const AdminReviewsContext = createContext();
 export const AdminReviewsDeleteContext = createContext();
 export const AdminQualificationsContext = createContext();
 
+
+
 const Admin = () =>{
     const navigate = useNavigate();
 
-    const { reviews, setReviews, appRef, setIsAdmin, contentConfig, qualifications, setQualifications, fetchClasses, fetchLocations, classes, locations, fetchContent, fetchQualifications, modalActive, fetchReviews } = useContext(RefContext);
+    const { reviews, appRef, setIsAdmin, contentConfig, qualifications, fetchClasses, fetchLocations, classes, locations, fetchContent, fetchQualifications, modalActive, fetchReviews, locationClasses } = useContext(RefContext);
+
+    // Memoized value
+    const monthOptions = useMemo(() => ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"].map((mth) => { return { value: mth, label:mth } }), []);
+
+    const locationOptions = useMemo(() => locations?.map((loc) => { return { value: loc.location_ID, label: elipsesString(loc.address, 25) }}), [locations]);
+
+    const classOptions = useMemo(() => classes?.map((cls) => { return { value: cls.class_ID, label: cls.title }}), [classes]);
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -53,13 +64,12 @@ const Admin = () =>{
         {username: "", password: ""}
     );
 
-    const [editNewReview, setEditNewReview] = useState("");
-
     // Reducers
     const [editClass, dispatchClass] = useReducer(classReducer, INITIAL_CLASS);
     const [editLocation, dispatchLocation] = useReducer(locationReducer, INITIAL_LOCATION);
     const [editContent, dispatchContent] = useReducer(contentReducer, INITIAL_CONTENT);
     const [editQualification, dispatchQualification] = useReducer(qualificationReducer, INITIAL_QUALIFICATION);
+    const [editLocationClass, dispatchLocationClass] = useReducer(locationClassesReducer, INITIAL_LOCATION_CLASS);
 
     useEffect(()=>{
         setIsAdmin(true);        
@@ -90,18 +100,36 @@ const Admin = () =>{
     const handleLocationChange = e => { handleChange(dispatchLocation, e); }
     const handleContentChange = e => { handleChange(dispatchContent, e); }
     const handleQualificationChange = e => { handleChange(dispatchQualification, e); }
+    const handleLocationClassChange = e => { handleChange(dispatchLocationClass, e); }
 
-    const handleSet = (dispatchFunc, name, payload) =>{
+    const handleSet = (dispatchFunc, payload) =>{
         dispatchFunc({
-            type: `SET_${name}`,
+            type: 'SET',
             payload: payload
         });
     }
 
-    const handleSetClass = (_class) =>{ handleSet(dispatchClass, "CLASS", _class); }
-    const handleSetLocation = (location) =>{ handleSet(dispatchLocation, "LOCATION", location); }
-    const handleSetContent = (content) =>{ handleSet(dispatchContent, "CONTENT", content); }
-    const handleSetQualification = (qualification) =>{ handleSet(dispatchQualification, "QUALIFICATION", qualification); }
+    const handleSetClass = (_class) =>{ handleSet(dispatchClass, _class); }
+    const handleSetLocation = (location) =>{ handleSet(dispatchLocation, location); }
+    const handleSetContent = (content) =>{ handleSet(dispatchContent, content); }
+    const handleSetQualification = (qualification) =>{ handleSet(dispatchQualification, qualification); }
+
+    const handleSetLocationClass = (locationClass) => { 
+        if (locationClasses){
+            // Delete class attributes
+            delete locationClass.title;
+            delete locationClass.subtitle;
+            delete locationClass.fee;
+            delete locationClass.image64;
+            delete locationClass.description;
+        }
+        
+        handleSet(dispatchLocationClass, locationClass); 
+    }
+
+    useEffect(() =>{
+        handleSetLocationClass();
+    }, [locations?.lenghth]);
 
     const handleAddImage = e =>{
         const file = e.target.files[0];
@@ -115,23 +143,6 @@ const Admin = () =>{
             dispatchClass({
                 type:"CHANGE_INPUT", 
                 payload:{ name: e.target.name, value:encodedStr }
-            });
-        }
-    }
-
-    const onNewUrlSubmit = async (e) =>{
-        setLoading(true);
-        e.preventDefault();
-
-        if(editNewReview != null || editNewReview != ""){
-            fetchPut('/reviewURL', { url: editNewReview }, editLogin, (data) =>{
-                setReviews(data);
-                setLoading(false);
-                setSubmit(true);
-                //Delays un-filling the downloading button
-                setTimeout(()=>{
-                    setSubmit(false);
-                }, 1000);
             });
         }
     }
@@ -241,6 +252,11 @@ const Admin = () =>{
         onDelete(null, fetchReviews, 'review', review.review_ID, false);
     }
 
+    const onDeleteLocationClass = async () =>{
+        console.log(editLocationClass);
+        onDelete(dispatchLocationClass, fetchClasses, 'locationClass', editLocationClass.locationClasses_ID);
+    }
+
     const onCreate = async (path, newData, fetchFunc, dispatch) => {
         setLoading(true);
         try{
@@ -279,15 +295,28 @@ const Admin = () =>{
     }
 
     const onCreateLocation = async () =>{
-        onCreate('/location', fetchLocations, dispatchLocation);
+        onCreate('/location', editLocation, fetchLocations, dispatchLocation);
+    }
+
+    const onCreateLocationClass = async () =>{
+        onCreate('/locationClasses', editLocationClass, fetchClasses, dispatchLocationClass);
     }
 
     const onUpdateContent = async () =>{
         onUpdate('/content', editContent, fetchContent);
     }
 
+    const getLocationClassName = (locationClass) =>{
+        if (!locationClass)
+            return "unknown";
+        const location = locations.find((loc) => loc.location_ID === locationClass.location_ID);
+        const _class = classes.find((_class) => _class.class_ID === locationClass.class_ID)
+
+        return `${elipsesString(location?.address, 20)} / ${_class?.title} / ${locationClass.month}` 
+    }
+
     return(
-        <main className="h-screen justify-between gap-3 pt-24">
+        <main className="justify-between gap-3 pt-24">
             {!isLoggedIn && <form onSubmit={onLogin} className="col-flex-center gap-2">
                 <table>
                     <tbody>
@@ -306,7 +335,11 @@ const Admin = () =>{
                 </button> 
             </form>}
             <Routes>
-                <Route path="/" element={<div></div>} />
+                <Route path="/" element={
+                    <div className="size-full col-flex-center">
+                        <h2>Admin Panel</h2>
+                    </div>
+                    } />
                 <Route path="/classes/*" element={isLoggedIn&& <AdminPage 
                     handleSet={handleSetClass} 
                     dispatch={dispatchContent}
@@ -345,6 +378,16 @@ const Admin = () =>{
                     pageType="Qualification"
                     updateID="qualification_ID"
                     updateName="text"
+                    canAdd
+                />}/>
+
+                <Route path="/sessions/*" element={isLoggedIn&& <AdminPage 
+                    handleSet={handleSetLocationClass} 
+                    dispatch={dispatchLocationClass}
+                    content={locationClasses}
+                    pageType="Session"
+                    updateID="locationClasses_ID"
+                    updateNameFunc={getLocationClassName}
                     canAdd
                 />}/>
 
@@ -601,7 +644,7 @@ const Admin = () =>{
                                     required
                                     onChange={handleContentChange}
                                     key="layout"
-                                    options={[0, 1]}
+                                    options={[{value: 0, label: 'Layout: 1'},{value: 1, label: 'Layout: 2'}]}
                                 />
                                 <ModalRowInput name="colour"
                                     type="color"
@@ -616,6 +659,111 @@ const Admin = () =>{
                     />
                 } />
 
+                <Route path="/sessions/create" element={isLoggedIn&&
+                    <Modal  
+                        actionText="create"
+                        modalTitle="Create Session"
+                        cardTitle="Create Session"
+                        onSubmit={onCreateLocationClass}
+                        rows={<>
+                                <ModalRowSelect name="class_ID"
+                                    title="Session Class"
+                                    value={editLocationClass?.class_ID}
+                                    required
+                                    onChange={handleLocationClassChange}
+                                    key="class"
+                                    options={classOptions}
+                                />
+                                <ModalRowSelect name="location_ID"
+                                    title="Session Location"
+                                    value={editLocationClass?.location_ID}
+                                    required
+                                    onChange={handleLocationClassChange}
+                                    key="location"
+                                    options={locationOptions}
+                                />
+                                <ModalRowSelect name="month"
+                                    title="Session Month"
+                                    value={editLocationClass?.month}
+                                    required
+                                    onChange={handleLocationClassChange}
+                                    key="month"
+                                    options={monthOptions}
+                                />
+                                <ModalRowInput name="days"
+                                    placeholder="1st, 2nd, 3rd"
+                                    title="Session Days"
+                                    value={editLocationClass?.days}
+                                    required
+                                    onChange={handleLocationClassChange}
+                                    key="days"
+                                />
+                                <ModalRowInput name="times"
+                                    placeholder="7pm - 9pm"
+                                    title="Session Time"
+                                    value={editLocationClass?.times}
+                                    required
+                                    onChange={handleLocationClassChange}
+                                    key="times"
+                                />
+                            </>}
+                    />
+                } />
+
+                <Route path="/sessions/update/:locationClasses_ID" element={isLoggedIn&&
+                    <Modal  
+                        modalTitle="Update Session"
+                        cardTitle="Update Session"
+                        onSubmit={onUpdateClass}
+                        delDialog="Delete session?"
+                        canDelete
+                        onDelete={onDeleteLocationClass}
+                        actionText="update"
+                        rows={<>
+                            <ModalRowSelect name="class_ID"
+                                title="Session Class"
+                                value={editLocationClass?.class_ID}
+                                required
+                                onChange={handleLocationClassChange}
+                                key="class"
+                                options={classOptions}
+                            />
+                            <ModalRowSelect name="location_ID"
+                                title="Session Location"
+                                value={editLocationClass?.location_ID}
+                                required
+                                onChange={handleLocationClassChange}
+                                key="location"
+                                options={locationOptions}
+                            />
+                            <ModalRowSelect name="month"
+                                title="Session Month"
+                                value={editLocationClass?.month}
+                                required
+                                onChange={handleLocationClassChange}
+                                key="month"
+                                options={monthOptions}
+                            />
+                            <ModalRowInput name="days"
+                                placeholder="1st, 2nd, 3rd"
+                                title="Session Days"
+                                value={editLocationClass?.days}
+                                required
+                                onChange={handleLocationClassChange}
+                                key="days"
+                            />
+                            <ModalRowInput name="times"
+                                placeholder="7pm - 9pm"
+                                title="Session Time"
+                                value={editLocationClass?.times}
+                                required
+                                onChange={handleLocationClassChange}
+                                key="times"
+                            />
+                        </>}
+                    />
+                } />
+
                 <Route path="/reviews" element={isLoggedIn&& <AdminReview onCreateReview={onCreateReview} onDeleteReview={onDeleteReview} reviews={reviews} />} />
                 <Route path='*' element={<NotFound />}/>
             </Routes>
@@ -623,6 +771,7 @@ const Admin = () =>{
                 <AdminNavList links={[
                     {to: "/classes", name: "Classes"},
                     {to: "/locations", name: "Locations"},
+                    {to: "/sessions", name: "Sessions"},
                     {to: "/content", name: "Content"},
                     {to: "/content/qualifications", name: "Qualifications"},
                     {to: "/reviews", name: "Reviews"}

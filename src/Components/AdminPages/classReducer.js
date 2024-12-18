@@ -16,7 +16,7 @@ export const classReducer = (state, action) =>{
             };
         case "RESET_FIELDS":
             return state = INITIAL_CLASS;
-        case "SET_CLASS": 
+        case "SET": 
             return state = action.payload;
         default:
             return state;
