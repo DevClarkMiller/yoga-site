@@ -1,4 +1,4 @@
-import { createContext, useRef, React, useState, useEffect, useMemo } from 'react';
+import { createContext, useRef, React, useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { fetchGet } from './fetch';
 
@@ -9,8 +9,6 @@ import Footer from './Components/Footer';
 import Content from './Components/Content'
 import DateConfig from './ConfigFiles/DatesConfig.json';
 import scrollTo from './Utilities/ScrollTo';
-import Modal from './Components/Modal/Modal';
-import ModalRowInputText from './Components/Modal/ModalRowInput';
 
 // Pages
 import NotFound from './Components/NotFound';

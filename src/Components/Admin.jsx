@@ -131,18 +131,16 @@ const Admin = () =>{
         handleSetLocationClass();
     }, [locations?.lenghth]);
 
-    const handleAddImage = e =>{
+    const handleAddImage = async e =>{
         const file = e.target.files[0];
         let reader = new FileReader();
         if (file)
-            reader.readAsDataURL(file);
-        reader.onload = readerEvt =>{
-            const binStr = reader.result;
-            const encodedStr = btoa(binStr);
+            reader.readAsDataURL(file)
+        reader.onload = () =>{
 
             dispatchClass({
                 type:"CHANGE_INPUT", 
-                payload:{ name: e.target.name, value:encodedStr }
+                payload:{ name: e.target.name, value:reader.result }
             });
         }
     }

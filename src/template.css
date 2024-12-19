@@ -70,7 +70,7 @@
   }
 
   .description{
-    @apply w-[56%] m-0 p-0 pb-[1.5%] border-black border-b lg:border-none;   
+    @apply w-[56%] m-0 p-0 pb-[1.5%]  lg:border-none;   
     /* border-bottom: 1px solid black; */
   }
 
